@@ -1,21 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
-import { Plus, Star } from 'lucide-react';
+import { Plus, Star, Filter } from 'lucide-react';
 
 const MenuSection = ({ onAddToCart }) => {
-  const { data } = useData();
+  const { data, getMenuCategories } = useData();
   const [activeCategory, setActiveCategory] = useState('featured');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const categories = [
-    { id: 'featured', label: 'Featured', icon: '🏆', color: 'from-yellow-500 to-orange-500' },
-    { id: 'simply-veg', label: 'Simply Veg', icon: '🥬', color: 'from-green-500 to-emerald-500' },
-    { id: 'deluxe', label: 'Deluxe', icon: '👑', color: 'from-purple-500 to-pink-500' }
-  ];
+  const categories = getMenuCategories();
+  const categoryKeys = Object.keys(categories);
+
+  // Set first available category as active if current doesn't exist
+  useEffect(() => {
+    if (categoryKeys.length > 0 && !categoryKeys.includes(activeCategory)) {
+      setActiveCategory(categoryKeys[0]);
+    }
+  }, [categoryKeys, activeCategory]);
 
   const MenuItem = ({ item }) => {
-    const [selectedSize, setSelectedSize] = useState(item.sizes[1] || item.sizes[0]);
+    const [selectedSize, setSelectedSize] = useState(item.sizes?.[1] || item.sizes?.[0]);
 
     const handleAddToCart = () => {
+      if (!selectedSize) {
+        alert('Please select a size first!');
+        return;
+      }
+
       onAddToCart({
         name: item.name,
         description: item.description,
@@ -26,104 +36,171 @@ const MenuSection = ({ onAddToCart }) => {
     };
 
     return (
-      <div className="group relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 border border-gray-100">
+      <div className="group relative bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 border border-gray-100 dark:border-gray-700">
         {/* Pizza Image */}
-        <div className="relative mb-6 overflow-hidden rounded-2xl">
-          <img 
-            src={item.image} 
-            alt={item.name} 
-            className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-          />
-          
-          {/* Badge */}
-          <div className="absolute top-4 left-4">
-            <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-gray-800">
-              {item.badge}
-            </span>
+        {item.image && (
+          <div className="relative mb-4 sm:mb-6 overflow-hidden rounded-xl">
+            <img 
+              src={item.image} 
+              alt={item.name} 
+              className="w-full h-32 sm:h-40 md:h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+              onError={(e) => {
+                e.target.style.display = 'none';
+              }}
+            />
+            
+            {/* Badge */}
+            {item.badge && (
+              <div className="absolute top-2 left-2 sm:top-4 sm:left-4">
+                <span className="px-2 py-1 sm:px-3 sm:py-1 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200">
+                  {item.badge}
+                </span>
+              </div>
+            )}
+            
+            {/* Rating */}
+            {item.rating && (
+              <div className="absolute top-2 right-2 sm:top-4 sm:right-4 flex items-center gap-1 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-2 py-1 sm:px-3 sm:py-1">
+                <Star className="w-3 h-3 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
+                <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200">{item.rating}</span>
+              </div>
+            )}
           </div>
-          
-          {/* Rating */}
-          <div className="absolute top-4 right-4 flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
-            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-            <span className="text-sm font-semibold text-gray-800">{item.rating}</span>
-          </div>
-        </div>
+        )}
 
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold text-gray-800 mb-3">{item.name}</h3>
-          <p className="text-gray-600 leading-relaxed">{item.description}</p>
+        <div className="mb-4 sm:mb-6">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2 sm:mb-3">{item.name}</h3>
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed line-clamp-2 sm:line-clamp-3">{item.description}</p>
         </div>
 
         {/* Size Selection */}
-        <div className="mb-8">
-          <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Choose Size</h4>
-          <div className="grid grid-cols-3 gap-3">
-            {item.sizes.map((size, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedSize(size)}
-                className={`p-4 rounded-xl text-center transition-all duration-300 border-2 ${
-                  selectedSize.name === size.name
-                    ? 'border-orange-500 bg-orange-50 shadow-lg scale-105'
-                    : 'border-gray-200 hover:border-orange-300 hover:bg-orange-50/50'
-                }`}
-              >
-                <div className="font-bold text-gray-800">{size.name}</div>
-                <div className="text-orange-500 font-bold">₹{size.price}</div>
-              </button>
-            ))}
+        {item.sizes && item.sizes.length > 0 && (
+          <div className="mb-4 sm:mb-6">
+            <h4 className="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 sm:mb-4">Choose Size</h4>
+            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+              {item.sizes.map((size, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedSize(size)}
+                  className={`p-2 sm:p-4 rounded-lg sm:rounded-xl text-center transition-all duration-300 border-2 ${
+                    selectedSize?.name === size.name
+                      ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20 shadow-lg scale-105'
+                      : 'border-gray-200 dark:border-gray-700 hover:border-orange-300 dark:hover:border-orange-700 hover:bg-orange-50/50 dark:hover:bg-orange-900/10'
+                  }`}
+                >
+                  <div className="text-sm sm:text-base font-bold text-gray-800 dark:text-gray-200">{size.name}</div>
+                  <div className="text-orange-500 dark:text-orange-400 text-sm sm:text-base font-bold">₹{size.price}</div>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         <button
           onClick={handleAddToCart}
-          className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl group"
+          disabled={!selectedSize}
+          className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-sm sm:text-base md:text-lg hover:scale-105 disabled:scale-100 disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 shadow-lg hover:shadow-xl group"
         >
-          <Plus size={20} className="group-hover:rotate-90 transition-transform duration-300" />
-          Add to Cart • ₹{selectedSize.price}
+          <Plus size={16} className="sm:size-20 group-hover:rotate-90 transition-transform duration-300" />
+          Add to Cart {selectedSize && `• ₹${selectedSize.price}`}
         </button>
       </div>
     );
   };
 
   return (
-    <section id="menu" className="py-24 bg-gradient-to-b from-gray-50 to-white scroll-mt-24">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
+    <section id="menu" className="py-16 sm:py-20 md:py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 scroll-mt-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-12 sm:mb-16">
           <h2 className="section-title">Our Signature Menu</h2>
-          <p className="section-subtitle">
+          <p className="section-subtitle dark:text-gray-300">
             Crafted with love, served with passion. Each pizza tells a story of flavor and tradition.
           </p>
         </div>
 
-        <div className="flex justify-center flex-wrap gap-4 mb-16">
-          {categories.map(category => (
-            <button
-              key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              className={`group px-8 py-4 rounded-2xl font-bold transition-all duration-300 flex items-center gap-3 ${
-                activeCategory === category.id
-                  ? `bg-gradient-to-r ${category.color} text-white shadow-xl scale-105`
-                  : 'bg-white text-gray-700 hover:bg-gray-50 shadow-lg hover:shadow-xl hover:scale-105'
-              }`}
-            >
-              <span className="text-xl">{category.icon}</span>
-              <span>{category.label}</span>
-            </button>
-          ))}
+        {/* Mobile Filter Button */}
+        <div className="md:hidden flex justify-center mb-6 sm:mb-8">
+          <button 
+            onClick={() => setIsFilterOpen(!isFilterOpen)}
+            className="bg-white dark:bg-gray-800 px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-lg flex items-center gap-2"
+          >
+            <Filter size={16} />
+            <span className="font-semibold text-sm sm:text-base dark:text-white">Category: {categories[activeCategory]?.name || activeCategory}</span>
+          </button>
         </div>
+        
+        {/* Filter Drawer for Mobile */}
+        {isFilterOpen && (
+          <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={() => setIsFilterOpen(false)}>  
+            <div className="absolute bottom-0 left-0 right-0 bg-white dark:bg-gray-800 rounded-t-3xl p-5 sm:p-6 shadow-xl" onClick={e => e.stopPropagation()}>              
+              <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-center dark:text-white">Select Category</h3>
+              <div className="flex flex-col gap-2 max-h-[40vh] sm:max-h-[50vh] overflow-y-auto pb-safe">
+                {categoryKeys.map(categoryKey => {
+                  const category = categories[categoryKey];
+                  return (
+                    <button
+                      key={categoryKey}
+                      onClick={() => {
+                        setActiveCategory(categoryKey);
+                        setIsFilterOpen(false);
+                      }}
+                      className={`p-3 sm:p-4 rounded-xl flex items-center gap-3 ${activeCategory === categoryKey ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 font-bold' : 'hover:bg-gray-50 dark:hover:bg-gray-700'}`}
+                    >
+                      <span className="text-lg sm:text-xl">{category.icon || '🍕'}</span>
+                      <span className="dark:text-white">{category.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {data.menuItems[activeCategory]?.map(item => (
+        {/* Desktop Category Tabs */}
+        {categoryKeys.length > 0 && (
+          <div className="hidden md:flex justify-center flex-wrap gap-3 lg:gap-4 mb-12 lg:mb-16">
+            {categoryKeys.map(categoryKey => {
+              const category = categories[categoryKey];
+              return (
+                <button
+                  key={categoryKey}
+                  onClick={() => setActiveCategory(categoryKey)}
+                  className={`group px-6 lg:px-8 py-3 lg:py-4 rounded-xl lg:rounded-2xl font-bold transition-all duration-300 flex items-center gap-2 lg:gap-3 ${
+                    activeCategory === categoryKey
+                      ? `bg-gradient-to-r ${category.color || 'from-orange-500 to-red-500'} text-white shadow-xl scale-105`
+                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-lg hover:shadow-xl hover:scale-105'
+                  }`}
+                >
+                  <span className="text-lg lg:text-xl">{category.icon || '🍕'}</span>
+                  <span>{category.name}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Menu Items Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+          {data.menuItems?.[activeCategory]?.map(item => (
             <MenuItem key={item.id} item={item} />
           ))}
         </div>
 
-        {(!data.menuItems[activeCategory] || data.menuItems[activeCategory].length === 0) && (
-          <div className="text-center py-16">
-            <div className="text-6xl mb-4 opacity-50">🍕</div>
-            <h3 className="text-2xl font-bold text-gray-600 mb-2">No items in this category</h3>
-            <p className="text-gray-500">Check back soon for new additions!</p>
+        {/* Empty State */}
+        {(!data.menuItems?.[activeCategory] || data.menuItems[activeCategory].length === 0) && (
+          <div className="text-center py-12 sm:py-16">
+            <div className="text-5xl sm:text-6xl mb-4 opacity-50">🍕</div>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-600 dark:text-gray-300 mb-2">No items in this category</h3>
+            <p className="text-gray-500 dark:text-gray-400">Check back soon for new additions!</p>
+          </div>
+        )}
+
+        {/* No Categories State */}
+        {categoryKeys.length === 0 && (
+          <div className="text-center py-12 sm:py-16">
+            <div className="text-5xl sm:text-6xl mb-4 opacity-50">📋</div>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-600 dark:text-gray-300 mb-2">No menu categories available</h3>
+            <p className="text-gray-500 dark:text-gray-400">Please contact the administrator to add menu categories.</p>
           </div>
         )}
       </div>

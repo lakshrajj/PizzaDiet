@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Menu, X, Settings } from 'lucide-react';
+import { ShoppingCart, Menu, X, Settings, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
 
 const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminButton, onAdminClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { darkMode, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -12,17 +14,17 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
 
   const navItems = [
     { href: '#home', label: 'Home' },
-    { href: '#gallery', label: 'Gallery' },
-    { href: '#order', label: 'Order' },
     { href: '#menu', label: 'Menu' },
+    { href: '#order', label: 'Order' },
+    { href: '#gallery', label: 'Gallery' },
     { href: '#contact', label: 'Contact' }
   ];
 
   return (
     <header className={`fixed top-0 w-full z-40 transition-all duration-500 ${
       isScrolled 
-        ? 'bg-white/95 backdrop-blur-xl shadow-xl py-3 border-b border-orange-100' 
-        : 'bg-white/90 backdrop-blur-sm py-6'
+        ? 'bg-white/95 dark:bg-dark-secondary/95 backdrop-blur-xl shadow-xl py-3 border-b border-orange-100 dark:border-purple-500/30' 
+        : 'bg-white/90 dark:bg-dark-primary/90 backdrop-blur-sm py-6'
     }`}>
       <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <div className="flex items-center space-x-3">
@@ -34,7 +36,7 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
         
         <div className="hidden lg:flex items-center space-x-10">
           {navItems.map(item => (
-            <a key={item.href} href={item.href} className="relative text-gray-700 hover:text-orange-500 transition-all duration-300 font-semibold group">
+            <a key={item.href} href={item.href} className="relative text-gray-700 dark:text-dark-text hover:text-orange-500 dark:hover:text-dark-orange transition-all duration-300 font-semibold group">
               {item.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 transition-all duration-300 group-hover:w-full"></span>
             </a>
@@ -42,10 +44,23 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
         </div>
 
         <div className="flex items-center space-x-4">
+          <button
+            onClick={toggleTheme}
+            className={`p-3 rounded-full hover:scale-110 transition-all duration-300 shadow-lg ${
+              darkMode 
+                ? 'bg-gradient-to-r from-dark-purple to-dark-blue text-dark-text' 
+                : 'bg-gradient-to-r from-orange-400 to-amber-300 text-white'
+            }`}
+            aria-label="Toggle dark mode"
+          >
+            {darkMode ? <Sun size={20} className="animate-pulse" /> : <Moon size={20} className="animate-pulse" />}
+          </button>
+
           {showAdminButton && (
             <button
               onClick={onAdminClick}
               className="p-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full hover:scale-110 transition-transform shadow-lg"
+              aria-label="Admin settings"
             >
               <Settings size={20} />
             </button>
@@ -54,10 +69,11 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
           <button
             onClick={onCartToggle}
             className="relative p-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl group"
+            aria-label="Shopping cart"
           >
             <ShoppingCart size={20} className="group-hover:animate-pulse" />
             {cartItems > 0 && (
-              <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold animate-bounce border-2 border-white">
+              <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold animate-bounce border-2 border-white dark:border-gray-800">
                 {cartItems}
               </span>
             )}
@@ -65,7 +81,8 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
 
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 text-gray-700 hover:text-orange-500 transition-colors"
+            className="lg:hidden p-2 text-gray-700 dark:text-gray-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
+            aria-label="Toggle menu"
           >
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -74,13 +91,13 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-orange-100 shadow-xl">
+        <div className="lg:hidden bg-white/95 dark:bg-dark-secondary/95 backdrop-blur-xl border-t border-orange-100 dark:border-purple-500/30 shadow-xl">
           <div className="px-6 py-6 space-y-4">
             {navItems.map(item => (
               <a
                 key={item.href}
                 href={item.href}
-                className="block text-gray-700 hover:text-orange-500 transition-colors font-semibold py-3 border-b border-gray-100 last:border-b-0"
+                className="block text-gray-700 dark:text-dark-text hover:text-orange-500 dark:hover:text-dark-pink transition-colors font-semibold py-3 border-b border-gray-100 dark:border-purple-500/20 last:border-b-0"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.label}

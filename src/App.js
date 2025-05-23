@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { DataProvider } from './context/DataContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Header from './components/Header/Header';
 import Hero from './components/Hero/Hero';
-import Gallery from './components/Gallery/Gallery';
 import OrderSection from './components/Order/OrderSection';
 import MenuSection from './components/Menu/MenuSection';
+import Gallery from './components/Gallery/Gallery';
 import ContactSection from './components/Contact/ContactSection';
 import Footer from './components/Common/Footer';
 import CartSidebar from './components/Cart/CartSidebar';
 import FloatingCart from './components/Cart/FloatingCart';
-import AdminPanel from './components/Admin/AdminPanel';
+import EnhancedAdminPanel from './components/Admin/EnhancedAdminPanel';
 import AdminAccess from './components/Admin/AdminAccess';
 import Toast from './components/Common/Toast';
+import FluidBackground from './components/Common/FluidBackground';
 import { useCart } from './hooks/useCart';
 import './styles/globals.css';
 
@@ -53,58 +55,61 @@ const App = () => {
   };
 
   return (
-    <DataProvider>
-      <div className="min-h-screen bg-white">
-        <Header 
-          cartItems={cart.getTotalItems()} 
-          onCartToggle={() => setIsCartOpen(!isCartOpen)}
-          isMenuOpen={isMenuOpen}
-          setIsMenuOpen={setIsMenuOpen}
-          showAdminButton={isAdminLoggedIn}
-          onAdminClick={handleAdminClick}
-        />
-        
-        <main>
-          <Hero />
-          <Gallery />
-          <OrderSection />
-          <MenuSection onAddToCart={handleAddToCart} />
-          <ContactSection />
-        </main>
-        
-        <Footer />
-        
-        <FloatingCart 
-          cartItems={cart.getTotalItems()} 
-          onCartToggle={() => setIsCartOpen(!isCartOpen)} 
-        />
-        
-        <CartSidebar 
-          isOpen={isCartOpen} 
-          onClose={() => setIsCartOpen(false)} 
-          cart={cart} 
-        />
-
-        {showAdminAccess && (
-          <AdminAccess onAdminLogin={handleAdminLogin} />
-        )}
-
-        {isAdminLoggedIn && (
-          <AdminPanel 
-            isOpen={isAdminOpen} 
-            onClose={() => setIsAdminOpen(false)} 
+    <ThemeProvider>
+      <DataProvider>
+        <div className="min-h-screen bg-white dark:bg-dark-primary dark:text-dark-text transition-colors duration-300 relative">
+          <FluidBackground />
+          <Header 
+            cartItems={cart.getTotalItems()} 
+            onCartToggle={() => setIsCartOpen(!isCartOpen)}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            showAdminButton={isAdminLoggedIn}
+            onAdminClick={handleAdminClick}
           />
-        )}
-
-        {toast && (
-          <Toast
-            message={toast.message}
-            type={toast.type}
-            onClose={() => setToast(null)}
+          
+          <main>
+            <Hero />
+            <MenuSection onAddToCart={handleAddToCart} />
+            <OrderSection />
+            <Gallery />
+            <ContactSection />
+          </main>
+          
+          <Footer />
+          
+          <FloatingCart 
+            cartItems={cart.getTotalItems()} 
+            onCartToggle={() => setIsCartOpen(!isCartOpen)} 
           />
-        )}
-      </div>
-    </DataProvider>
+          
+          <CartSidebar 
+            isOpen={isCartOpen} 
+            onClose={() => setIsCartOpen(false)} 
+            cart={cart} 
+          />
+
+          {showAdminAccess && (
+            <AdminAccess onAdminLogin={handleAdminLogin} />
+          )}
+
+          {isAdminLoggedIn && (
+            <EnhancedAdminPanel 
+              isOpen={isAdminOpen} 
+              onClose={() => setIsAdminOpen(false)} 
+            />
+          )}
+
+          {toast && (
+            <Toast
+              message={toast.message}
+              type={toast.type}
+              onClose={() => setToast(null)}
+            />
+          )}
+        </div>
+      </DataProvider>
+    </ThemeProvider>
   );
 };
 
