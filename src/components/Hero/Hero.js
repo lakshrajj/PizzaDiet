@@ -4,7 +4,7 @@ import PizzaBackground from './PizzaBackground';
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 dark:from-dark-primary dark:via-dark-secondary dark:to-dark-accent overflow-hidden pt-24">
+    <section id="home" className="relative min-h-screen flex items-center bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 dark:from-dark-primary dark:via-dark-secondary dark:to-dark-accent overflow-hidden pt-16 sm:pt-20">
       {/* Pizza Background */}
       <PizzaBackground />
       
@@ -17,10 +17,7 @@ const Hero = () => {
 
       <div className="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
         <div className="space-y-8 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/80 dark:bg-dark-secondary/80 backdrop-blur-sm rounded-full shadow-lg">
-            <span className="text-xl sm:text-2xl">🏆</span>
-            <span className="text-sm sm:text-base text-orange-600 dark:text-dark-orange font-semibold">Premium Vegetarian Pizzas</span>
-          </div>
+          
           
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black bg-gradient-to-r from-orange-600 via-red-500 to-pink-500 bg-clip-text text-transparent leading-tight">
             Craving Something

@@ -23,57 +23,57 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
   return (
     <header className={`fixed top-0 w-full z-40 transition-all duration-500 ${
       isScrolled 
-        ? 'bg-white/95 dark:bg-dark-secondary/95 backdrop-blur-xl shadow-xl py-3 border-b border-orange-100 dark:border-purple-500/30' 
-        : 'bg-white/90 dark:bg-dark-primary/90 backdrop-blur-sm py-6'
+        ? 'bg-white/95 dark:bg-dark-secondary/95 backdrop-blur-xl shadow-xl py-2 border-b border-orange-100 dark:border-purple-500/30' 
+        : 'bg-white/90 dark:bg-dark-primary/90 backdrop-blur-sm py-3'
     }`}>
-      <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="text-4xl animate-bounce">🍕</div>
-          <div className="text-3xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <div className="text-3xl animate-bounce">🍕</div>
+          <div className="text-2xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent">
             Pizza Diet
           </div>
         </div>
         
-        <div className="hidden lg:flex items-center space-x-10">
+        <div className="hidden lg:flex items-center space-x-8">
           {navItems.map(item => (
-            <a key={item.href} href={item.href} className="relative text-gray-700 dark:text-dark-text hover:text-orange-500 dark:hover:text-dark-orange transition-all duration-300 font-semibold group">
+            <a key={item.href} href={item.href} className="relative text-gray-700 dark:text-dark-text hover:text-orange-500 dark:hover:text-dark-orange transition-all duration-300 font-semibold group text-sm">
               {item.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 transition-all duration-300 group-hover:w-full"></span>
             </a>
           ))}
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
           <button
             onClick={toggleTheme}
-            className={`p-3 rounded-full hover:scale-110 transition-all duration-300 shadow-lg ${
+            className={`p-2 rounded-full hover:scale-110 transition-all duration-300 shadow-lg ${
               darkMode 
                 ? 'bg-gradient-to-r from-dark-purple to-dark-blue text-dark-text' 
                 : 'bg-gradient-to-r from-orange-400 to-amber-300 text-white'
             }`}
             aria-label="Toggle dark mode"
           >
-            {darkMode ? <Sun size={20} className="animate-pulse" /> : <Moon size={20} className="animate-pulse" />}
+            {darkMode ? <Sun size={18} className="animate-pulse" /> : <Moon size={18} className="animate-pulse" />}
           </button>
 
           {showAdminButton && (
             <button
               onClick={onAdminClick}
-              className="p-3 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full hover:scale-110 transition-transform shadow-lg"
+              className="p-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full hover:scale-110 transition-transform shadow-lg"
               aria-label="Admin settings"
             >
-              <Settings size={20} />
+              <Settings size={18} />
             </button>
           )}
           
           <button
             onClick={onCartToggle}
-            className="relative p-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl group"
+            className="relative p-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl group"
             aria-label="Shopping cart"
           >
-            <ShoppingCart size={20} className="group-hover:animate-pulse" />
+            <ShoppingCart size={18} className="group-hover:animate-pulse" />
             {cartItems > 0 && (
-              <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold animate-bounce border-2 border-white dark:border-gray-800">
+              <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold animate-bounce border-2 border-white dark:border-gray-800">
                 {cartItems}
               </span>
             )}
@@ -81,10 +81,10 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
 
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 text-gray-700 dark:text-gray-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
+            className="lg:hidden p-1.5 text-gray-700 dark:text-gray-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </nav>
