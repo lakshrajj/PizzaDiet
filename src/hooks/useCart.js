@@ -7,22 +7,22 @@ export const useCart = () => {
   const outlets = {
     'babarpur': {
       name: 'Babarpur Branch',
-      phone: '+91-7840072457',
+      phone: '+91-9318310517',
       address: 'W-117, MAIN ROAD BABARPUR, SHAHDARA, DELHI-110032'
     },
     'yamunavihar': {
       name: 'Yamuna Vihar Branch', 
-      phone: '+91-7840073401',
+      phone: '+91-9318310517',
       address: 'C-2/166, BLOCK C, YAMUNAVIHAR, SHAHDARA, DELHI-110053'
     },
     'brahmpuri': {
       name: 'Brahmpuri Branch',
-      phone: '+91-7840085713', 
+      phone: '+91-9318310517', 
       address: 'B-217, BRAHAMPURI RD, CHAUHAN BANGER, SHAHDARA, DELHI-110053'
     },
     'dayalpur': {
       name: 'Dayalpur Branch',
-      phone: '+91-7840076501',
+      phone: '+91-9318310517',
       address: 'F-11, KARAWAL NAGAR MAIN RD, BLOCK-D, DAYALPUR, KARAWAL NAGAR, DELHI-110094'
     }
   };

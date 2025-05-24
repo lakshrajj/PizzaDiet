@@ -12,9 +12,7 @@ const CartSidebar = ({ isOpen, onClose, cart }) => {
     }
     
     const message = cart.generateMessage();
-    const outlet = cart.outlets[cart.selectedOutlet];
-    const phone = outlet.phone.replace(/[^0-9]/g, '');
-    const whatsappURL = `https://wa.me/91${phone.startsWith('91') ? phone.slice(2) : phone}?text=${encodeURIComponent(message)}`;
+    const whatsappURL = `https://wa.me/919318310517?text=${encodeURIComponent(message)}`;
     
     window.open(whatsappURL, '_blank');
     setToast({ message: 'Opening WhatsApp...', type: 'success' });
