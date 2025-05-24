@@ -43,37 +43,37 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
           ))}
         </div>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2">
           <button
             onClick={toggleTheme}
-            className={`p-2 rounded-full hover:scale-110 transition-all duration-300 shadow-lg ${
+            className={`w-8 h-8 flex items-center justify-center rounded-full hover:scale-110 transition-all duration-300 shadow-lg ${
               darkMode 
                 ? 'bg-gradient-to-r from-dark-purple to-dark-blue text-dark-text' 
                 : 'bg-gradient-to-r from-orange-400 to-amber-300 text-white'
             }`}
             aria-label="Toggle dark mode"
           >
-            {darkMode ? <Sun size={18} className="animate-pulse" /> : <Moon size={18} className="animate-pulse" />}
+            {darkMode ? <Sun size={16} className="animate-pulse" /> : <Moon size={16} className="animate-pulse" />}
           </button>
 
           {showAdminButton && (
             <button
               onClick={onAdminClick}
-              className="p-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full hover:scale-110 transition-transform shadow-lg"
+              className="w-8 h-8 flex items-center justify-center bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full hover:scale-110 transition-transform shadow-lg"
               aria-label="Admin settings"
             >
-              <Settings size={18} />
+              <Settings size={16} />
             </button>
           )}
           
           <button
             onClick={onCartToggle}
-            className="relative p-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl group"
+            className="relative w-8 h-8 flex items-center justify-center bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl group"
             aria-label="Shopping cart"
           >
-            <ShoppingCart size={18} className="group-hover:animate-pulse" />
+            <ShoppingCart size={16} className="group-hover:animate-pulse" />
             {cartItems > 0 && (
-              <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold animate-bounce border-2 border-white dark:border-gray-800">
+              <span className="absolute -top-1 -right-1 bg-pink-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold animate-bounce border-2 border-white dark:border-gray-800">
                 {cartItems}
               </span>
             )}
@@ -81,10 +81,10 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
 
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-1.5 text-gray-700 dark:text-gray-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
+            className="lg:hidden w-8 h-8 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </nav>

@@ -14,6 +14,7 @@ import EnhancedAdminPanel from './components/Admin/EnhancedAdminPanel';
 import AdminAccess from './components/Admin/AdminAccess';
 import Toast from './components/Common/Toast';
 import FluidBackground from './components/Common/FluidBackground';
+import ScrollBackground from './components/Common/ScrollBackground';
 import { useCart } from './hooks/useCart';
 import './styles/globals.css';
 
@@ -57,7 +58,8 @@ const App = () => {
   return (
     <ThemeProvider>
       <DataProvider>
-        <div className="min-h-screen bg-white dark:bg-dark-primary dark:text-dark-text transition-colors duration-300 relative">
+        <div className="min-h-screen bg-transparent transition-colors duration-300 relative">
+          <ScrollBackground />
           <FluidBackground />
           <Header 
             cartItems={cart.getTotalItems()} 
@@ -68,7 +70,7 @@ const App = () => {
             onAdminClick={handleAdminClick}
           />
           
-          <main>
+          <main className="relative z-10">
             <Hero />
             <MenuSection onAddToCart={handleAddToCart} />
             <OrderSection />
@@ -76,7 +78,7 @@ const App = () => {
             <ContactSection />
           </main>
           
-          <Footer />
+          <Footer className="relative z-10" />
           
           <FloatingCart 
             cartItems={cart.getTotalItems()} 

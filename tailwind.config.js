@@ -19,7 +19,16 @@ module.exports = {
           pink: '#EC4899',
           orange: '#F97316',
           red: '#EF4444'
-        }
+        },
+        'dark-primary': '#0f172a',
+        'dark-secondary': '#1e293b',
+        'dark-accent': '#334155',
+        'dark-text': '#e2e8f0',
+        'dark-orange': '#f97316',
+        'dark-purple': '#8b5cf6',
+        'dark-blue': '#3b82f6',
+        'dark-teal': '#14b8a6',
+        'dark-pink': '#ec4899',
       },
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
@@ -72,7 +81,13 @@ module.exports = {
           '75%': { transform: 'translate(-100px, 50px)' },
           '100%': { transform: 'translate(0, 0)' }
         }
-      }
+      },
+      backgroundImage: {
+        'grid-pattern': "linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px)",
+      },
+      backgroundSize: {
+        'grid': '20px 20px',
+      },
     },
   },
   plugins: [],
