@@ -33,7 +33,7 @@ const OrderPage = ({ onAddToCart }) => {
       features: ['Instant Order Processing', 'Custom Modifications', 'Real-time Updates', 'Multiple Outlet Support'],
       gradient: 'from-green-500 to-emerald-500',
       action: () => {
-        window.open('https://wa.me/919876543210', '_blank');
+        window.open('https://wa.me/919318310517', '_blank');
       }
     },
     {

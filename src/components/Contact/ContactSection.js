@@ -1,14 +1,9 @@
 import React from 'react';
-import { MapPin, Clock, Phone, MessageCircle } from 'lucide-react';
+import { Clock, Phone, MessageCircle } from 'lucide-react';
+import OutletLocations from './OutletLocations';
 
 const ContactSection = () => {
   const contactInfo = [
-    {
-      icon: <MapPin className="w-8 h-8" />,
-      title: 'Visit Our Stores',
-      info: 'Sector 17 & 22, Chandigarh\nPhase 7, Mohali\nSector 5, Panchkula',
-      gradient: 'from-blue-500 to-indigo-500'
-    },
     {
       icon: <Clock className="w-8 h-8" />,
       title: 'Opening Hours',
@@ -18,7 +13,7 @@ const ContactSection = () => {
     {
       icon: <Phone className="w-8 h-8" />,
       title: 'Call Us',
-      info: '+91 98765 43210\nQuick orders & inquiries',
+      info: 'Babarpur: +91-7840072457\nYamuna Vihar: +91-7840073401\nBrahmpuri: +91-7840085713\nDayalpur: +91-7840076501',
       gradient: 'from-green-500 to-emerald-500'
     }
   ];
@@ -33,7 +28,7 @@ const ContactSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
           {contactInfo.map((item, index) => (
             <div key={index} className="group text-center p-10 rounded-3xl bg-white/80 dark:bg-dark-secondary/80 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 border border-white/50 dark:border-dark-accent/50">
               <div className={`inline-flex p-6 rounded-2xl bg-gradient-to-r ${item.gradient} text-white mb-6 group-hover:scale-110 transition-transform duration-300`}>
@@ -45,7 +40,10 @@ const ContactSection = () => {
           ))}
         </div>
 
-        {/* Additional Contact Form Section */}
+        {/* Outlet Locations */}
+        <OutletLocations />
+
+        {/* Contact Form Section */}
         <div className="mt-16 bg-white dark:bg-dark-secondary rounded-3xl p-10 shadow-xl border border-gray-100 dark:border-dark-accent">
           <div className="text-center mb-8">
             <h3 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">Send Us a Message</h3>
@@ -82,7 +80,7 @@ const ContactSection = () => {
                   // In a real app, this would handle form submission
                   // For now, we'll redirect to WhatsApp
                   const message = "Hi! I'd like to get in touch with Pizza Diet.";
-                  const whatsappURL = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+                  const whatsappURL = `https://wa.me/919318310517?text=${encodeURIComponent(message)}`;
                   window.open(whatsappURL, '_blank');
                 }}
                 className="btn-primary"

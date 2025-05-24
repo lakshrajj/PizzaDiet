@@ -15,6 +15,7 @@ import Toast from './components/Common/Toast';
 import FluidBackground from './components/Common/FluidBackground';
 import ScrollBackground from './components/Common/ScrollBackground';
 import OrderPage from './pages/OrderPage';
+import RefundPolicy from './components/Common/RefundPolicy';
 import { useCart } from './hooks/useCart';
 import './styles/globals.css';
 
@@ -88,6 +89,10 @@ const App = () => {
                 <Route 
                   path="/order" 
                   element={<OrderPage onAddToCart={handleAddToCart} />} 
+                />
+                <Route 
+                  path="/refund-policy" 
+                  element={<RefundPolicy />} 
                 />
               </Routes>
             </main>

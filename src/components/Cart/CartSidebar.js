@@ -34,113 +34,101 @@ const CartSidebar = ({ isOpen, onClose, cart }) => {
     }
   };
 
+  const getDeliveryFeeText = () => {
+    return '₹30';
+  };
+
   if (!isOpen) return null;
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50" onClick={onClose} />
-      <div className="fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 flex flex-col shadow-2xl">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-6 flex justify-between items-center">
-          <h2 className="text-2xl font-bold flex items-center gap-3">
-            <ShoppingCart size={24} />
-            My Order
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" onClick={onClose}></div>
+      <div className="fixed right-0 top-0 h-full w-full sm:w-96 bg-white dark:bg-gray-900 shadow-2xl z-50 p-6 overflow-y-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+            <ShoppingCart />
+            Your Cart
           </h2>
-          <button onClick={onClose} className="p-2 hover:bg-white/20 rounded-full transition-colors">
-            <X size={24} />
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+          >
+            <X className="w-6 h-6 text-gray-500" />
           </button>
         </div>
 
-        {/* Outlet Selection */}
-        <div className="p-6 border-b border-gray-100 bg-gray-50">
-          <h3 className="font-bold mb-4 flex items-center gap-2 text-gray-800">
-            <MapPin size={18} />
-            Select Outlet
-          </h3>
-          <select
-            value={cart.selectedOutlet}
-            onChange={(e) => cart.setSelectedOutlet(e.target.value)}
-            className="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 bg-white"
-          >
-            <option value="">Choose your preferred outlet</option>
-            {Object.entries(cart.outlets).map(([key, outlet]) => (
-              <option key={key} value={key}>{outlet.name}</option>
-            ))}
-          </select>
-        </div>
-
-        {/* Cart Items */}
-        <div className="flex-1 overflow-y-auto p-6">
-          {cart.items.length === 0 ? (
-            <div className="text-center py-16 text-gray-500">
-              <div className="text-6xl mb-6 opacity-50">🍕</div>
-              <h3 className="text-xl font-semibold mb-2">Your cart is empty</h3>
-              <p className="text-gray-400">Add some delicious pizzas to get started!</p>
+        {cart.items.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500 dark:text-gray-400">Your cart is empty</p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <div className="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Select Outlet
+                </label>
+                <select
+                  value={cart.selectedOutlet}
+                  onChange={(e) => cart.setSelectedOutlet(e.target.value)}
+                  className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                >
+                  <option value="">Select an outlet</option>
+                  {Object.entries(cart.outlets).map(([key, outlet]) => (
+                    <option key={key} value={key}>
+                      {outlet.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-          ) : (
-            <div className="space-y-6">
+
+            <div className="divide-y divide-gray-200 dark:divide-gray-700">
               {cart.items.map(item => (
-                <div key={item.id} className="bg-gradient-to-r from-gray-50 to-orange-50 rounded-2xl p-5 border border-gray-100">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex-1">
-                      <h4 className="font-bold text-gray-800 text-lg">{item.name}</h4>
-                      <p className="text-orange-600 font-medium">{item.sizeName}</p>
-                      <p className="text-gray-500 text-sm mt-1 line-clamp-2">{item.description}</p>
-                    </div>
+                <div key={item.id} className="py-4 flex items-center gap-4">
+                  <div className="flex-grow">
+                    <h3 className="font-medium text-gray-900 dark:text-white">{item.name}</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      {item.sizeName} • ₹{item.price}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => cart.updateQuantity(item.id, item.quantity - 1)}
+                      className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="w-8 text-center">{item.quantity}</span>
+                    <button
+                      onClick={() => cart.updateQuantity(item.id, item.quantity + 1)}
+                      className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
                     <button
                       onClick={() => cart.removeItem(item.id)}
-                      className="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors"
+                      className="p-1 hover:bg-red-100 dark:hover:bg-red-900/20 text-red-500 rounded-full transition-colors ml-2"
                     >
-                      <Trash2 size={18} />
+                      <Trash2 className="w-4 h-4" />
                     </button>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => cart.updateQuantity(item.id, item.quantity - 1)}
-                        className="w-10 h-10 rounded-full bg-orange-500 text-white font-bold hover:bg-orange-600 transition-colors flex items-center justify-center"
-                      >
-                        <Minus size={16} />
-                      </button>
-                      <span className="w-12 text-center font-bold text-lg">{item.quantity}</span>
-                      <button
-                        onClick={() => cart.updateQuantity(item.id, item.quantity + 1)}
-                        className="w-10 h-10 rounded-full bg-orange-500 text-white font-bold hover:bg-orange-600 transition-colors flex items-center justify-center"
-                      >
-                        <Plus size={16} />
-                      </button>
-                    </div>
-                    <span className="font-bold text-xl text-orange-600">₹{item.price * item.quantity}</span>
                   </div>
                 </div>
               ))}
             </div>
-          )}
-        </div>
 
-        {/* Footer */}
-        {cart.items.length > 0 && (
-          <div className="p-6 border-t border-gray-100 bg-gradient-to-r from-gray-50 to-orange-50">
-            <div className="space-y-3 mb-6">
-              <div className="flex justify-between text-lg">
-                <span className="text-gray-600">Subtotal:</span>
-                <span className="font-semibold">₹{cart.getSubtotal()}</span>
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-2">
+              <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                <span>Subtotal</span>
+                <span>₹{cart.getSubtotal()}</span>
               </div>
-              <div className="flex justify-between text-lg">
-                <span className="text-gray-600">Delivery:</span>
-                <span className={`font-semibold ${cart.getDeliveryCharge() === 0 ? 'text-green-500' : 'text-gray-800'}`}>
-                  {cart.getDeliveryCharge() === 0 ? 'FREE' : `₹${cart.getDeliveryCharge()}`}
-                </span>
+              <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                <span>Delivery Charge</span>
+                <span>{getDeliveryFeeText()}</span>
               </div>
-              {cart.getDeliveryCharge() === 0 && (
-                <div className="text-sm text-green-600 bg-green-50 p-2 rounded-lg">
-                  🎉 You saved ₹40 on delivery!
-                </div>
-              )}
-              <div className="flex justify-between font-bold text-xl border-t pt-3">
-                <span>Total:</span>
-                <span className="text-orange-600">₹{cart.getTotal()}</span>
+              <div className="flex justify-between font-bold text-lg text-gray-900 dark:text-white">
+                <span>Total</span>
+                <span>₹{cart.getTotal()}</span>
               </div>
             </div>
             

@@ -5,25 +5,25 @@ export const useCart = () => {
   const [selectedOutlet, setSelectedOutlet] = useState('');
   
   const outlets = {
-    'sector17': {
-      name: 'Sector 17, Chandigarh',
-      phone: '+91 98765 43210',
-      address: '123 Food Street, Sector 17, Chandigarh, Punjab 160017'
+    'babarpur': {
+      name: 'Babarpur Branch',
+      phone: '+91-7840072457',
+      address: 'W-117, MAIN ROAD BABARPUR, SHAHDARA, DELHI-110032'
     },
-    'sector22': {
-      name: 'Sector 22, Chandigarh', 
-      phone: '+91 98765 43211',
-      address: '456 Taste Avenue, Sector 22, Chandigarh, Punjab 160022'
+    'yamunavihar': {
+      name: 'Yamuna Vihar Branch', 
+      phone: '+91-7840073401',
+      address: 'C-2/166, BLOCK C, YAMUNAVIHAR, SHAHDARA, DELHI-110053'
     },
-    'mohali': {
-      name: 'Phase 7, Mohali',
-      phone: '+91 98765 43212', 
-      address: '789 Pizza Plaza, Phase 7, Mohali, Punjab 160062'
+    'brahmpuri': {
+      name: 'Brahmpuri Branch',
+      phone: '+91-7840085713', 
+      address: 'B-217, BRAHAMPURI RD, CHAUHAN BANGER, SHAHDARA, DELHI-110053'
     },
-    'panchkula': {
-      name: 'Sector 5, Panchkula',
-      phone: '+91 98765 43213',
-      address: '321 Food Court, Sector 5, Panchkula, Haryana 134109'
+    'dayalpur': {
+      name: 'Dayalpur Branch',
+      phone: '+91-7840076501',
+      address: 'F-11, KARAWAL NAGAR MAIN RD, BLOCK-D, DAYALPUR, KARAWAL NAGAR, DELHI-110094'
     }
   };
 
@@ -54,7 +54,9 @@ export const useCart = () => {
   };
 
   const getSubtotal = () => items.reduce((total, item) => total + (item.price * item.quantity), 0);
-  const getDeliveryCharge = () => getSubtotal() >= 299 ? 0 : 40;
+  
+  const getDeliveryCharge = () => 30; // Flat delivery charge of ₹30
+
   const getTotal = () => getSubtotal() + getDeliveryCharge();
   const getTotalItems = () => items.reduce((total, item) => total + item.quantity, 0);
 
@@ -69,7 +71,7 @@ export const useCart = () => {
       message += `${index + 1}. *${item.name}*\n   Size: ${item.sizeName}\n   Qty: ${item.quantity} x Rs.${item.price} = Rs.${item.price * item.quantity}\n\n`;
     });
 
-    message += `${'='.repeat(25)}\n*BILL SUMMARY:*\nSubtotal: Rs.${getSubtotal()}\nDelivery: ${getDeliveryCharge() === 0 ? 'FREE' : 'Rs.' + getDeliveryCharge()}\n*Total: Rs.${getTotal()}*\n\nPlease confirm and provide delivery details!`;
+    message += `${'='.repeat(25)}\n*BILL SUMMARY:*\nSubtotal: Rs.${getSubtotal()}\nDelivery: Rs.${getDeliveryCharge()}\n*Total: Rs.${getTotal()}*\n\nPlease confirm and provide delivery details!`;
     return message;
   };
 

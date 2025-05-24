@@ -20,10 +20,10 @@ const OrderSection = () => {
       icon: <Phone className="w-10 h-10" />,
       title: 'Call to Order',
       description: 'Personal service with expert recommendations',
-      features: ['Direct Communication', 'Bulk Order Discounts', 'Custom Requirements', '+91 98765 43210'],
+      features: ['Direct Communication', 'Bulk Order Discounts', 'Custom Requirements', '+91 93183 10517'],
       gradient: 'from-blue-500 to-indigo-500',
       action: () => {
-        window.location.href = 'tel:+919876543210';
+        window.location.href = 'tel:+919318310517';
       }
     }
   ];
