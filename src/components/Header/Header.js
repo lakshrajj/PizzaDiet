@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Settings, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
 const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminButton, onAdminClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { darkMode, toggleTheme } = useTheme();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -13,12 +15,21 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
   }, []);
 
   const navItems = [
-    { href: '#home', label: 'Home' },
-    { href: '#menu', label: 'Menu' },
-    { href: '#order', label: 'Order' },
-    { href: '#gallery', label: 'Gallery' },
-    { href: '#contact', label: 'Contact' }
+    { href: '/', label: 'Home' },
+    { href: '/order', label: 'Menu & Order' },
+    { href: '/#gallery', label: 'Gallery' },
+    { href: '/#contact', label: 'Contact' }
   ];
+
+  const handleNavClick = (href) => {
+    if (href.startsWith('/#')) {
+      const element = document.getElementById(href.substring(2));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    setIsMenuOpen(false);
+  };
 
   return (
     <header className={`fixed top-0 w-full z-40 transition-all duration-500 ${
@@ -28,18 +39,39 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
     }`}>
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <div className="text-3xl animate-bounce">🍕</div>
-          <div className="text-2xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent">
-            Pizza Diet
-          </div>
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="text-3xl animate-bounce">🍕</div>
+            <div className="text-2xl font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 bg-clip-text text-transparent">
+              Pizza Diet
+            </div>
+          </Link>
         </div>
         
         <div className="hidden lg:flex items-center space-x-8">
           {navItems.map(item => (
-            <a key={item.href} href={item.href} className="relative text-gray-700 dark:text-dark-text hover:text-orange-500 dark:hover:text-dark-orange transition-all duration-300 font-semibold group text-sm">
-              {item.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 transition-all duration-300 group-hover:w-full"></span>
-            </a>
+            item.href.startsWith('/#') ? (
+              <button
+                key={item.href}
+                onClick={() => handleNavClick(item.href)}
+                className="relative text-gray-700 dark:text-dark-text hover:text-orange-500 dark:hover:text-dark-orange transition-all duration-300 font-semibold group text-sm"
+              >
+                {item.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 transition-all duration-300 group-hover:w-full"></span>
+              </button>
+            ) : (
+              <Link
+                key={item.href}
+                to={item.href}
+                className={`relative text-gray-700 dark:text-dark-text hover:text-orange-500 dark:hover:text-dark-orange transition-all duration-300 font-semibold group text-sm ${
+                  location.pathname === item.href ? 'text-orange-500 dark:text-dark-orange' : ''
+                }`}
+              >
+                {item.label}
+                <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-orange-500 to-red-500 transition-all duration-300 ${
+                  location.pathname === item.href ? 'w-full' : 'w-0 group-hover:w-full'
+                }`}></span>
+              </Link>
+            )
           ))}
         </div>
 
@@ -94,14 +126,26 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
         <div className="lg:hidden bg-white/95 dark:bg-dark-secondary/95 backdrop-blur-xl border-t border-orange-100 dark:border-purple-500/30 shadow-xl">
           <div className="px-6 py-6 space-y-4">
             {navItems.map(item => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="block text-gray-700 dark:text-dark-text hover:text-orange-500 dark:hover:text-dark-pink transition-colors font-semibold py-3 border-b border-gray-100 dark:border-purple-500/20 last:border-b-0"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.label}
-              </a>
+              item.href.startsWith('/#') ? (
+                <button
+                  key={item.href}
+                  onClick={() => handleNavClick(item.href)}
+                  className="block w-full text-left text-gray-700 dark:text-dark-text hover:text-orange-500 dark:hover:text-dark-pink transition-colors font-semibold py-3 border-b border-gray-100 dark:border-purple-500/20"
+                >
+                  {item.label}
+                </button>
+              ) : (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  className={`block text-gray-700 dark:text-dark-text hover:text-orange-500 dark:hover:text-dark-pink transition-colors font-semibold py-3 border-b border-gray-100 dark:border-purple-500/20 ${
+                    location.pathname === item.href ? 'text-orange-500 dark:text-dark-orange' : ''
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              )
             ))}
           </div>
         </div>

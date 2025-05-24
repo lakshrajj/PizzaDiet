@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { DataProvider } from './context/DataContext';
 import { ThemeProvider } from './context/ThemeContext';
 import Header from './components/Header/Header';
 import Hero from './components/Hero/Hero';
-import OrderSection from './components/Order/OrderSection';
-import MenuSection from './components/Menu/MenuSection';
 import Gallery from './components/Gallery/Gallery';
 import ContactSection from './components/Contact/ContactSection';
 import Footer from './components/Common/Footer';
@@ -15,8 +14,17 @@ import AdminAccess from './components/Admin/AdminAccess';
 import Toast from './components/Common/Toast';
 import FluidBackground from './components/Common/FluidBackground';
 import ScrollBackground from './components/Common/ScrollBackground';
+import OrderPage from './pages/OrderPage';
 import { useCart } from './hooks/useCart';
 import './styles/globals.css';
+
+const HomePage = () => (
+  <>
+    <Hero />
+    <Gallery />
+    <ContactSection />
+  </>
+);
 
 const App = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -56,62 +64,69 @@ const App = () => {
   };
 
   return (
-    <ThemeProvider>
-      <DataProvider>
-        <div className="min-h-screen bg-transparent transition-colors duration-300 relative">
-          <ScrollBackground />
-          <FluidBackground />
-          <Header 
-            cartItems={cart.getTotalItems()} 
-            onCartToggle={() => setIsCartOpen(!isCartOpen)}
-            isMenuOpen={isMenuOpen}
-            setIsMenuOpen={setIsMenuOpen}
-            showAdminButton={isAdminLoggedIn}
-            onAdminClick={handleAdminClick}
-          />
-          
-          <main className="relative z-10">
-            <Hero />
-            <MenuSection onAddToCart={handleAddToCart} />
-            <OrderSection />
-            <Gallery />
-            <ContactSection />
-          </main>
-          
-          <Footer className="relative z-10" />
-          
-          <FloatingCart 
-            cartItems={cart.getTotalItems()} 
-            onCartToggle={() => setIsCartOpen(!isCartOpen)} 
-          />
-          
-          <CartSidebar 
-            isOpen={isCartOpen} 
-            onClose={() => setIsCartOpen(false)} 
-            cart={cart} 
-          />
-
-          {showAdminAccess && (
-            <AdminAccess onAdminLogin={handleAdminLogin} />
-          )}
-
-          {isAdminLoggedIn && (
-            <EnhancedAdminPanel 
-              isOpen={isAdminOpen} 
-              onClose={() => setIsAdminOpen(false)} 
+    <Router>
+      <ThemeProvider>
+        <DataProvider>
+          <div className="min-h-screen bg-transparent transition-colors duration-300 relative">
+            <ScrollBackground />
+            <FluidBackground />
+            <Header 
+              cartItems={cart.getTotalItems()} 
+              onCartToggle={() => setIsCartOpen(!isCartOpen)}
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+              showAdminButton={isAdminLoggedIn}
+              onAdminClick={handleAdminClick}
             />
-          )}
-
-          {toast && (
-            <Toast
-              message={toast.message}
-              type={toast.type}
-              onClose={() => setToast(null)}
+            
+            <main className="relative z-10">
+              <Routes>
+                <Route 
+                  path="/" 
+                  element={<HomePage />} 
+                />
+                <Route 
+                  path="/order" 
+                  element={<OrderPage onAddToCart={handleAddToCart} />} 
+                />
+              </Routes>
+            </main>
+            
+            <Footer className="relative z-10" />
+            
+            <FloatingCart 
+              cartItems={cart.getTotalItems()} 
+              onCartToggle={() => setIsCartOpen(!isCartOpen)} 
             />
-          )}
-        </div>
-      </DataProvider>
-    </ThemeProvider>
+            
+            <CartSidebar 
+              isOpen={isCartOpen} 
+              onClose={() => setIsCartOpen(false)} 
+              cart={cart} 
+            />
+
+            {showAdminAccess && (
+              <AdminAccess onAdminLogin={handleAdminLogin} />
+            )}
+
+            {isAdminLoggedIn && (
+              <EnhancedAdminPanel 
+                isOpen={isAdminOpen} 
+                onClose={() => setIsAdminOpen(false)} 
+              />
+            )}
+
+            {toast && (
+              <Toast
+                message={toast.message}
+                type={toast.type}
+                onClose={() => setToast(null)}
+              />
+            )}
+          </div>
+        </DataProvider>
+      </ThemeProvider>
+    </Router>
   );
 };
 

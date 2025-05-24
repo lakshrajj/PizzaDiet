@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import PizzaBackground from './PizzaBackground';
 
@@ -27,12 +28,15 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start">
-            <a href="#menu" className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-red-500 dark:from-dark-purple dark:to-dark-blue text-white rounded-full font-bold text-base sm:text-lg hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center justify-center gap-3">
+            <Link 
+              to="/order" 
+              className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-red-500 dark:from-dark-purple dark:to-dark-blue text-white rounded-full font-bold text-base sm:text-lg hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center justify-center gap-3"
+            >
               <span>Order Now</span>
               <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center group-hover:rotate-12 transition-transform">
                 <Plus size={16} />
               </div>
-            </a>
+            </Link>
             <a href="#gallery" className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-orange-500 dark:border-dark-teal text-orange-500 dark:text-dark-teal rounded-full font-bold text-base sm:text-lg hover:bg-orange-500 dark:hover:bg-dark-teal hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl text-center">
               View Gallery
             </a>
