@@ -9,11 +9,19 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+  scroll-padding-top: 75px;
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
 }
 
 body {
@@ -170,9 +178,20 @@ body {
 
 /* Mobile touch improvements */
 @media (max-width: 768px) {
-  button, .btn, input[type="button"], input[type="submit"] {
+  button, 
+  a[role="button"],
+  .btn, 
+  input[type="button"], 
+  input[type="submit"] {
     min-height: 44px;
     min-width: 44px;
+    padding: 0.5rem 1rem;
+  }
+  
+  input,
+  select,
+  textarea {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
   }
   
   .touch-target {
@@ -221,13 +240,29 @@ body {
   @apply text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-16;
 }
 
-/* Responsive Typography */
+/* Mobile Optimizations */
 @media (max-width: 640px) {
   .section-title {
-    @apply text-3xl;
+    font-size: 1.75rem !important;
+    line-height: 1.3;
   }
   
   .section-subtitle {
-    @apply text-lg;
+    font-size: 1rem !important;
+  }
+  
+  p {
+    font-size: 0.9375rem;
+  }
+  
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.5rem;
   }
 }
