@@ -31,7 +31,7 @@ const OrderSection = () => {
   const deliveryPartners = [
     {
       name: 'Zomato',
-      logo: 'https://b.zmtcdn.com/web_assets/b40b97e677bc7b2ca77c58c61db266fe1603954218.png',
+      logo: '/zomato.png',
       description: 'Order through Zomato for special discounts',
       link: 'https://www.zomato.com/pizza-diet',
       gradient: 'from-red-500 to-red-600',
@@ -39,7 +39,7 @@ const OrderSection = () => {
     },
     {
       name: 'Swiggy',
-      logo: 'https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_200,h_65/icon-square_ry2g8x',
+      logo: '/swiggy.png',
       description: 'Fast delivery with Swiggy',
       link: 'https://www.swiggy.com/pizza-diet',
       gradient: 'from-orange-500 to-orange-600',

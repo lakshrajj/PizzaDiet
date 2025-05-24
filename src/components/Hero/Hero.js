@@ -4,7 +4,7 @@ import PizzaBackground from './PizzaBackground';
 
 const Hero = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 dark:from-dark-primary dark:via-dark-secondary dark:to-dark-accent overflow-hidden pt-16 sm:pt-20">
+    <section id="home" className="relative min-h-screen flex items-center bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 dark:from-dark-primary dark:via-dark-secondary dark:to-dark-accent overflow-hidden pt-20 pb-10">
       {/* Pizza Background */}
       <PizzaBackground />
       
@@ -15,16 +15,14 @@ const Hero = () => {
         <div className="absolute top-3/4 left-3/4 w-48 h-48 bg-pink-200/30 rounded-full blur-3xl animate-pulse"></div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-        <div className="space-y-8 text-center lg:text-left">
-          
-          
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-8 sm:gap-16 items-center mt-4">
+        <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black bg-gradient-to-r from-orange-600 via-red-500 to-pink-500 bg-clip-text text-transparent leading-tight">
             Craving Something
             <span className="block text-3xl sm:text-4xl lg:text-6xl mt-2">Extraordinary?</span>
           </h1>
           
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
             Experience the perfect blend of fresh ingredients, authentic flavors, and culinary artistry with our handcrafted vegetarian pizzas that will transport your taste buds to heaven.
           </p>
           
@@ -35,13 +33,13 @@ const Hero = () => {
                 <Plus size={16} />
               </div>
             </a>
-            <a href="#gallery" className="px-8 py-4 border-2 border-orange-500 dark:border-dark-teal text-orange-500 dark:text-dark-teal rounded-full font-bold text-lg hover:bg-orange-500 dark:hover:bg-dark-teal hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl text-center">
+            <a href="#gallery" className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-orange-500 dark:border-dark-teal text-orange-500 dark:text-dark-teal rounded-full font-bold text-base sm:text-lg hover:bg-orange-500 dark:hover:bg-dark-teal hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl text-center">
               View Gallery
             </a>
           </div>
         </div>
         
-        <div className="relative flex justify-center lg:justify-end">
+        <div className="relative flex justify-center lg:justify-end mt-8 lg:mt-0">
           <div className="relative">
             <div className="w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] lg:w-[450px] lg:h-[450px] rounded-full bg-gradient-to-br from-orange-300 via-red-300 to-pink-300 dark:bg-gradient-to-r dark:from-zinc-700 dark:via-zinc-600 dark:to-neutral-500 flex items-center justify-center shadow-2xl">
               <div className="w-[380px] h-[380px] sm:w-[480px] sm:h-[480px] lg:w-[650px] lg:h-[650px]" style={{animation: "float 4s ease-in-out infinite"}}>
