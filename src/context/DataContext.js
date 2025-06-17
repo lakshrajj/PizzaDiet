@@ -219,21 +219,30 @@ export const DataProvider = ({ children }) => {
   // Existing menu item functions
   const addMenuItem = (category, item) => {
     const newData = { ...data };
-    const newId = Math.max(
-      ...Object.values(data.menuItems).flat().map(item => item.id),
-      0
-    ) + 1;
+    
+    // Generate new ID
+    const allItems = Object.values(data.menuItems || {}).flat();
+    const newId = allItems.length > 0 ? Math.max(...allItems.map(item => item.id)) + 1 : 1;
+    
+    // Ensure category exists
+    if (!newData.menuItems) {
+      newData.menuItems = {};
+    }
     
     if (!newData.menuItems[category]) {
       newData.menuItems[category] = [];
     }
     
-    newData.menuItems[category] = [
-      ...newData.menuItems[category], 
-      { ...item, id: newId }
-    ];
+    // Add the new item with proper category
+    const newItem = {
+      ...item,
+      id: newId,
+      category: category // Ensure category is saved with the item
+    };
     
+    newData.menuItems[category] = [...newData.menuItems[category], newItem];
     updateData(newData);
+    return newId;
   };
 
   const updateMenuItem = (category, itemId, updatedItem) => {

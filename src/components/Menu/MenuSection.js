@@ -18,7 +18,7 @@ const MenuSection = ({ onAddToCart }) => {
   }, [categoryKeys, activeCategory]);
 
   const MenuItem = ({ item }) => {
-    const [selectedSize, setSelectedSize] = useState(item.sizes?.[1] || item.sizes?.[0]);
+    const [selectedSize, setSelectedSize] = useState(item.sizes?.[0]);
 
     const handleAddToCart = () => {
       if (!selectedSize) {
@@ -27,11 +27,13 @@ const MenuSection = ({ onAddToCart }) => {
       }
 
       onAddToCart({
+        id: item.id,
         name: item.name,
         description: item.description,
         size: selectedSize.name,
         sizeName: selectedSize.name,
-        price: selectedSize.price
+        price: selectedSize.price,
+        category: item.category
       });
     };
 
@@ -77,7 +79,9 @@ const MenuSection = ({ onAddToCart }) => {
         {item.sizes && item.sizes.length > 0 && (
           <div className="mb-4 sm:mb-6">
             <h4 className="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 sm:mb-4">Choose Size</h4>
-            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            <div className={`grid gap-2 sm:gap-3 ${
+              item.sizes.length <= 3 ? 'grid-cols-' + item.sizes.length : 'grid-cols-3'
+            }`}>
               {item.sizes.map((size, index) => (
                 <button
                   key={index}

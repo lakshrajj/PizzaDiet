@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useData } from '../../context/DataContext';
-import { Settings, X, Save, Upload, Trash2, Download, RefreshCw, AlertTriangle, Wifi, WifiOff } from 'lucide-react';
+import { Settings, X, Save, Upload, Trash2, Download, RefreshCw, AlertTriangle, Wifi, WifiOff, Plus, Minus } from 'lucide-react';
 
 const EnhancedAdminPanel = ({ isOpen, onClose }) => {
   const { 
@@ -36,11 +36,11 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
     rating: 4.5,
     category: 'featured',
     sizes: [
-      { name: 'Small', price: 0 },
-      { name: 'Medium', price: 0 },
-      { name: 'Large', price: 0 }
+      { name: 'Small', price: 0 }
     ]
   });
+
+  const [newSize, setNewSize] = useState({ name: '', price: 0 });
 
   const [newGalleryItem, setNewGalleryItem] = useState({
     title: '',
@@ -75,9 +75,7 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
         rating: 4.5,
         category: 'featured',
         sizes: [
-          { name: 'Small', price: 0 },
-          { name: 'Medium', price: 0 },
-          { name: 'Large', price: 0 }
+          { name: 'Small', price: 0 }
         ]
       });
       alert('Menu item added successfully!');
@@ -156,6 +154,25 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
       alert('Please select a valid JSON file.');
     }
     event.target.value = ''; // Reset input
+  };
+
+  const handleAddSize = () => {
+    if (!newSize.name) {
+      alert('Please enter a size name');
+      return;
+    }
+    setNewItem({
+      ...newItem,
+      sizes: [...newItem.sizes, { ...newSize }]
+    });
+    setNewSize({ name: '', price: 0 });
+  };
+
+  const handleRemoveSize = (index) => {
+    setNewItem({
+      ...newItem,
+      sizes: newItem.sizes.filter((_, i) => i !== index)
+    });
   };
 
   if (!isOpen) return null;
@@ -428,89 +445,113 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
               {/* Add New Menu Item */}
               <div className="bg-gray-50 rounded-2xl p-6">
                 <h3 className="text-2xl font-bold mb-6 text-gray-800">Add New Menu Item</h3>
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="Pizza Name *"
+                    value={newItem.name}
+                    onChange={(e) => setNewItem({...newItem, name: e.target.value})}
+                    className="input-field"
+                  />
+                  <textarea
+                    placeholder="Description *"
+                    value={newItem.description}
+                    onChange={(e) => setNewItem({...newItem, description: e.target.value})}
+                    className="input-field h-32 resize-none"
+                  />
+                  <input
+                    type="url"
+                    placeholder="Image URL * (e.g., https://images.unsplash.com/...)"
+                    value={newItem.image}
+                    onChange={(e) => setNewItem({...newItem, image: e.target.value})}
+                    className="input-field"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Badge (e.g., 🏆 Signature, 🔥 Popular)"
+                    value={newItem.badge}
+                    onChange={(e) => setNewItem({...newItem, badge: e.target.value})}
+                    className="input-field"
+                  />
+                  <select
+                    value={newItem.category}
+                    onChange={(e) => setNewItem({...newItem, category: e.target.value})}
+                    className="input-field"
+                  >
+                    {Object.entries(getMenuCategories()).map(([id, category]) => (
+                      <option key={id} value={id}>{category.name}</option>
+                    ))}
+                  </select>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="1"
+                    max="5"
+                    placeholder="Rating (1-5)"
+                    value={newItem.rating}
+                    onChange={(e) => setNewItem({...newItem, rating: parseFloat(e.target.value)})}
+                    className="input-field"
+                  />
                   <div className="space-y-4">
-                    <input
-                      type="text"
-                      placeholder="Pizza Name *"
-                      value={newItem.name}
-                      onChange={(e) => setNewItem({...newItem, name: e.target.value})}
-                      className="input-field"
-                    />
-                    <textarea
-                      placeholder="Description *"
-                      value={newItem.description}
-                      onChange={(e) => setNewItem({...newItem, description: e.target.value})}
-                      className="input-field h-32 resize-none"
-                    />
-                    <input
-                      type="url"
-                      placeholder="Image URL * (e.g., https://images.unsplash.com/...)"
-                      value={newItem.image}
-                      onChange={(e) => setNewItem({...newItem, image: e.target.value})}
-                      className="input-field"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Badge (e.g., 🏆 Signature, 🔥 Popular)"
-                      value={newItem.badge}
-                      onChange={(e) => setNewItem({...newItem, badge: e.target.value})}
-                      className="input-field"
-                    />
-                  </div>
-                  <div className="space-y-4">
-                    <select
-                      value={newItem.category}
-                      onChange={(e) => setNewItem({...newItem, category: e.target.value})}
-                      className="input-field"
-                    >
-                      {Object.entries(getMenuCategories()).map(([id, category]) => (
-                        <option key={id} value={id}>{category.name}</option>
-                      ))}
-                    </select>
-                    <input
-                      type="number"
-                      step="0.1"
-                      min="1"
-                      max="5"
-                      placeholder="Rating (1-5)"
-                      value={newItem.rating}
-                      onChange={(e) => setNewItem({...newItem, rating: parseFloat(e.target.value)})}
-                      className="input-field"
-                    />
+                    <h4 className="text-lg font-semibold text-gray-700">Size Options</h4>
+                    
                     <div className="space-y-2">
-                      <label className="font-semibold text-gray-700">Prices (₹):</label>
                       {newItem.sizes.map((size, index) => (
-                        <div key={index} className="flex gap-2">
-                          <span className="w-20 p-3 bg-gray-100 rounded-lg text-center font-medium">{size.name}</span>
-                          <input
-                            type="number"
-                            placeholder="Price"
-                            value={size.price}
-                            onChange={(e) => {
-                              const newSizes = [...newItem.sizes];
-                              newSizes[index].price = parseInt(e.target.value) || 0;
-                              setNewItem({...newItem, sizes: newSizes});
-                            }}
-                            className="flex-1 p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                          />
+                        <div key={index} className="flex items-center gap-4 bg-white p-3 rounded-lg border border-gray-200">
+                          <div className="flex-1 grid grid-cols-2 gap-4">
+                            <div className="text-gray-600">
+                              <span className="font-medium">{size.name}</span>
+                            </div>
+                            <div className="text-gray-600">
+                              ₹{size.price}
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => handleRemoveSize(index)}
+                            className="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors"
+                          >
+                            <Minus size={16} />
+                          </button>
                         </div>
                       ))}
                     </div>
-                    {newItem.image && (
-                      <div className="mt-4">
-                        <p className="text-sm font-medium text-gray-700 mb-2">Preview:</p>
-                        <img
-                          src={newItem.image}
-                          alt="Preview"
-                          className="w-full h-32 object-cover rounded-lg"
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                          }}
-                        />
-                      </div>
-                    )}
+
+                    <div className="flex items-center gap-4">
+                      <input
+                        type="text"
+                        placeholder="Size name (e.g., Extra Large)"
+                        value={newSize.name}
+                        onChange={(e) => setNewSize({ ...newSize, name: e.target.value })}
+                        className="input-field flex-1"
+                      />
+                      <input
+                        type="number"
+                        placeholder="Price"
+                        value={newSize.price}
+                        onChange={(e) => setNewSize({ ...newSize, price: Number(e.target.value) })}
+                        className="input-field w-32"
+                      />
+                      <button
+                        onClick={handleAddSize}
+                        className="bg-green-500 text-white p-2 rounded-full hover:bg-green-600 transition-colors"
+                      >
+                        <Plus size={20} />
+                      </button>
+                    </div>
                   </div>
+                  {newItem.image && (
+                    <div className="mt-4">
+                      <p className="text-sm font-medium text-gray-700 mb-2">Preview:</p>
+                      <img
+                        src={newItem.image}
+                        alt="Preview"
+                        className="w-full h-32 object-cover rounded-lg"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
                 <button
                   onClick={handleAddMenuItem}

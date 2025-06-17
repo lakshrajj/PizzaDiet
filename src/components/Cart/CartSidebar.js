@@ -83,33 +83,70 @@ const CartSidebar = ({ isOpen, onClose, cart }) => {
 
             <div className="divide-y divide-gray-200 dark:divide-gray-700">
               {cart.items.map(item => (
-                <div key={item.id} className="py-4 flex items-center gap-4">
-                  <div className="flex-grow">
-                    <h3 className="font-medium text-gray-900 dark:text-white">{item.name}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {item.sizeName} • ₹{item.price}
-                    </p>
+                <div key={item.id} className="py-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex-grow">
+                      <h3 className="font-medium text-gray-900 dark:text-white">{item.name}</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {item.sizeName} • ₹{item.price}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => cart.updateQuantity(item.id, item.quantity - 1)}
-                      className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
-                    >
-                      <Minus className="w-4 h-4" />
-                    </button>
-                    <span className="w-8 text-center">{item.quantity}</span>
-                    <button
-                      onClick={() => cart.updateQuantity(item.id, item.quantity + 1)}
-                      className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => cart.removeItem(item.id)}
-                      className="p-1 hover:bg-red-100 dark:hover:bg-red-900/20 text-red-500 rounded-full transition-colors ml-2"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+
+                  <div className="mb-3 pl-4 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-sm text-gray-600 dark:text-gray-300 flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={item.extraCheese}
+                          onChange={() => cart.toggleAddOn(item.id, 'extraCheese')}
+                          disabled={item.cheeseBurst}
+                          className="rounded text-orange-500 focus:ring-orange-500"
+                        />
+                        Extra Cheese (+₹{cart.addOns.extraCheese.prices[item.sizeName]})
+                      </label>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <label className="text-sm text-gray-600 dark:text-gray-300 flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={item.cheeseBurst}
+                          onChange={() => cart.toggleAddOn(item.id, 'cheeseBurst')}
+                          disabled={item.extraCheese}
+                          className="rounded text-orange-500 focus:ring-orange-500"
+                        />
+                        Cheese Burst (+₹{cart.addOns.cheeseBurst.prices[item.sizeName]})
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between mt-2">
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => cart.updateQuantity(item.id, item.quantity - 1)}
+                        className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <span className="w-8 text-center">{item.quantity}</span>
+                      <button
+                        onClick={() => cart.updateQuantity(item.id, item.quantity + 1)}
+                        className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <span className="font-medium text-gray-900 dark:text-white">
+                        ₹{cart.getItemTotal(item)}
+                      </span>
+                      <button
+                        onClick={() => cart.removeItem(item.id)}
+                        className="p-1 hover:bg-red-100 dark:hover:bg-red-900/20 text-red-500 rounded-full transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Clock, Heart, MapPin, Facebook, Instagram } from 'lucide-react';
+import { Phone, Clock, Heart, Facebook, Instagram } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -16,7 +16,7 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-r from-gray-900 to-black text-white py-12 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid md:grid-cols-4 gap-8 sm:gap-12 mb-8 sm:mb-12">
+        <div className="grid md:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
           <div className="space-y-4 sm:space-y-6">
             <div className="flex items-center space-x-3">
               <div className="text-3xl sm:text-4xl">🍕</div>
@@ -66,21 +66,6 @@ const Footer = () => {
                   </Link>
                 )
               ))}
-            </div>
-          </div>
-          
-          <div>
-            <h4 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-orange-500">Our Locations</h4>
-            <div className="space-y-2 sm:space-y-3 text-gray-400">
-              <div className="flex items-start gap-2">
-                <MapPin size={16} className="mt-1 flex-shrink-0" />
-                <div className="text-sm sm:text-base">
-                  <p>Babarpur Branch</p>
-                  <p>Yamuna Vihar Branch</p>
-                  <p>Brahmpuri Branch</p>
-                  <p>Dayalpur Branch</p>
-                </div>
-              </div>
             </div>
           </div>
           
