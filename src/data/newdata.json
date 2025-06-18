@@ -1,0 +1,779 @@
+{
+  "menuItems": {
+    "featured": [
+      {
+        "name": "Cloud 7",
+        "description": "(Onion, tomato, corn, paneer, capsicum, jalapeno)",
+        "image": "https://media.discordapp.net/attachments/1378467356996800562/1384920550220107876/Cloud_7.png?ex=68542f45&is=6852ddc5&hm=72a21f6306879111a15d6d534ce39f87afe7229238a4147144d809c7f49b7497&=&format=webp&quality=lossless&width=350&height=350",
+        "badge": "🔥",
+        "rating": 4.5,
+        "category": "featured",
+        "sizes": [
+          {
+            "name": "Small ",
+            "price": 240
+          },
+          {
+            "name": "Medium",
+            "price": 450
+          },
+          {
+            "name": "Large",
+            "price": 650
+          }
+        ],
+        "id": 1
+      },
+      {
+        "name": "Extravaganza",
+        "description": "(Black olives, onion, capsicum, mushroom, fresh tomato & corn)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1380606512228991096/Extravaganza.png?ex=6853a6c2&is=68525542&hm=e2ff2e1d82a95dea42be8adbde6723175856d76a2ec3c1b4ee36617e4a5931f2&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "featured",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 240
+          }
+        ],
+        "id": 2
+      },
+      {
+        "name": "Special Tandoori Paneer",
+        "description": "(Tandoori Sauce, onion, capsicum, chillies & paneer)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1380606558404087909/Peppy.png?ex=6853a6cd&is=6852554d&hm=eccecb86241c3edc86989a5ceb9a31d349d8ecd0f093066a15607586d4eb64d0&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "featured",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 200
+          },
+          {
+            "name": "Medium",
+            "price": 400
+          },
+          {
+            "name": "Large",
+            "price": 580
+          }
+        ],
+        "id": 3
+      }
+    ],
+    "simply-veg": [
+      {
+        "name": "Margherita ",
+        "description": "(Cheese & Tomato Sauce)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1380606514380673075/Margherita.png?ex=6853a6c3&is=68525543&hm=0a28996ac96bee5c4d6093ed868b6ccc987dd32b4681971800dbd27b3dd6871f&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "simply-veg",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 100
+          },
+          {
+            "name": "Medium",
+            "price": 200
+          },
+          {
+            "name": "Large",
+            "price": 360
+          }
+        ],
+        "id": 4
+      },
+      {
+        "name": "Onion Veg",
+        "description": "(Cheese & onion)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1380606557376610385/Onion.png?ex=6853a6cd&is=6852554d&hm=df91f32f1bac938d1184e9354d0faf08aaf96c3861ec24d2d508d73befcc9c0e&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "simply-veg",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 120
+          },
+          {
+            "name": "Medium",
+            "price": 240
+          },
+          {
+            "name": "Large",
+            "price": 380
+          }
+        ],
+        "id": 5
+      },
+      {
+        "name": "Tomato Veg ",
+        "description": "(Cheese & tomato)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1380606622178476163/Tomato.png?ex=6853a6dd&is=6852555d&hm=1663b89ccc69279497eb476577056c1084d07dfccda34e618b37451eb05f2485&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "simply-veg",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 120
+          },
+          {
+            "name": "Medium",
+            "price": 240
+          },
+          {
+            "name": "Large",
+            "price": 380
+          }
+        ],
+        "id": 6
+      },
+      {
+        "name": "Capsicum Veg",
+        "description": "(Cheese & capsicum)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930662305234984/Capsicum.png?ex=685438b0&is=6852e730&hm=f21f7588be88345e16a79036a4215bf310baaf06cf89dafa7d94a9d101895259&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "simply-veg",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 120
+          },
+          {
+            "name": "Medium",
+            "price": 240
+          },
+          {
+            "name": "Large",
+            "price": 380
+          }
+        ],
+        "id": 7
+      },
+      {
+        "name": "Cheese Paneer",
+        "description": "(Cheese & paneer)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930663244894290/Cheese_Paneer.png?ex=685438b0&is=6852e730&hm=381e7ca27a341b006b598c9f1ac1259493d6ecf14f3fbfc693cbe6d7d2ffd6bd&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "simply-veg",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 140
+          },
+          {
+            "name": "Medium",
+            "price": 300
+          },
+          {
+            "name": "Large ",
+            "price": 460
+          }
+        ],
+        "id": 8
+      }
+    ],
+    "classic-veg-": [
+      {
+        "name": "Mexican Veg",
+        "description": "(Onion, Tomato & Jalapenos)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930722669789397/Mexican.png?ex=685438bf&is=6852e73f&hm=201f1a33a7d8d4f26bc634dfc940080d6aedc746f610b2d7b176368f5ae1c9ea&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "classic-veg-",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 150
+          },
+          {
+            "name": "Medium",
+            "price": 360
+          },
+          {
+            "name": "Large",
+            "price": 480
+          }
+        ],
+        "id": 9
+      },
+      {
+        "name": "Spicy Veg",
+        "description": "(Onion, Capsicum & Green Chillies)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384933478658871296/Spicy_Veg.png?ex=68543b50&is=6852e9d0&hm=d2328edc169c3712ec4df89081d2d3edeff032b28cd33b12a0e3feb4faa7c2fd&=&format=webp&quality=lossless&width=826&height=826",
+        "category": "classic-veg-",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 150
+          },
+          {
+            "name": "Medium",
+            "price": 360
+          },
+          {
+            "name": "Large",
+            "price": 480
+          }
+        ],
+        "id": 10
+      },
+      {
+        "name": "Golden Corn Veg",
+        "description": "(Onion, Capsicum & Corn)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930720761512106/Golden.png?ex=685438be&is=6852e73e&hm=67a952cd17790ada0d6e5e8a66863ece468bc4f76a1e4cdfed94514ddc42fd88&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "classic-veg-",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 150
+          },
+          {
+            "name": "Medium",
+            "price": 360
+          },
+          {
+            "name": "Large",
+            "price": 480
+          }
+        ],
+        "id": 11
+      },
+      {
+        "name": "Farmhouse Veg",
+        "description": "Onion, Capsicum & Tomato)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930719742165083/Farmhouse.png?ex=685438be&is=6852e73e&hm=33ed5e0c29901aee286677cec0b8ef126b0ac137670ccd58812d3b1ab5c48b69&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "classic-veg-",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 150
+          },
+          {
+            "name": "Medium",
+            "price": 360
+          },
+          {
+            "name": "Large",
+            "price": 480
+          }
+        ],
+        "id": 12
+      },
+      {
+        "name": "Country Special",
+        "description": "(Onion, Capsicum, Tomato & Mushrooms)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930717972037793/Country.png?ex=685438bd&is=6852e73d&hm=525ed8411b7123fd8110029e345dc74954b09b3506d754e9ea945b9dcbd381d2&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "classic-veg-",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 150
+          },
+          {
+            "name": "Medium",
+            "price": 360
+          },
+          {
+            "name": "Large",
+            "price": 480
+          }
+        ],
+        "id": 13
+      },
+      {
+        "name": "Double Cheese Margherita",
+        "description": "(Double Cheese & sauce)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930722116145345/Margherita.png?ex=685438be&is=6852e73e&hm=11cf16d81231f2dd57a69752fdea62433e4ee76757fdd03d020e01f263935a21&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "classic-veg-",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 150
+          },
+          {
+            "name": "Medium",
+            "price": 360
+          },
+          {
+            "name": "Large",
+            "price": 480
+          }
+        ],
+        "id": 14
+      }
+    ],
+    "deluxe-veg": [
+      {
+        "name": "Spl. Makhani Paneer",
+        "description": "(Onion, Paneer & Corn)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384937232397500586/Makhani.png?ex=68543ecf&is=6852ed4f&hm=423e906ed7e53edf86f082f28f6b88db019aef5748da59ae39bb2821a2ac70e4&=&format=webp&quality=lossless&width=826&height=826",
+        "category": "deluxe-veg",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 200
+          },
+          {
+            "name": "Medium",
+            "price": 400
+          },
+          {
+            "name": "Large",
+            "price": 580
+          }
+        ],
+        "id": 15
+      },
+      {
+        "name": "Spl. Tandoori ",
+        "description": "(Tandoori Sauce, Onion, Capsicum, Chillies & Paneer)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930770338054225/Peppy.png?ex=685438ca&is=6852e74a&hm=7ecbeee4f69aae4e9763667fbe80ab4f6858ae7551db3ff988a9897012cf891b&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "deluxe-veg",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 200
+          },
+          {
+            "name": "Medium",
+            "price": 400
+          },
+          {
+            "name": "Large",
+            "price": 580
+          }
+        ],
+        "id": 16
+      },
+      {
+        "name": "Spl. Punjabi ",
+        "description": "(Onion, Capsicum, Chillies & Paneer)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930770937843782/Punjabi.png?ex=685438ca&is=6852e74a&hm=6e9721e355583206b97cf8b3b6ab7ab215d1d33d81eb5979f7a364a244666454&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "deluxe-veg",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 200
+          },
+          {
+            "name": "Medium ",
+            "price": 400
+          },
+          {
+            "name": "Large",
+            "price": 580
+          }
+        ],
+        "id": 17
+      },
+      {
+        "name": "Spl. Deluxe",
+        "description": "(Onion, Capsicum, Paneer & Mushrooms)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384939569593581798/Deluxe.png?ex=685440fc&is=6852ef7c&hm=d775fb990c97fafacccc9500ae824c2d6a44b12ea6bc9dcdf70e8acda72ed0d6&=&format=webp&quality=lossless&width=826&height=826",
+        "category": "deluxe-veg",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 200
+          },
+          {
+            "name": "Medium",
+            "price": 400
+          },
+          {
+            "name": "Large",
+            "price": 580
+          }
+        ],
+        "id": 18
+      }
+    ],
+    "jain-specials": [
+      {
+        "name": "Golden Delight",
+        "description": "(Tomato, Capsicum & Corn)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384941939585056838/delight.png?ex=68544331&is=6852f1b1&hm=34ef48c1512f1e7ec5b63ad8a21aa3abd824424b548c540a74d772dffa163ecb&=&format=webp&quality=lossless&width=350&height=350",
+        "category": "jain-specials",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 150
+          },
+          {
+            "name": "Medium",
+            "price": 360
+          },
+          {
+            "name": "Large",
+            "price": 480
+          }
+        ],
+        "id": 19
+      },
+      {
+        "name": "Veggie Crust",
+        "description": "(Tomato, Capsicum & Jalapenos)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930717972037793/Country.png?ex=685438bd&is=6852e73d&hm=525ed8411b7123fd8110029e345dc74954b09b3506d754e9ea945b9dcbd381d2&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "jain-specials",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 150
+          },
+          {
+            "name": "Medium",
+            "price": 360
+          },
+          {
+            "name": "Large",
+            "price": 480
+          }
+        ],
+        "id": 20
+      },
+      {
+        "name": "Spicy Seasonal",
+        "description": "(Green Chillies, Capsicum & Red Chillies)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930772657373275/Spicy_Seasonal.png?ex=685438ca&is=6852e74a&hm=04f2055e00f030ff8950f1adcb8843dcda3366b6e45140137878ebaf3cb5b812&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "jain-specials",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 150
+          },
+          {
+            "name": "Medium",
+            "price": 360
+          },
+          {
+            "name": "Large",
+            "price": 480
+          }
+        ],
+        "id": 21
+      },
+      {
+        "name": "Yummy Tandoori Paneer",
+        "description": "(Tandoori Sauce, Capsicum, Chillies & Paneer)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930770338054225/Peppy.png?ex=685438ca&is=6852e74a&hm=7ecbeee4f69aae4e9763667fbe80ab4f6858ae7551db3ff988a9897012cf891b&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "jain-specials",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 200
+          },
+          {
+            "name": "Medium",
+            "price": 400
+          },
+          {
+            "name": "Large",
+            "price": 580
+          }
+        ],
+        "id": 22
+      },
+      {
+        "name": "Spicy Zesty Paneer",
+        "description": "(Green Chillies, Red Chillies, Paneer & Capsicum)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930773286785154/Spicy_Zesty.png?ex=685438cb&is=6852e74b&hm=370f79cd0a409f8ce49ff7628c514be959dedb57eb3ced4e954275c026296a85&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "jain-specials",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 200
+          },
+          {
+            "name": "Medium",
+            "price": 400
+          },
+          {
+            "name": "Large",
+            "price": 580
+          }
+        ],
+        "id": 23
+      },
+      {
+        "name": "Yummy Makhani Paneer",
+        "description": "(Paneer, Corn & Capsicum)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384944714599501824/yummy_makhani.png?ex=685445c6&is=6852f446&hm=ea504639ed73a96d4885ede552933a9657578615ad2f0e9925ea6847ebf43a88&=&format=webp&quality=lossless&width=350&height=350",
+        "category": "jain-specials",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 200
+          },
+          {
+            "name": "Medium",
+            "price": 400
+          },
+          {
+            "name": "Large",
+            "price": 580
+          }
+        ],
+        "id": 24
+      }
+    ],
+    "supreme-veg": [
+      {
+        "name": "Cloud 7",
+        "description": "(Onion, tomato, corn, paneer, capsicum, jalapeno)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930664997978122/Cloud_7.png?ex=685438b1&is=6852e731&hm=f3f5cb58c28e7d85a5e2af2a514673ea9073afe5cef8ca3b8bf8cb165d083fc0&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "supreme-veg",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 240
+          },
+          {
+            "name": "Medium",
+            "price": 450
+          },
+          {
+            "name": "Large",
+            "price": 600
+          }
+        ],
+        "id": 25
+      },
+      {
+        "name": "Extravaganza Veg",
+        "description": "(Black olives, onion, capsicum, mushroom, fresh tomato & corn)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930719138054255/Extravaganza.png?ex=685438be&is=6852e73e&hm=b200694952c1d7ef044b2adbadaaec2370dc53f098d9487868ed0e10d393c3be&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "supreme-veg",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 240
+          },
+          {
+            "name": "Medium",
+            "price": 450
+          },
+          {
+            "name": "Large",
+            "price": 600
+          }
+        ],
+        "id": 26
+      },
+      {
+        "name": "Spl. Supreme Veg",
+        "description": "(Onion, tomato, corn, capsicum, jalapeno, mushrooms & Extra Cheese)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930719138054255/Extravaganza.png?ex=685438be&is=6852e73e&hm=b200694952c1d7ef044b2adbadaaec2370dc53f098d9487868ed0e10d393c3be&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "supreme-veg",
+        "sizes": [
+          {
+            "name": "Small",
+            "price": 250
+          },
+          {
+            "name": "Medium",
+            "price": 480
+          },
+          {
+            "name": "Large",
+            "price": 620
+          }
+        ],
+        "id": 27
+      }
+    ],
+    "choose-your-starter": [
+      {
+        "name": "Choco Lava",
+        "description": "Hot Chocolava cupcake.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930664591265843/Chocolava.png?ex=685438b1&is=6852e731&hm=a6ea3140a40f090496f7fa90bd28b0ff9691455a77108e344e00b63f483d19a0&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "choose-your-starter",
+        "sizes": [
+          {
+            "name": "One Size",
+            "price": 80
+          }
+        ],
+        "id": 28
+      },
+      {
+        "name": "Cheesy Garlic Bread",
+        "description": "Bread sticks with cheese on top.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930663676772444/Cheesy_Garlic_bread.png?ex=685438b0&is=6852e730&hm=520a4b78c42696116b29e071b2639dbeba0fe125b4dc3c1da665a71b59dfc4af&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "choose-your-starter",
+        "sizes": [
+          {
+            "name": "One Size",
+            "price": 110
+          }
+        ],
+        "id": 29
+      },
+      {
+        "name": "Veg Garlic Bread",
+        "description": "Bread sticks with cheese and veggies on top.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930798284832908/Veg_Garlic_Bread.png?ex=685438d1&is=6852e751&hm=89690f2ba829f3ef7807d25ab13b0e1023e596184c36c470b62a15c11e68539e&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "choose-your-starter",
+        "sizes": [
+          {
+            "name": "One Size",
+            "price": 130
+          }
+        ],
+        "id": 30
+      },
+      {
+        "name": "Stuffed Garlic Bread",
+        "description": "Freshly baked garlic bread with cheese and veggies.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930773781446836/Stuffed_Garlic_bread.png?ex=685438cb&is=6852e74b&hm=b4a5e82de244e839b7e28af88c8e6a1d987c19bfaacc5283d70db848c1601915&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "choose-your-starter",
+        "sizes": [
+          {
+            "name": "One Size",
+            "price": 140
+          }
+        ],
+        "id": 31
+      },
+      {
+        "name": "Zingy Parcel (2 Pcs.)",
+        "description": "Pocket pizza rolls with veggies and creamy sauce.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930800763404369/Zingy_Parcel.png?ex=685438d1&is=6852e751&hm=86cdfb174243eb790db4fe842690a8788cdd0af7bc61293ecb5412b2d68a4ce4&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "choose-your-starter",
+        "sizes": [
+          {
+            "name": "One Size",
+            "price": 100
+          }
+        ],
+        "id": 32
+      }
+    ],
+    "choose-your-burger": [
+      {
+        "name": "Chilli Paneer Burger",
+        "description": "Topped with onion rings, Paneer slice and creamy mayo and in between soft big buns.\nPicture reflected may differ. ",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930661873356830/Burgerr.png?ex=685438b0&is=6852e730&hm=7ca70699ecbb7f8736e77d49df1afbf3e8ead453b4d85384572990453386d840&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "choose-your-burger",
+        "sizes": [
+          {
+            "name": "One Size",
+            "price": 80
+          }
+        ],
+        "id": 33
+      },
+      {
+        "name": "Simply Veg Burger",
+        "description": "Topped with onion rings, tomato and creamy mayo and in between soft big buns. Picture reflected may differ.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930661873356830/Burgerr.png?ex=685438b0&is=6852e730&hm=7ca70699ecbb7f8736e77d49df1afbf3e8ead453b4d85384572990453386d840&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "choose-your-burger",
+        "sizes": [
+          {
+            "name": "One Size",
+            "price": 90
+          }
+        ],
+        "id": 34
+      },
+      {
+        "name": "Classic Veg Burger",
+        "description": "Topped with onion rings, tomato, paneer and creamy mayo and in between soft big buns. Picture reflected may differ.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930662754156555/cheese_burger.png?ex=685438b0&is=6852e730&hm=58b2cc9011c64534252c6e91c0522db98f99b6853f0c4fee08dd44022206074c&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "choose-your-burger",
+        "sizes": [
+          {
+            "name": "One Size",
+            "price": 110
+          }
+        ],
+        "id": 35
+      }
+    ],
+    "choose-your-pasta": [
+      {
+        "name": "Red Sauce Pasta",
+        "description": "Delicious red sauce pasta made with Pizza garlic sauce, pasta and veggies.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930771630030928/Red_sauce_pasta.png?ex=685438ca&is=6852e74a&hm=3486a0339218a355dba95d088274075acbfb44e40ddce44497d848d78715bceb&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "choose-your-pasta",
+        "sizes": [
+          {
+            "name": "One Size ",
+            "price": 120
+          }
+        ],
+        "id": 36
+      },
+      {
+        "name": "Mix Sauce Pasta",
+        "description": "Delicious pink sauce pasta made with Pizza garlic sauce, pasta and veggies.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384951353075437671/Pink_sauce_Pasta.png?ex=68544bf5&is=6852fa75&hm=ab84ac3e773c8f60c4644866cbddc4e183caf83dd111abae77516b57e375c5b7&=&format=webp&quality=lossless&width=826&height=826",
+        "category": "choose-your-pasta",
+        "sizes": [
+          {
+            "name": "One Size",
+            "price": 120
+          }
+        ],
+        "id": 37
+      },
+      {
+        "name": "White Sauce Pasta",
+        "description": "Creamy white sauce pasta made with cheese, pasta and veggies.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930799442198648/White_Sauce.png?ex=685438d1&is=6852e751&hm=926cf8bfbbd98b3bb0c591d8c402ea028a95739da5a275fec5fdecafa72d37f2&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "choose-your-pasta",
+        "sizes": [
+          {
+            "name": "One Size",
+            "price": 130
+          }
+        ],
+        "id": 38
+      },
+      {
+        "name": "Tandoori Sauce Pasta",
+        "description": "Tangy Tandoori sauce pasta made with Tandoori sauce, pasta and veggies.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930774264057988/Tandoori_Sauce.png?ex=685438cb&is=6852e74b&hm=b9c1e890e1210ad57582cbab9c9942ee0fd0075c47c45a0a7e22edf56482e819&=&format=webp&quality=lossless&width=722&height=722",
+        "category": "choose-your-pasta",
+        "sizes": [
+          {
+            "name": "One Size",
+            "price": 140
+          }
+        ],
+        "id": 39
+      }
+    ]
+  },
+  "galleryItems": [
+    {
+      "id": 1,
+      "category": "pizzas",
+      "title": "Margherita Classic",
+      "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600"
+    },
+    {
+      "id": 2,
+      "category": "pizzas",
+      "title": "Veggie Supreme",
+      "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=600"
+    },
+    {
+      "id": 3,
+      "category": "specials",
+      "title": "Cloud 7 Special",
+      "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600"
+    },
+    {
+      "id": 5,
+      "category": "pizzas",
+      "title": "Tandoori Paneer",
+      "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600"
+    },
+    {
+      "id": 6,
+      "category": "specials",
+      "title": "Extravaganza",
+      "image": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=600"
+    },
+    {
+      "id": 8,
+      "category": "pizzas",
+      "title": "Makhani Special",
+      "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=600"
+    }
+  ],
+  "lastUpdated": "2025-06-18T17:45:27.192Z",
+  "version": "1.0.0"
+}

@@ -100,10 +100,15 @@ const CartSidebar = ({ isOpen, onClose, cart }) => {
                           type="checkbox"
                           checked={item.extraCheese}
                           onChange={() => cart.toggleAddOn(item.id, 'extraCheese')}
-                          disabled={item.cheeseBurst}
                           className="rounded text-orange-500 focus:ring-orange-500"
                         />
-                        Extra Cheese (+₹{cart.addOns.extraCheese.prices[item.sizeName]})
+                        Extra Cheese (+₹{
+                          item.type === 'bogo' 
+                            ? cart.addOns.extraCheese.comboPrices[
+                                item.pizza1?.size?.name === 'Large' || item.pizza2?.size?.name === 'Large' ? 'Large' : 'Medium'
+                              ] || 0
+                            : cart.addOns.extraCheese.prices[item.sizeName]
+                        }){item.type === 'bogo' ? ' for both pizzas' : ''}
                       </label>
                     </div>
                     <div className="flex items-center justify-between">
@@ -112,10 +117,15 @@ const CartSidebar = ({ isOpen, onClose, cart }) => {
                           type="checkbox"
                           checked={item.cheeseBurst}
                           onChange={() => cart.toggleAddOn(item.id, 'cheeseBurst')}
-                          disabled={item.extraCheese}
                           className="rounded text-orange-500 focus:ring-orange-500"
                         />
-                        Cheese Burst (+₹{cart.addOns.cheeseBurst.prices[item.sizeName]})
+                        Cheese Burst (+₹{
+                          item.type === 'bogo' 
+                            ? cart.addOns.cheeseBurst.comboPrices[
+                                item.pizza1?.size?.name === 'Large' || item.pizza2?.size?.name === 'Large' ? 'Large' : 'Medium'
+                              ] || 0
+                            : cart.addOns.cheeseBurst.prices[item.sizeName]
+                        }){item.type === 'bogo' ? ' for both pizzas' : ''}
                       </label>
                     </div>
                   </div>

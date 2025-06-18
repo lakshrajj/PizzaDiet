@@ -24,6 +24,11 @@ export const DataProvider = ({ children }) => {
       try {
         setLoading(true);
         
+        // Force clear all localStorage data
+        console.log('🗑️ Clearing all localStorage data to force fresh reload');
+        localStorage.removeItem('pizzaDietData');
+        localStorage.removeItem('pizzaDietLocalChanges');
+        
         // Try to load from JSON file first
         const response = await fetch('/data/menu.json?v=' + Date.now(), {
           cache: 'no-cache'
@@ -32,21 +37,8 @@ export const DataProvider = ({ children }) => {
         if (response.ok) {
           const jsonData = await response.json();
           console.log('✅ Data loaded from JSON file');
-          
-          // Check if we have local changes
-          const localData = localStorage.getItem('pizzaDietData');
-          const localChanges = localStorage.getItem('pizzaDietLocalChanges');
-          
-          if (localChanges && localData) {
-            const parsedLocalData = JSON.parse(localData);
-            console.log('📝 Found local changes, using local data');
-            setData(parsedLocalData);
-            setHasLocalChanges(true);
-          } else {
-            setData(jsonData);
-            setHasLocalChanges(false);
-          }
-          
+          setData(jsonData);
+          setHasLocalChanges(false);
           setLastSync(new Date().toISOString());
         } else {
           throw new Error('Failed to fetch JSON data');
@@ -195,14 +187,50 @@ export const DataProvider = ({ children }) => {
 
   // Get available categories
   const getMenuCategories = () => {
-    // Default categories if none exist
-    const defaultCategories = {
-      'featured': { id: 'featured', name: 'Featured', icon: '🏆', color: 'from-yellow-500 to-orange-500' },
-      'simply-veg': { id: 'simply-veg', name: 'Simply Veg', icon: '🥬', color: 'from-green-500 to-emerald-500' },
-      'deluxe': { id: 'deluxe', name: 'Deluxe', icon: '👑', color: 'from-purple-500 to-pink-500' }
+    // If menu categories are defined, use them
+    if (data.menuCategories) {
+      return data.menuCategories;
+    }
+    
+    // Generate categories from menuItems
+    const categories = {};
+    const categoryConfigs = {
+      'featured': { name: 'Featured', icon: '⭐', color: 'from-yellow-500 to-orange-500' },
+      'simply-veg': { name: 'Simply Veg', icon: '🥬', color: 'from-green-500 to-emerald-500' },
+      'classic-veg': { name: 'Classic Veg', icon: '🍕', color: 'from-orange-500 to-red-500' },
+      'deluxe-veg': { name: 'Deluxe Veg', icon: '👑', color: 'from-purple-500 to-pink-500' },
+      'supreme-veg': { name: 'Supreme Veg', icon: '⭐', color: 'from-red-500 to-pink-500' },
+      'jain-specials': { name: 'Jain Specials', icon: '🙏', color: 'from-amber-500 to-yellow-500' },
+      'choose-your-starter': { name: 'Starters', icon: '🥗', color: 'from-blue-500 to-cyan-500' },
+      'choose-your-burger': { name: 'Burgers', icon: '🍔', color: 'from-red-500 to-orange-500' },
+      'choose-your-pasta': { name: 'Pasta', icon: '🍝', color: 'from-green-500 to-teal-500' },
+      'sides': { name: 'Sides', icon: '🍟', color: 'from-yellow-500 to-orange-500' },
+      'starters': { name: 'Starters', icon: '🥗', color: 'from-blue-500 to-cyan-500' },
+      'beverages': { name: 'Beverages', icon: '🥤', color: 'from-blue-500 to-purple-500' },
+      'miniPizzas': { name: 'Mini Pizzas', icon: '🍕', color: 'from-indigo-500 to-purple-500' },
+      'burgers': { name: 'Burgers', icon: '🍔', color: 'from-red-500 to-orange-500' },
+      'pasta': { name: 'Pasta', icon: '🍝', color: 'from-green-500 to-teal-500' },
+      'breads': { name: 'Breads', icon: '🍞', color: 'from-amber-500 to-orange-500' },
+      'combos': { name: 'Combos', icon: '🍽️', color: 'from-pink-500 to-red-500' }
     };
     
-    return data.menuCategories || defaultCategories;
+    // Generate categories from existing menuItems
+    if (data.menuItems) {
+      Object.keys(data.menuItems).forEach(categoryKey => {
+        const config = categoryConfigs[categoryKey] || {
+          name: categoryKey.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          icon: '🍕',
+          color: 'from-gray-500 to-gray-600'
+        };
+        
+        categories[categoryKey] = {
+          id: categoryKey,
+          ...config
+        };
+      });
+    }
+    
+    return categories;
   };
 
   const getGalleryCategories = () => {

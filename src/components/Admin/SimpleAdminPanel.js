@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useData } from '../../context/DataContext';
-import { X, Trash2, Plus, Save, Download, Upload, AlertTriangle } from 'lucide-react';
+import { X, Trash2, Plus, Save, Download, Upload, AlertTriangle, Edit } from 'lucide-react';
+import MenuItemEditModal from './MenuItemEditModal';
 
 const SimpleAdminPanel = ({ isOpen, onClose }) => {
-  const { data, updateData, exportData, resetToOriginal } = useData();
+  const { data, updateData, exportData, resetToOriginal, updateMenuItem } = useData();
   const [activeTab, setActiveTab] = useState('categories');
   const [newCategory, setNewCategory] = useState('');
   const [newItem, setNewItem] = useState({
@@ -13,6 +14,8 @@ const SimpleAdminPanel = ({ isOpen, onClose }) => {
     category: '',
     sizes: [{ name: 'Small', price: 0 }]
   });
+  const [editingItem, setEditingItem] = useState(null);
+  const [editingCategory, setEditingCategory] = useState('');
 
   if (!isOpen) return null;
 
@@ -171,10 +174,10 @@ const SimpleAdminPanel = ({ isOpen, onClose }) => {
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b">
+        <div className="flex border-b overflow-x-auto">
           <button
             onClick={() => setActiveTab('categories')}
-            className={`px-6 py-3 font-medium ${
+            className={`px-6 py-3 font-medium whitespace-nowrap ${
               activeTab === 'categories' 
                 ? 'bg-blue-50 text-blue-600 border-b-2 border-blue-600' 
                 : 'text-gray-600 hover:text-blue-600'
@@ -184,13 +187,23 @@ const SimpleAdminPanel = ({ isOpen, onClose }) => {
           </button>
           <button
             onClick={() => setActiveTab('items')}
-            className={`px-6 py-3 font-medium ${
+            className={`px-6 py-3 font-medium whitespace-nowrap ${
               activeTab === 'items' 
                 ? 'bg-blue-50 text-blue-600 border-b-2 border-blue-600' 
                 : 'text-gray-600 hover:text-blue-600'
             }`}
           >
             Menu Items
+          </button>
+          <button
+            onClick={() => setActiveTab('offers')}
+            className={`px-6 py-3 font-medium whitespace-nowrap ${
+              activeTab === 'offers' 
+                ? 'bg-blue-50 text-blue-600 border-b-2 border-blue-600' 
+                : 'text-gray-600 hover:text-blue-600'
+            }`}
+          >
+            Offers & Combos
           </button>
         </div>
 
@@ -372,12 +385,25 @@ const SimpleAdminPanel = ({ isOpen, onClose }) => {
                               </p>
                             </div>
                           </div>
-                          <button
-                            onClick={() => deleteItem(categoryId, item.id)}
-                            className="p-2 text-red-600 hover:bg-red-50 rounded"
-                          >
-                            <Trash2 size={16} />
-                          </button>
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => {
+                                setEditingItem(item);
+                                setEditingCategory(categoryId);
+                              }}
+                              className="p-2 text-blue-600 hover:bg-blue-50 rounded"
+                              title="Edit item"
+                            >
+                              <Edit size={16} />
+                            </button>
+                            <button
+                              onClick={() => deleteItem(categoryId, item.id)}
+                              className="p-2 text-red-600 hover:bg-red-50 rounded"
+                              title="Delete item"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </div>
                         </div>
                       )) || []}
                     </div>
@@ -386,8 +412,161 @@ const SimpleAdminPanel = ({ isOpen, onClose }) => {
               </div>
             </div>
           )}
+
+          {activeTab === 'offers' && (
+            <div className="space-y-6">
+              {/* BOGO Offers */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Buy One Get One (BOGO) Offers</h3>
+                <div className="space-y-4">
+                  {(data.offers?.bogo || []).map((offer, index) => (
+                    <div key={offer.id} className="p-4 border border-gray-200 rounded-lg">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <h4 className="font-medium">{offer.name}</h4>
+                          <span className={`px-2 py-1 text-xs rounded-full ${
+                            offer.active 
+                              ? 'bg-green-100 text-green-800' 
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {offer.active ? 'Active' : 'Inactive'}
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const newData = { ...data };
+                            if (!newData.offers) newData.offers = { bogo: [], combos: [] };
+                            newData.offers.bogo[index].active = !newData.offers.bogo[index].active;
+                            updateData(newData);
+                          }}
+                          className={`px-3 py-1 text-sm rounded ${
+                            offer.active 
+                              ? 'bg-red-100 text-red-700 hover:bg-red-200' 
+                              : 'bg-green-100 text-green-700 hover:bg-green-200'
+                          }`}
+                        >
+                          {offer.active ? 'Deactivate' : 'Activate'}
+                        </button>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-2">{offer.description}</p>
+                      <p className="text-sm text-gray-500">
+                        Valid Categories: {offer.validCategories.join(', ')}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Combo Offers */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Combo Offers</h3>
+                <div className="space-y-4">
+                  {(data.offers?.combos || []).map((combo, index) => (
+                    <div key={combo.id} className="p-4 border border-gray-200 rounded-lg">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <h4 className="font-medium">{combo.name}</h4>
+                          <span className="font-semibold text-orange-600">₹{combo.price}</span>
+                          <span className={`px-2 py-1 text-xs rounded-full ${
+                            combo.active 
+                              ? 'bg-green-100 text-green-800' 
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {combo.active ? 'Active' : 'Inactive'}
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const newData = { ...data };
+                            if (!newData.offers) newData.offers = { bogo: [], combos: [] };
+                            newData.offers.combos[index].active = !newData.offers.combos[index].active;
+                            updateData(newData);
+                          }}
+                          className={`px-3 py-1 text-sm rounded ${
+                            combo.active 
+                              ? 'bg-red-100 text-red-700 hover:bg-red-200' 
+                              : 'bg-green-100 text-green-700 hover:bg-green-200'
+                          }`}
+                        >
+                          {combo.active ? 'Deactivate' : 'Activate'}
+                        </button>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-2">{combo.description}</p>
+                      <div className="text-sm text-gray-500">
+                        <p>Includes:</p>
+                        <ul className="list-disc list-inside ml-2">
+                          {combo.items.map((item, itemIndex) => (
+                            <li key={itemIndex}>
+                              {item.quantity}x {item.type === 'pizza' ? `${item.size} Pizza` : item.name}
+                              {item.selectable && ' (Customer Choice)'}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Quick Actions */}
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h4 className="font-medium mb-3">Quick Actions</h4>
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => {
+                      const newData = { ...data };
+                      if (!newData.offers) newData.offers = { bogo: [], combos: [] };
+                      
+                      // Toggle all BOGO offers
+                      const allBogoActive = newData.offers.bogo.every(offer => offer.active);
+                      newData.offers.bogo.forEach(offer => {
+                        offer.active = !allBogoActive;
+                      });
+                      updateData(newData);
+                    }}
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  >
+                    Toggle All BOGO
+                  </button>
+                  <button
+                    onClick={() => {
+                      const newData = { ...data };
+                      if (!newData.offers) newData.offers = { bogo: [], combos: [] };
+                      
+                      // Toggle all combo offers
+                      const allComboActive = newData.offers.combos.every(combo => combo.active);
+                      newData.offers.combos.forEach(combo => {
+                        combo.active = !allComboActive;
+                      });
+                      updateData(newData);
+                    }}
+                    className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                  >
+                    Toggle All Combos
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
+      
+      {/* Edit Modal */}
+      <MenuItemEditModal
+        item={editingItem}
+        category={editingCategory}
+        isOpen={!!editingItem}
+        onClose={() => {
+          setEditingItem(null);
+          setEditingCategory('');
+        }}
+        onSave={(updatedItem) => {
+          updateMenuItem(editingCategory, editingItem.id, updatedItem);
+          alert('Menu item updated successfully!');
+          setEditingItem(null);
+          setEditingCategory('');
+        }}
+      />
     </div>
   );
 };

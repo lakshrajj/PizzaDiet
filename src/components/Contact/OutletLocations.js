@@ -5,44 +5,33 @@ const outlets = [
   {
     name: 'BABARPUR BRANCH',
     address: 'W-117, MAIN ROAD BABARPUR, SHAHDARA, DELHI-110032',
-    mapLink: 'https://www.google.com/maps/search/?api=1&query=W-117+MAIN+ROAD+BABARPUR+SHAHDARA+DELHI',
+    mapLink: 'https://maps.app.goo.gl/sD9Bcx5uLD63HCnG6',
     phones: [
-      '+91-7840072457',
-      '+91-7840072458',
-      '+91-7840072459',
-      '+91-7840072460'
+      '+91-7840073405'
     ]
   },
   {
     name: 'YAMUNA VIHAR BRANCH',
     address: 'C-2/166, BLOCK C, YAMUNAVIHAR, SHAHDARA, DELHI-110053',
-    mapLink: 'https://www.google.com/maps/search/?api=1&query=C-2/166+BLOCK+C+YAMUNAVIHAR+SHAHDARA+DELHI',
+    mapLink: 'https://maps.app.goo.gl/DszHuHZSMcxSooTv6',
     phones: [
-      '+91-7840073401',
-      '+91-7840073402',
-      '+91-7840073403',
-      '+91-7840073404'
+      '+91-9318310517'
     ]
   },
   {
     name: 'BRAHMPURI BRANCH',
     address: 'B-217,BRAHAMPURI RD, CHAUHAN BANGER,SHAHDARA, DELHI-110053',
-    mapLink: 'https://www.google.com/maps/search/?api=1&query=B-217+BRAHAMPURI+RD+CHAUHAN+BANGER+SHAHDARA+DELHI',
+    mapLink: 'https://maps.app.goo.gl/UL1utyBCpREF4CjM9',
     phones: [
-      '+91-7840085713',
-      '+91-7840085714',
-      '+91-7840085715'
+      '+91-7840073405'
     ]
   },
   {
     name: 'DAYALPUR BRANCH',
     address: 'F-11, KARAWAL NAGAR MAIN RD, BLOCK-D, DAYALPUR, KARAWAL NAGAR, DELHI-110094',
-    mapLink: 'https://www.google.com/maps/search/?api=1&query=F-11+KARAWAL+NAGAR+MAIN+RD+BLOCK-D+DAYALPUR+DELHI',
+    mapLink: 'https://maps.app.goo.gl/zSo17o7Jjp7NSwhM9',
     phones: [
-      '+91-7840076501',
-      '+91-7840076601',
-      '+91-7840076701',
-      '+91-7840076801'
+      '+91-9318310517'
     ]
   }
 ];

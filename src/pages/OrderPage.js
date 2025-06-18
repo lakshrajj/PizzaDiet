@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageCircle, Phone, ShoppingBag, ExternalLink, ArrowLeft } from 'lucide-react';
 import MenuSection from '../components/Menu/MenuSection';
+import BOGOSection from '../components/Offers/BOGOSection';
+import ComboSection from '../components/Offers/ComboSection';
 
 const OrderPage = ({ onAddToCart }) => {
   const navigate = useNavigate();
@@ -11,7 +13,7 @@ const OrderPage = ({ onAddToCart }) => {
       name: 'Zomato',
       logo: '/zomato.png',
       description: 'Order through Zomato for special discounts',
-      link: 'https://www.zomato.com/pizza-diet',
+      link: 'https://link.zomato.com/xqzv/rshare?id=48160524305633e2',
       gradient: 'from-red-500 to-red-600',
       bgColor: 'bg-red-50 dark:bg-red-900/20'
     },
@@ -19,7 +21,7 @@ const OrderPage = ({ onAddToCart }) => {
       name: 'Swiggy',
       logo: '/swiggy.png',
       description: 'Fast delivery with Swiggy',
-      link: 'https://www.swiggy.com/pizza-diet',
+      link: 'https://www.swiggy.com/menu/724043?source=sharing',
       gradient: 'from-orange-500 to-orange-600',
       bgColor: 'bg-orange-50 dark:bg-orange-900/20'
     }
@@ -60,6 +62,10 @@ const OrderPage = ({ onAddToCart }) => {
       </button>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+        {/* Offers Sections */}
+        <BOGOSection onAddToCart={onAddToCart} />
+        <ComboSection onAddToCart={onAddToCart} />
+        
         {/* Menu Section */}
         <MenuSection onAddToCart={onAddToCart} />
 

@@ -1,13 +1,54 @@
 {
-  "lastUpdated": "2024-03-15T10:30:00Z",
-  "version": "2.0.0",
+  "lastUpdated": "2025-06-18T18:00:00.000Z",
+  "version": "3.0.0",
   "menuItems": {
-    "simply-veg": [
+    "featured": [
       {
         "id": 1,
+        "name": "Cloud 7",
+        "description": "(Onion, tomato, corn, paneer, capsicum, jalapeno)",
+        "image": "https://media.discordapp.net/attachments/1378467356996800562/1384920550220107876/Cloud_7.png?ex=68542f45&is=6852ddc5&hm=72a21f6306879111a15d6d534ce39f87afe7229238a4147144d809c7f49b7497&=&format=webp&quality=lossless&width=350&height=350",
+        "badge": "🔥 Featured",
+        "rating": 4.9,
+        "sizes": [
+          { "name": "Small", "price": 240 },
+          { "name": "Medium", "price": 450 },
+          { "name": "Large", "price": 650 }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Extravaganza",
+        "description": "(Black olives, onion, capsicum, mushroom, fresh tomato & corn)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1380606512228991096/Extravaganza.png?ex=6853a6c2&is=68525542&hm=e2ff2e1d82a95dea42be8adbde6723175856d76a2ec3c1b4ee36617e4a5931f2&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🎉 Special",
+        "rating": 4.8,
+        "sizes": [
+          { "name": "Small", "price": 240 },
+          { "name": "Medium", "price": 450 },
+          { "name": "Large", "price": 600 }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Special Tandoori Paneer",
+        "description": "(Tandoori Sauce, onion, capsicum, chillies & paneer)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1380606558404087909/Peppy.png?ex=6853a6cd&is=6852554d&hm=eccecb86241c3edc86989a5ceb9a31d349d8ecd0f093066a15607586d4eb64d0&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🔥 Tandoori",
+        "rating": 4.7,
+        "sizes": [
+          { "name": "Small", "price": 200 },
+          { "name": "Medium", "price": 400 },
+          { "name": "Large", "price": 580 }
+        ]
+      }
+    ],
+    "simply-veg": [
+      {
+        "id": 4,
         "name": "Margherita",
-        "description": "Cheese & Tomato Sauce",
-        "image": "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=500",
+        "description": "(Cheese & Tomato Sauce)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1380606514380673075/Margherita.png?ex=6853a6c3&is=68525543&hm=0a28996ac96bee5c4d6093ed868b6ccc987dd32b4681971800dbd27b3dd6871f&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🍕 Classic",
         "rating": 4.7,
         "sizes": [
@@ -17,10 +58,10 @@
         ]
       },
       {
-        "id": 2,
+        "id": 5,
         "name": "Onion Veg",
-        "description": "Cheese & Onion",
-        "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=500",
+        "description": "(Cheese & onion)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1380606557376610385/Onion.png?ex=6853a6cd&is=6852554d&hm=df91f32f1bac938d1184e9354d0faf08aaf96c3861ec24d2d508d73befcc9c0e&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🧅 Simple",
         "rating": 4.4,
         "sizes": [
@@ -30,10 +71,10 @@
         ]
       },
       {
-        "id": 3,
+        "id": 6,
         "name": "Tomato Veg",
-        "description": "Cheese & Tomato",
-        "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500",
+        "description": "(Cheese & tomato)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1380606622178476163/Tomato.png?ex=6853a6dd&is=6852555d&hm=1663b89ccc69279497eb476577056c1084d07dfccda34e618b37451eb05f2485&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🍅 Fresh",
         "rating": 4.3,
         "sizes": [
@@ -43,11 +84,11 @@
         ]
       },
       {
-        "id": 4,
+        "id": 7,
         "name": "Capsicum Veg",
-        "description": "Cheese & Capsicum",
-        "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500",
-        "badge": "🫑 Fresh",
+        "description": "(Cheese & capsicum)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930662305234984/Capsicum.png?ex=685438b0&is=6852e730&hm=f21f7588be88345e16a79036a4215bf310baaf06cf89dafa7d94a9d101895259&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🫑 Crispy",
         "rating": 4.2,
         "sizes": [
           { "name": "Small", "price": 120 },
@@ -56,23 +97,10 @@
         ]
       },
       {
-        "id": 5,
-        "name": "Two in One Veg. Pizza",
-        "description": "Cheese & Paneer",
-        "image": "https://images.unsplash.com/photo-1552539618-7eec9b4d1796?w=500",
-        "badge": "🔄 Combo",
-        "rating": 4.5,
-        "sizes": [
-          { "name": "Small", "price": 130 },
-          { "name": "Medium", "price": 260 },
-          { "name": "Large", "price": 400 }
-        ]
-      },
-      {
-        "id": 6,
-        "name": "Cheese Paneer Pizza",
-        "description": "Cheese & Paneer",
-        "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=500",
+        "id": 8,
+        "name": "Cheese Paneer",
+        "description": "(Cheese & paneer)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930663244894290/Cheese_Paneer.png?ex=685438b0&is=6852e730&hm=381e7ca27a341b006b598c9f1ac1259493d6ecf14f3fbfc693cbe6d7d2ffd6bd&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🧀 Rich",
         "rating": 4.6,
         "sizes": [
@@ -84,24 +112,11 @@
     ],
     "classic-veg": [
       {
-        "id": 7,
+        "id": 9,
         "name": "Mexican Veg",
-        "description": "Onion, Jalapeño, Mexican Herbs",
-        "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=500",
+        "description": "(Onion, Tomato & Jalapenos)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930722669789397/Mexican.png?ex=685438bf&is=6852e73f&hm=201f1a33a7d8d4f26bc634dfc940080d6aedc746f610b2d7b176368f5ae1c9ea&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🌶️ Mexican",
-        "rating": 4.4,
-        "sizes": [
-          { "name": "Small", "price": 150 },
-          { "name": "Medium", "price": 360 },
-          { "name": "Large", "price": 480 }
-        ]
-      },
-      {
-        "id": 8,
-        "name": "Penne Pasta Pizza",
-        "description": "Pasta with Pizza Sauce",
-        "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500",
-        "badge": "🍝 Fusion",
         "rating": 4.3,
         "sizes": [
           { "name": "Small", "price": 150 },
@@ -110,10 +125,10 @@
         ]
       },
       {
-        "id": 9,
+        "id": 10,
         "name": "Spicy Veg",
-        "description": "Green Chillies & Coriander",
-        "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500",
+        "description": "(Onion, Capsicum & Green Chillies)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384933478658871296/Spicy_Veg.png?ex=68543b50&is=6852e9d0&hm=d2328edc169c3712ec4df89081d2d3edeff032b28cd33b12a0e3feb4faa7c2fd&=&format=webp&quality=lossless&width=826&height=826",
         "badge": "🔥 Spicy",
         "rating": 4.2,
         "sizes": [
@@ -123,10 +138,10 @@
         ]
       },
       {
-        "id": 10,
+        "id": 11,
         "name": "Golden Corn Veg",
-        "description": "Corn, Capsicum & Onion",
-        "image": "https://images.unsplash.com/photo-1552539618-7eec9b4d1796?w=500",
+        "description": "(Onion, Capsicum & Corn)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930720761512106/Golden.png?ex=685438be&is=6852e73e&hm=67a952cd17790ada0d6e5e8a66863ece468bc4f76a1e4cdfed94514ddc42fd88&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🌽 Sweet",
         "rating": 4.5,
         "sizes": [
@@ -136,10 +151,10 @@
         ]
       },
       {
-        "id": 11,
-        "name": "Farm House",
-        "description": "Fresh farm vegetables",
-        "image": "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=500",
+        "id": 12,
+        "name": "Farmhouse Veg",
+        "description": "(Onion, Capsicum & Tomato)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930719742165083/Farmhouse.png?ex=685438be&is=6852e73e&hm=33ed5e0c29901aee286677cec0b8ef126b0ac137670ccd58812d3b1ab5c48b69&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🚜 Farm Fresh",
         "rating": 4.4,
         "sizes": [
@@ -149,10 +164,10 @@
         ]
       },
       {
-        "id": 12,
+        "id": 13,
         "name": "Country Special",
-        "description": "Onion, Capsicum & Mushroom",
-        "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500",
+        "description": "(Onion, Capsicum, Tomato & Mushrooms)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930717972037793/Country.png?ex=685438bd&is=6852e73d&hm=525ed8411b7123fd8110029e345dc74954b09b3506d754e9ea945b9dcbd381d2&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🏡 Country",
         "rating": 4.3,
         "sizes": [
@@ -162,10 +177,10 @@
         ]
       },
       {
-        "id": 13,
-        "name": "Spl. Double Cheese Margeta",
-        "description": "Extra cheese with special sauce",
-        "image": "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=500",
+        "id": 14,
+        "name": "Double Cheese Margherita",
+        "description": "(Double Cheese & sauce)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930722116145345/Margherita.png?ex=685438be&is=6852e73e&hm=11cf16d81231f2dd57a69752fdea62433e4ee76757fdd03d020e01f263935a21&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🧀🧀 Double Cheese",
         "rating": 4.7,
         "sizes": [
@@ -177,10 +192,10 @@
     ],
     "deluxe-veg": [
       {
-        "id": 14,
+        "id": 15,
         "name": "Spl. Makhani Paneer",
-        "description": "Rich makhani sauce with paneer",
-        "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=500",
+        "description": "(Onion, Paneer & Corn)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384937232397500586/Makhani.png?ex=68543ecf&is=6852ed4f&hm=423e906ed7e53edf86f082f28f6b88db019aef5748da59ae39bb2821a2ac70e4&=&format=webp&quality=lossless&width=826&height=826",
         "badge": "👑 Royal",
         "rating": 4.8,
         "sizes": [
@@ -190,23 +205,10 @@
         ]
       },
       {
-        "id": 15,
-        "name": "Spl. Punjabi Paneer",
-        "description": "Authentic Punjabi style paneer",
-        "image": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500",
-        "badge": "🥘 Punjabi",
-        "rating": 4.7,
-        "sizes": [
-          { "name": "Small", "price": 200 },
-          { "name": "Medium", "price": 400 },
-          { "name": "Large", "price": 580 }
-        ]
-      },
-      {
         "id": 16,
-        "name": "Spl. Tandoori Paneer",
-        "description": "Tandoori sauce with paneer",
-        "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500",
+        "name": "Spl. Tandoori",
+        "description": "(Tandoori Sauce, Onion, Capsicum, Chillies & Paneer)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930770338054225/Peppy.png?ex=685438ca&is=6852e74a&hm=7ecbeee4f69aae4e9763667fbe80ab4f6858ae7551db3ff988a9897012cf891b&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🔥 Tandoori",
         "rating": 4.6,
         "sizes": [
@@ -217,11 +219,11 @@
       },
       {
         "id": 17,
-        "name": "Spl. Spicy Peppy Paneer",
-        "description": "Spicy sauce with peppy paneer",
-        "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500",
-        "badge": "🌶️🌶️ Extra Spicy",
-        "rating": 4.5,
+        "name": "Spl. Punjabi",
+        "description": "(Onion, Capsicum, Chillies & Paneer)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930770937843782/Punjabi.png?ex=685438ca&is=6852e74a&hm=6e9721e355583206b97cf8b3b6ab7ab215d1d33d81eb5979f7a364a244666454&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🥘 Punjabi",
+        "rating": 4.7,
         "sizes": [
           { "name": "Small", "price": 200 },
           { "name": "Medium", "price": 400 },
@@ -230,9 +232,9 @@
       },
       {
         "id": 18,
-        "name": "Spl. Deluxe Veg",
-        "description": "Premium vegetable combination",
-        "image": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=500",
+        "name": "Spl. Deluxe",
+        "description": "(Onion, Capsicum, Paneer & Mushrooms)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384939569593581798/Deluxe.png?ex=685440fc&is=6852ef7c&hm=d775fb990c97fafacccc9500ae824c2d6a44b12ea6bc9dcdf70e8acda72ed0d6&=&format=webp&quality=lossless&width=826&height=826",
         "badge": "💎 Deluxe",
         "rating": 4.7,
         "sizes": [
@@ -242,12 +244,12 @@
         ]
       }
     ],
-    "supreme-veg": [
+    "jain-specials": [
       {
         "id": 19,
         "name": "Golden Delight",
-        "description": "Capsicum, Golden Corn",
-        "image": "https://images.unsplash.com/photo-1552539618-7eec9b4d1796?w=500",
+        "description": "(Tomato, Capsicum & Corn)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384941939585056838/delight.png?ex=68544331&is=6852f1b1&hm=34ef48c1512f1e7ec5b63ad8a21aa3abd824424b548c540a74d772dffa163ecb&=&format=webp&quality=lossless&width=350&height=350",
         "badge": "✨ Golden",
         "rating": 4.6,
         "sizes": [
@@ -259,10 +261,10 @@
       {
         "id": 20,
         "name": "Veggie Crust",
-        "description": "Sauce, Tomato, Capsicum, Jalapeño",
-        "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=500",
+        "description": "(Tomato, Capsicum & Jalapenos)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930717972037793/Country.png?ex=685438bd&is=6852e73d&hm=525ed8411b7123fd8110029e345dc74954b09b3506d754e9ea945b9dcbd381d2&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🥗 Veggie",
-        "rating": 4.4,
+        "rating": 4.3,
         "sizes": [
           { "name": "Small", "price": 150 },
           { "name": "Medium", "price": 360 },
@@ -272,8 +274,8 @@
       {
         "id": 21,
         "name": "Spicy Seasonal",
-        "description": "Green Chili, Capsicum, Red Chili",
-        "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500",
+        "description": "(Green Chillies, Capsicum & Red Chillies)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930772657373275/Spicy_Seasonal.png?ex=685438ca&is=6852e74a&hm=04f2055e00f030ff8950f1adcb8843dcda3366b6e45140137878ebaf3cb5b812&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🌶️ Seasonal",
         "rating": 4.3,
         "sizes": [
@@ -285,8 +287,8 @@
       {
         "id": 22,
         "name": "Yummy Tandoori Paneer",
-        "description": "Tandoori Sauce with Paneer",
-        "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=500",
+        "description": "(Tandoori Sauce, Capsicum, Chillies & Paneer)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930770338054225/Peppy.png?ex=685438ca&is=6852e74a&hm=7ecbeee4f69aae4e9763667fbe80ab4f6858ae7551db3ff988a9897012cf891b&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "😋 Yummy",
         "rating": 4.7,
         "sizes": [
@@ -298,8 +300,8 @@
       {
         "id": 23,
         "name": "Spicy Zesty Paneer",
-        "description": "Spicy sauce with zesty paneer",
-        "image": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500",
+        "description": "(Green Chillies, Red Chillies, Paneer & Capsicum)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930773286785154/Spicy_Zesty.png?ex=685438cb&is=6852e74b&hm=370f79cd0a409f8ce49ff7628c514be959dedb57eb3ced4e954275c026296a85&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "⚡ Zesty",
         "rating": 4.5,
         "sizes": [
@@ -311,8 +313,8 @@
       {
         "id": 24,
         "name": "Yummy Makhani Paneer",
-        "description": "Makhani sauce with paneer",
-        "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=500",
+        "description": "(Paneer, Corn & Capsicum)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384944714599501824/yummy_makhani.png?ex=685445c6&is=6852f446&hm=ea504639ed73a96d4885ede552933a9657578615ad2f0e9925ea6847ebf43a88&=&format=webp&quality=lossless&width=350&height=350",
         "badge": "🤤 Yummy",
         "rating": 4.8,
         "sizes": [
@@ -320,12 +322,14 @@
           { "name": "Medium", "price": 400 },
           { "name": "Large", "price": 580 }
         ]
-      },
+      }
+    ],
+    "supreme-veg": [
       {
         "id": 25,
         "name": "Cloud 7",
-        "description": "Onion, Tomato, Baby Corn, Paneer, Capsicum, Jalapeño",
-        "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500",
+        "description": "(Onion, tomato, corn, paneer, capsicum, jalapeno)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930664997978122/Cloud_7.png?ex=685438b1&is=6852e731&hm=f3f5cb58c28e7d85a5e2af2a514673ea9073afe5cef8ca3b8bf8cb165d083fc0&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "☁️ Signature",
         "rating": 4.9,
         "sizes": [
@@ -336,9 +340,9 @@
       },
       {
         "id": 26,
-        "name": "Extravaganza Veg.",
-        "description": "Black olives, Onion, Capsicum, Mushroom, Tomato, Corn",
-        "image": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=500",
+        "name": "Extravaganza Veg",
+        "description": "(Black olives, onion, capsicum, mushroom, fresh tomato & corn)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930719138054255/Extravaganza.png?ex=685438be&is=6852e73e&hm=b200694952c1d7ef044b2adbadaaec2370dc53f098d9487868ed0e10d393c3be&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "🎉 Extravaganza",
         "rating": 4.8,
         "sizes": [
@@ -349,15 +353,153 @@
       },
       {
         "id": 27,
-        "name": "Spl. Supreme Veg.",
-        "description": "Supreme combination of vegetables",
-        "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500",
+        "name": "Spl. Supreme Veg",
+        "description": "(Onion, tomato, corn, capsicum, jalapeno, mushrooms & Extra Cheese)",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930719138054255/Extravaganza.png?ex=685438be&is=6852e73e&hm=b200694952c1d7ef044b2adbadaaec2370dc53f098d9487868ed0e10d393c3be&=&format=webp&quality=lossless&width=722&height=722",
         "badge": "👑 Supreme",
         "rating": 4.7,
         "sizes": [
-          { "name": "Small", "price": 240 },
-          { "name": "Medium", "price": 450 },
-          { "name": "Large", "price": 600 }
+          { "name": "Small", "price": 250 },
+          { "name": "Medium", "price": 480 },
+          { "name": "Large", "price": 620 }
+        ]
+      }
+    ],
+    "choose-your-starter": [
+      {
+        "id": 28,
+        "name": "Choco Lava",
+        "description": "Hot Chocolava cupcake.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930664591265843/Chocolava.png?ex=685438b1&is=6852e731&hm=a6ea3140a40f090496f7fa90bd28b0ff9691455a77108e344e00b63f483d19a0&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🍫 Sweet",
+        "rating": 4.5,
+        "sizes": [
+          { "name": "One Size", "price": 80 }
+        ]
+      },
+      {
+        "id": 29,
+        "name": "Cheesy Garlic Bread",
+        "description": "Bread sticks with cheese on top.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930663676772444/Cheesy_Garlic_bread.png?ex=685438b0&is=6852e730&hm=520a4b78c42696116b29e071b2639dbeba0fe125b4dc3c1da665a71b59dfc4af&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🍞 Bread",
+        "rating": 4.3,
+        "sizes": [
+          { "name": "One Size", "price": 110 }
+        ]
+      },
+      {
+        "id": 30,
+        "name": "Veg Garlic Bread",
+        "description": "Bread sticks with cheese and veggies on top.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930798284832908/Veg_Garlic_Bread.png?ex=685438d1&is=6852e751&hm=89690f2ba829f3ef7807d25ab13b0e1023e596184c36c470b62a15c11e68539e&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🥗 Veggie",
+        "rating": 4.2,
+        "sizes": [
+          { "name": "One Size", "price": 130 }
+        ]
+      },
+      {
+        "id": 31,
+        "name": "Stuffed Garlic Bread",
+        "description": "Freshly baked garlic bread with cheese and veggies.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930773781446836/Stuffed_Garlic_bread.png?ex=685438cb&is=6852e74b&hm=b4a5e82de244e839b7e28af88c8e6a1d987c19bfaacc5283d70db848c1601915&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🥖 Stuffed",
+        "rating": 4.4,
+        "sizes": [
+          { "name": "One Size", "price": 140 }
+        ]
+      },
+      {
+        "id": 32,
+        "name": "Zingy Parcel (2 Pcs.)",
+        "description": "Pocket pizza rolls with veggies and creamy sauce.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930800763404369/Zingy_Parcel.png?ex=685438d1&is=6852e751&hm=86cdfb174243eb790db4fe842690a8788cdd0af7bc61293ecb5412b2d68a4ce4&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "⚡ Zingy",
+        "rating": 4.1,
+        "sizes": [
+          { "name": "One Size", "price": 100 }
+        ]
+      }
+    ],
+    "choose-your-burger": [
+      {
+        "id": 33,
+        "name": "Chilli Paneer Burger",
+        "description": "Topped with onion rings, Paneer slice and creamy mayo and in between soft big buns.\nPicture reflected may differ.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930661873356830/Burgerr.png?ex=685438b0&is=6852e730&hm=7ca70699ecbb7f8736e77d49df1afbf3e8ead453b4d85384572990453386d840&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🌶️ Spicy",
+        "rating": 4.0,
+        "sizes": [
+          { "name": "One Size", "price": 80 }
+        ]
+      },
+      {
+        "id": 34,
+        "name": "Simply Veg Burger",
+        "description": "Topped with onion rings, tomato and creamy mayo and in between soft big buns. Picture reflected may differ.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930661873356830/Burgerr.png?ex=685438b0&is=6852e730&hm=7ca70699ecbb7f8736e77d49df1afbf3e8ead453b4d85384572990453386d840&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🥬 Simple",
+        "rating": 4.1,
+        "sizes": [
+          { "name": "One Size", "price": 90 }
+        ]
+      },
+      {
+        "id": 35,
+        "name": "Classic Veg Burger",
+        "description": "Topped with onion rings, tomato, paneer and creamy mayo and in between soft big buns. Picture reflected may differ.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930662754156555/cheese_burger.png?ex=685438b0&is=6852e730&hm=58b2cc9011c64534252c6e91c0522db98f99b6853f0c4fee08dd44022206074c&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🍔 Classic",
+        "rating": 4.2,
+        "sizes": [
+          { "name": "One Size", "price": 110 }
+        ]
+      }
+    ],
+    "choose-your-pasta": [
+      {
+        "id": 36,
+        "name": "Red Sauce Pasta",
+        "description": "Delicious red sauce pasta made with Pizza garlic sauce, pasta and veggies.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930771630030928/Red_sauce_pasta.png?ex=685438ca&is=6852e74a&hm=3486a0339218a355dba95d088274075acbfb44e40ddce44497d848d78715bceb&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🍅 Red",
+        "rating": 4.2,
+        "sizes": [
+          { "name": "One Size", "price": 120 }
+        ]
+      },
+      {
+        "id": 37,
+        "name": "Mix Sauce Pasta",
+        "description": "Delicious pink sauce pasta made with Pizza garlic sauce, pasta and veggies.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384951353075437671/Pink_sauce_Pasta.png?ex=68544bf5&is=6852fa75&hm=ab84ac3e773c8f60c4644866cbddc4e183caf83dd111abae77516b57e375c5b7&=&format=webp&quality=lossless&width=826&height=826",
+        "badge": "🌸 Pink",
+        "rating": 4.1,
+        "sizes": [
+          { "name": "One Size", "price": 120 }
+        ]
+      },
+      {
+        "id": 38,
+        "name": "White Sauce Pasta",
+        "description": "Creamy white sauce pasta made with cheese, pasta and veggies.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930799442198648/White_Sauce.png?ex=685438d1&is=6852e751&hm=926cf8bfbbd98b3bb0c591d8c402ea028a95739da5a275fec5fdecafa72d37f2&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🤍 White",
+        "rating": 4.3,
+        "sizes": [
+          { "name": "One Size", "price": 130 }
+        ]
+      },
+      {
+        "id": 39,
+        "name": "Tandoori Sauce Pasta",
+        "description": "Tangy Tandoori sauce pasta made with Tandoori sauce, pasta and veggies.",
+        "image": "https://media.discordapp.net/attachments/1380606372118532166/1384930774264057988/Tandoori_Sauce.png?ex=685438cb&is=6852e74b&hm=b9c1e890e1210ad57582cbab9c9942ee0fd0075c47c45a0a7e22edf56482e819&=&format=webp&quality=lossless&width=722&height=722",
+        "badge": "🔥 Tandoori",
+        "rating": 4.4,
+        "sizes": [
+          { "name": "One Size", "price": 140 }
         ]
       }
     ]
@@ -419,7 +561,7 @@
       "id": 34,
       "name": "Hot Coffee",
       "description": "Freshly brewed hot coffee",
-      "price": 70,
+      "price": 80,
       "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500",
       "category": "beverages"
     },
@@ -720,24 +862,121 @@
     "outlets": {
       "babarpur": {
         "name": "Babarpur Branch",
-        "phone": "+91-7840072457",
+        "phone": "+91-7840073405",
         "address": "W-117, MAIN ROAD BABARPUR, SHAHDARA, DELHI-110032"
       },
       "yamunavihar": {
         "name": "Yamuna Vihar Branch",
-        "phone": "+91-7840073401",
+        "phone": "+91-9318310517",
         "address": "C-2/166, BLOCK C, YAMUNAVIHAR, SHAHDARA, DELHI-110053"
       },
       "brahmpuri": {
         "name": "Brahmpuri Branch",
-        "phone": "+91-7840085713",
+        "phone": "+91-7840073405",
         "address": "B-217, BRAHAMPURI RD, CHAUHAN BANGER, SHAHDARA, DELHI-110053"
       },
       "dayalpur": {
         "name": "Dayalpur Branch",
-        "phone": "+91-7840076501",
+        "phone": "+91-9318310517",
         "address": "F-11, KARAWAL NAGAR MAIN RD, BLOCK-D, DAYALPUR, KARAWAL NAGAR, DELHI-110094"
       }
     }
+  },
+  "offers": {
+    "bogo": [
+      {
+        "id": "bogo-1",
+        "name": "Buy 1 Get 1 Pizza Combo",
+        "description": "Choose any 2 pizzas at special combo prices",
+        "type": "bogo",
+        "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500",
+        "badge": "🎉 BOGO",
+        "active": true,
+        "validCategories": ["classic-veg", "deluxe-veg", "supreme-veg"],
+        "minOrder": 2,
+        "maxOrder": 2,
+        "pricing": {
+          "Medium": {
+            "classic": 400,
+            "deluxe": 450,
+            "supreme": 500
+          },
+          "Large": {
+            "classic": 550,
+            "deluxe": 650,
+            "supreme": 700
+          }
+        },
+        "categoryMapping": {
+          "classic-veg": "classic",
+          "deluxe-veg": "deluxe",
+          "supreme-veg": "supreme"
+        }
+      }
+    ],
+    "combos": [
+      {
+        "id": "combo-1",
+        "name": "Value Combo",
+        "description": "A mouthwatering combo that's easy on the wallet: a small margherita pizza, a classic burger, and a chilled coke—perfect for satisfying your cravings without splurging!",
+        "type": "combo",
+        "image": "https://media.discordapp.net/attachments/1377671032449536011/1384996803664937063/Combo200.png?ex=68547649&is=685324c9&hm=cca03fc19cfde47fd2176a19840cb1e882a326201d8c5205233136f36c728fbf&=&format=webp&quality=lossless&width=625&height=625",
+        "badge": "💰 Value",
+        "active": true,
+        "price": 200,
+        "items": [
+          {
+            "type": "pizza",
+            "name": "Small Margherita Pizza",
+            "size": "Small",
+            "quantity": 1,
+            "selectable": false
+          },
+          {
+            "type": "burger",
+            "name": "Classic Burger",
+            "quantity": 1,
+            "selectable": false
+          },
+          {
+            "type": "beverage",
+            "name": "Chilled Coke",
+            "quantity": 1,
+            "selectable": false
+          }
+        ]
+      },
+      {
+        "id": "combo-2",
+        "name": "Classic Combo",
+        "description": "A mouthwatering combo with any medium classic pizza, perfectly paired with cheesy garlic bread and a refreshing Coke — the ultimate trio for your cravings.",
+        "type": "combo",
+        "image": "https://media.discordapp.net/attachments/1377671032449536011/1384996848762224741/Combo400.png?ex=68547654&is=685324d4&hm=8373f8bf543310c1e965f9720297c224e227cdaccd7b5644ea9785e8952b0555&=&format=webp&quality=lossless&width=625&height=625",
+        "badge": "🍕 Classic",
+        "active": true,
+        "price": 400,
+        "items": [
+          {
+            "type": "pizza",
+            "category": "classic-veg",
+            "size": "Medium",
+            "quantity": 1,
+            "selectable": true
+          },
+          {
+            "type": "bread",
+            "name": "Cheesy Garlic Bread",
+            "quantity": 1,
+            "selectable": false
+          },
+          {
+            "type": "beverage",
+            "name": "Refreshing Coke",
+            "quantity": 1,
+            "selectable": false
+          }
+        ]
+      }
+    ]
   }
 }

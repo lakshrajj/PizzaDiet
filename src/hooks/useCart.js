@@ -7,7 +7,7 @@ export const useCart = () => {
   const outlets = {
     'babarpur': {
       name: 'Babarpur Branch',
-      phone: '+91-9318310517',
+      phone: '+91-7840073405',
       address: 'W-117, MAIN ROAD BABARPUR, SHAHDARA, DELHI-110032'
     },
     'yamunavihar': {
@@ -17,7 +17,7 @@ export const useCart = () => {
     },
     'brahmpuri': {
       name: 'Brahmpuri Branch',
-      phone: '+91-9318310517', 
+      phone: '+91-7840073405', 
       address: 'B-217, BRAHAMPURI RD, CHAUHAN BANGER, SHAHDARA, DELHI-110053'
     },
     'dayalpur': {
@@ -34,6 +34,10 @@ export const useCart = () => {
         'Small': 40,
         'Medium': 60,
         'Large': 80
+      },
+      comboPrices: {
+        'Medium': 120,  // For both pizzas in combo
+        'Large': 160    // For both pizzas in combo
       }
     },
     cheeseBurst: {
@@ -42,6 +46,10 @@ export const useCart = () => {
         'Small': 50,
         'Medium': 80,
         'Large': 120
+      },
+      comboPrices: {
+        'Medium': 160,  // For both pizzas in combo
+        'Large': 240    // For both pizzas in combo
       }
     }
   };
@@ -87,10 +95,8 @@ export const useCart = () => {
         const newItem = { ...item };
         if (type === 'extraCheese') {
           newItem.extraCheese = !item.extraCheese;
-          if (newItem.extraCheese) newItem.cheeseBurst = false;
         } else if (type === 'cheeseBurst') {
           newItem.cheeseBurst = !item.cheeseBurst;
-          if (newItem.cheeseBurst) newItem.extraCheese = false;
         }
         return newItem;
       }
@@ -100,10 +106,32 @@ export const useCart = () => {
 
   const calculateItemTotal = (item) => {
     let total = item.price;
-    if (item.extraCheese) {
+    
+    // For BOGO offers, add combo pricing for add-ons
+    if (item.type === 'bogo') {
+      if (item.extraCheese) {
+        // Use combo pricing - determine size from BOGO deal
+        const size = item.pizza1?.size?.name === 'Large' || item.pizza2?.size?.name === 'Large' ? 'Large' : 'Medium';
+        total += addOns.extraCheese.comboPrices[size] || 0;
+      }
+      if (item.cheeseBurst) {
+        // Use combo pricing - determine size from BOGO deal
+        const size = item.pizza1?.size?.name === 'Large' || item.pizza2?.size?.name === 'Large' ? 'Large' : 'Medium';
+        total += addOns.cheeseBurst.comboPrices[size] || 0;
+      }
+      return total * item.quantity;
+    }
+    
+    // For regular combos, price is already calculated
+    if (item.type === 'combo') {
+      return total * item.quantity;
+    }
+    
+    // For regular pizzas, add standard add-ons pricing
+    if (item.extraCheese && item.sizeName) {
       total += addOns.extraCheese.prices[item.sizeName];
     }
-    if (item.cheeseBurst) {
+    if (item.cheeseBurst && item.sizeName) {
       total += addOns.cheeseBurst.prices[item.sizeName];
     }
     return total * item.quantity;
@@ -124,13 +152,40 @@ export const useCart = () => {
     message += `*Outlet:* ${outlet.name}\n*Phone:* ${outlet.phone}\n\n*ORDER DETAILS:*\n${'='.repeat(25)}\n`;
 
     items.forEach((item, index) => {
-      let itemDesc = `${index + 1}. *${item.name}*\n   Size: ${item.sizeName}\n`;
+      let itemDesc = `${index + 1}. *${item.name}*\n`;
       
-      if (item.extraCheese) {
-        itemDesc += `   + Extra Cheese (₹${addOns.extraCheese.prices[item.sizeName]})\n`;
-      }
-      if (item.cheeseBurst) {
-        itemDesc += `   + Cheese Burst (₹${addOns.cheeseBurst.prices[item.sizeName]})\n`;
+      // Handle different item types
+      if (item.type === 'bogo') {
+        itemDesc += `   🎉 BOGO Deal\n`;
+        itemDesc += `   Pizza 1: ${item.pizza1.name} (${item.pizza1.size.name})\n`;
+        itemDesc += `   Pizza 2: ${item.pizza2.name} (${item.pizza2.size.name})\n`;
+        
+        // Add combo add-ons for BOGO
+        if (item.extraCheese || item.cheeseBurst) {
+          const size = item.pizza1?.size?.name === 'Large' || item.pizza2?.size?.name === 'Large' ? 'Large' : 'Medium';
+          if (item.extraCheese) {
+            itemDesc += `   + Extra Cheese for both pizzas (₹${addOns.extraCheese.comboPrices[size]})\n`;
+          }
+          if (item.cheeseBurst) {
+            itemDesc += `   + Cheese Burst for both pizzas (₹${addOns.cheeseBurst.comboPrices[size]})\n`;
+          }
+        }
+        
+        itemDesc += `   Original Price: Rs.${item.originalPrice}\n`;
+        itemDesc += `   You Save: Rs.${item.savings}\n`;
+      } else if (item.type === 'combo') {
+        itemDesc += `   📦 Combo Deal\n`;
+        itemDesc += `   ${item.description}\n`;
+        itemDesc += `   Original Value: Rs.${item.originalPrice}\n`;
+        itemDesc += `   You Save: Rs.${item.savings}\n`;
+      } else {
+        itemDesc += `   Size: ${item.sizeName}\n`;
+        if (item.extraCheese) {
+          itemDesc += `   + Extra Cheese (₹${addOns.extraCheese.prices[item.sizeName]})\n`;
+        }
+        if (item.cheeseBurst) {
+          itemDesc += `   + Cheese Burst (₹${addOns.cheeseBurst.prices[item.sizeName]})\n`;
+        }
       }
       
       const itemTotal = calculateItemTotal(item);

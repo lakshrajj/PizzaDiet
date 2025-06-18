@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Clock, Heart, Facebook, Instagram } from 'lucide-react';
+import { Phone, Clock, Heart, Instagram } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -25,22 +25,18 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
-              Crafting delicious vegetarian pizzas with love and passion since 2020. Your satisfaction is our priority.
+              Crafting delicious vegetarian pizzas with love and passion since 2013. Your satisfaction is our priority.
             </p>
             <div className="flex space-x-3 sm:space-x-4">
-              {[
-                { name: 'Facebook', icon: <Facebook size={20} />, url: '#', color: 'from-blue-500 to-blue-600' },
-                { name: 'Instagram', icon: <Instagram size={20} />, url: '#', color: 'from-pink-500 to-purple-600' }
-              ].map(platform => (
-                <a
-                  key={platform.name}
-                  href={platform.url}
-                  className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r ${platform.color} rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg`}
-                  aria-label={platform.name}
-                >
-                  {platform.icon}
-                </a>
-              ))}
+              <a
+                href="https://www.instagram.com/pizzadiet.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg"
+                aria-label="Instagram"
+              >
+                <Instagram size={20} />
+              </a>
             </div>
           </div>
           
@@ -75,14 +71,14 @@ const Footer = () => {
               <div className="flex items-center gap-2 sm:gap-3">
                 <Phone size={16} className="text-orange-500" />
                 <div>
-                  <p className="font-semibold text-sm sm:text-base">+91-7840072457</p>
+                  <p className="font-semibold text-sm sm:text-base">+91-7840073405</p>
                   <p className="text-xs sm:text-sm">Call for orders</p>
                 </div>
               </div>
               <div className="flex items-center gap-2 sm:gap-3">
                 <Clock size={16} className="text-orange-500" />
                 <div>
-                  <p className="font-semibold text-sm sm:text-base">10:00 AM - 11:00 PM</p>
+                  <p className="font-semibold text-sm sm:text-base">11:00 AM - 10:00 PM</p>
                   <p className="text-xs sm:text-sm">Daily | Always Fresh</p>
                 </div>
               </div>

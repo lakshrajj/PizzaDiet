@@ -13,7 +13,7 @@ const ContactSection = () => {
     {
       icon: <Phone className="w-8 h-8" />,
       title: 'Call Us',
-      info: 'Babarpur: +91-7840072457\nYamuna Vihar: +91-7840073401\nBrahmpuri: +91-7840085713\nDayalpur: +91-7840076501',
+      info: '+91-7840073405\n+91-9318310517\n\n11:00 AM - 10:00 PM',
       gradient: 'from-green-500 to-emerald-500'
     }
   ];
