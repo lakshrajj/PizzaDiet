@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, X, MapPin, Plus, Minus, Trash2, MessageCircle, Copy } from 'lucide-react';
+import { ShoppingCart, X, Plus, Minus, Trash2, MessageCircle, Copy } from 'lucide-react';
 import Toast from '../Common/Toast';
 
 const CartSidebar = ({ isOpen, onClose, cart }) => {

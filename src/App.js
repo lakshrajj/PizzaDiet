@@ -9,7 +9,7 @@ import ContactSection from './components/Contact/ContactSection';
 import Footer from './components/Common/Footer';
 import CartSidebar from './components/Cart/CartSidebar';
 import FloatingCart from './components/Cart/FloatingCart';
-import EnhancedAdminPanel from './components/Admin/EnhancedAdminPanel';
+import SimpleAdminPanel from './components/Admin/SimpleAdminPanel';
 import AdminAccess from './components/Admin/AdminAccess';
 import Toast from './components/Common/Toast';
 import FluidBackground from './components/Common/FluidBackground';
@@ -115,7 +115,7 @@ const App = () => {
             )}
 
             {isAdminLoggedIn && (
-              <EnhancedAdminPanel 
+              <SimpleAdminPanel 
                 isOpen={isAdminOpen} 
                 onClose={() => setIsAdminOpen(false)} 
               />
