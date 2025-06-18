@@ -1,0 +1,743 @@
+{
+  "lastUpdated": "2024-03-15T10:30:00Z",
+  "version": "2.0.0",
+  "menuItems": {
+    "simply-veg": [
+      {
+        "id": 1,
+        "name": "Margherita",
+        "description": "Cheese & Tomato Sauce",
+        "image": "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=500",
+        "badge": "🍕 Classic",
+        "rating": 4.7,
+        "sizes": [
+          { "name": "Small", "price": 100 },
+          { "name": "Medium", "price": 200 },
+          { "name": "Large", "price": 360 }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Onion Veg",
+        "description": "Cheese & Onion",
+        "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=500",
+        "badge": "🧅 Simple",
+        "rating": 4.4,
+        "sizes": [
+          { "name": "Small", "price": 120 },
+          { "name": "Medium", "price": 240 },
+          { "name": "Large", "price": 380 }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Tomato Veg",
+        "description": "Cheese & Tomato",
+        "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500",
+        "badge": "🍅 Fresh",
+        "rating": 4.3,
+        "sizes": [
+          { "name": "Small", "price": 120 },
+          { "name": "Medium", "price": 240 },
+          { "name": "Large", "price": 380 }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Capsicum Veg",
+        "description": "Cheese & Capsicum",
+        "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500",
+        "badge": "🫑 Fresh",
+        "rating": 4.2,
+        "sizes": [
+          { "name": "Small", "price": 120 },
+          { "name": "Medium", "price": 240 },
+          { "name": "Large", "price": 380 }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Two in One Veg. Pizza",
+        "description": "Cheese & Paneer",
+        "image": "https://images.unsplash.com/photo-1552539618-7eec9b4d1796?w=500",
+        "badge": "🔄 Combo",
+        "rating": 4.5,
+        "sizes": [
+          { "name": "Small", "price": 130 },
+          { "name": "Medium", "price": 260 },
+          { "name": "Large", "price": 400 }
+        ]
+      },
+      {
+        "id": 6,
+        "name": "Cheese Paneer Pizza",
+        "description": "Cheese & Paneer",
+        "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=500",
+        "badge": "🧀 Rich",
+        "rating": 4.6,
+        "sizes": [
+          { "name": "Small", "price": 140 },
+          { "name": "Medium", "price": 300 },
+          { "name": "Large", "price": 460 }
+        ]
+      }
+    ],
+    "classic-veg": [
+      {
+        "id": 7,
+        "name": "Mexican Veg",
+        "description": "Onion, Jalapeño, Mexican Herbs",
+        "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=500",
+        "badge": "🌶️ Mexican",
+        "rating": 4.4,
+        "sizes": [
+          { "name": "Small", "price": 150 },
+          { "name": "Medium", "price": 360 },
+          { "name": "Large", "price": 480 }
+        ]
+      },
+      {
+        "id": 8,
+        "name": "Penne Pasta Pizza",
+        "description": "Pasta with Pizza Sauce",
+        "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500",
+        "badge": "🍝 Fusion",
+        "rating": 4.3,
+        "sizes": [
+          { "name": "Small", "price": 150 },
+          { "name": "Medium", "price": 360 },
+          { "name": "Large", "price": 480 }
+        ]
+      },
+      {
+        "id": 9,
+        "name": "Spicy Veg",
+        "description": "Green Chillies & Coriander",
+        "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500",
+        "badge": "🔥 Spicy",
+        "rating": 4.2,
+        "sizes": [
+          { "name": "Small", "price": 150 },
+          { "name": "Medium", "price": 360 },
+          { "name": "Large", "price": 480 }
+        ]
+      },
+      {
+        "id": 10,
+        "name": "Golden Corn Veg",
+        "description": "Corn, Capsicum & Onion",
+        "image": "https://images.unsplash.com/photo-1552539618-7eec9b4d1796?w=500",
+        "badge": "🌽 Sweet",
+        "rating": 4.5,
+        "sizes": [
+          { "name": "Small", "price": 150 },
+          { "name": "Medium", "price": 360 },
+          { "name": "Large", "price": 480 }
+        ]
+      },
+      {
+        "id": 11,
+        "name": "Farm House",
+        "description": "Fresh farm vegetables",
+        "image": "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=500",
+        "badge": "🚜 Farm Fresh",
+        "rating": 4.4,
+        "sizes": [
+          { "name": "Small", "price": 150 },
+          { "name": "Medium", "price": 360 },
+          { "name": "Large", "price": 480 }
+        ]
+      },
+      {
+        "id": 12,
+        "name": "Country Special",
+        "description": "Onion, Capsicum & Mushroom",
+        "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500",
+        "badge": "🏡 Country",
+        "rating": 4.3,
+        "sizes": [
+          { "name": "Small", "price": 150 },
+          { "name": "Medium", "price": 360 },
+          { "name": "Large", "price": 480 }
+        ]
+      },
+      {
+        "id": 13,
+        "name": "Spl. Double Cheese Margeta",
+        "description": "Extra cheese with special sauce",
+        "image": "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=500",
+        "badge": "🧀🧀 Double Cheese",
+        "rating": 4.7,
+        "sizes": [
+          { "name": "Small", "price": 150 },
+          { "name": "Medium", "price": 360 },
+          { "name": "Large", "price": 480 }
+        ]
+      }
+    ],
+    "deluxe-veg": [
+      {
+        "id": 14,
+        "name": "Spl. Makhani Paneer",
+        "description": "Rich makhani sauce with paneer",
+        "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=500",
+        "badge": "👑 Royal",
+        "rating": 4.8,
+        "sizes": [
+          { "name": "Small", "price": 200 },
+          { "name": "Medium", "price": 400 },
+          { "name": "Large", "price": 580 }
+        ]
+      },
+      {
+        "id": 15,
+        "name": "Spl. Punjabi Paneer",
+        "description": "Authentic Punjabi style paneer",
+        "image": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500",
+        "badge": "🥘 Punjabi",
+        "rating": 4.7,
+        "sizes": [
+          { "name": "Small", "price": 200 },
+          { "name": "Medium", "price": 400 },
+          { "name": "Large", "price": 580 }
+        ]
+      },
+      {
+        "id": 16,
+        "name": "Spl. Tandoori Paneer",
+        "description": "Tandoori sauce with paneer",
+        "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500",
+        "badge": "🔥 Tandoori",
+        "rating": 4.6,
+        "sizes": [
+          { "name": "Small", "price": 200 },
+          { "name": "Medium", "price": 400 },
+          { "name": "Large", "price": 580 }
+        ]
+      },
+      {
+        "id": 17,
+        "name": "Spl. Spicy Peppy Paneer",
+        "description": "Spicy sauce with peppy paneer",
+        "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500",
+        "badge": "🌶️🌶️ Extra Spicy",
+        "rating": 4.5,
+        "sizes": [
+          { "name": "Small", "price": 200 },
+          { "name": "Medium", "price": 400 },
+          { "name": "Large", "price": 580 }
+        ]
+      },
+      {
+        "id": 18,
+        "name": "Spl. Deluxe Veg",
+        "description": "Premium vegetable combination",
+        "image": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=500",
+        "badge": "💎 Deluxe",
+        "rating": 4.7,
+        "sizes": [
+          { "name": "Small", "price": 200 },
+          { "name": "Medium", "price": 400 },
+          { "name": "Large", "price": 580 }
+        ]
+      }
+    ],
+    "supreme-veg": [
+      {
+        "id": 19,
+        "name": "Golden Delight",
+        "description": "Capsicum, Golden Corn",
+        "image": "https://images.unsplash.com/photo-1552539618-7eec9b4d1796?w=500",
+        "badge": "✨ Golden",
+        "rating": 4.6,
+        "sizes": [
+          { "name": "Small", "price": 150 },
+          { "name": "Medium", "price": 360 },
+          { "name": "Large", "price": 480 }
+        ]
+      },
+      {
+        "id": 20,
+        "name": "Veggie Crust",
+        "description": "Sauce, Tomato, Capsicum, Jalapeño",
+        "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=500",
+        "badge": "🥗 Veggie",
+        "rating": 4.4,
+        "sizes": [
+          { "name": "Small", "price": 150 },
+          { "name": "Medium", "price": 360 },
+          { "name": "Large", "price": 480 }
+        ]
+      },
+      {
+        "id": 21,
+        "name": "Spicy Seasonal",
+        "description": "Green Chili, Capsicum, Red Chili",
+        "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500",
+        "badge": "🌶️ Seasonal",
+        "rating": 4.3,
+        "sizes": [
+          { "name": "Small", "price": 150 },
+          { "name": "Medium", "price": 360 },
+          { "name": "Large", "price": 480 }
+        ]
+      },
+      {
+        "id": 22,
+        "name": "Yummy Tandoori Paneer",
+        "description": "Tandoori Sauce with Paneer",
+        "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=500",
+        "badge": "😋 Yummy",
+        "rating": 4.7,
+        "sizes": [
+          { "name": "Small", "price": 200 },
+          { "name": "Medium", "price": 400 },
+          { "name": "Large", "price": 580 }
+        ]
+      },
+      {
+        "id": 23,
+        "name": "Spicy Zesty Paneer",
+        "description": "Spicy sauce with zesty paneer",
+        "image": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500",
+        "badge": "⚡ Zesty",
+        "rating": 4.5,
+        "sizes": [
+          { "name": "Small", "price": 200 },
+          { "name": "Medium", "price": 400 },
+          { "name": "Large", "price": 580 }
+        ]
+      },
+      {
+        "id": 24,
+        "name": "Yummy Makhani Paneer",
+        "description": "Makhani sauce with paneer",
+        "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=500",
+        "badge": "🤤 Yummy",
+        "rating": 4.8,
+        "sizes": [
+          { "name": "Small", "price": 200 },
+          { "name": "Medium", "price": 400 },
+          { "name": "Large", "price": 580 }
+        ]
+      },
+      {
+        "id": 25,
+        "name": "Cloud 7",
+        "description": "Onion, Tomato, Baby Corn, Paneer, Capsicum, Jalapeño",
+        "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500",
+        "badge": "☁️ Signature",
+        "rating": 4.9,
+        "sizes": [
+          { "name": "Small", "price": 240 },
+          { "name": "Medium", "price": 450 },
+          { "name": "Large", "price": 600 }
+        ]
+      },
+      {
+        "id": 26,
+        "name": "Extravaganza Veg.",
+        "description": "Black olives, Onion, Capsicum, Mushroom, Tomato, Corn",
+        "image": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=500",
+        "badge": "🎉 Extravaganza",
+        "rating": 4.8,
+        "sizes": [
+          { "name": "Small", "price": 240 },
+          { "name": "Medium", "price": 450 },
+          { "name": "Large", "price": 600 }
+        ]
+      },
+      {
+        "id": 27,
+        "name": "Spl. Supreme Veg.",
+        "description": "Supreme combination of vegetables",
+        "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500",
+        "badge": "👑 Supreme",
+        "rating": 4.7,
+        "sizes": [
+          { "name": "Small", "price": 240 },
+          { "name": "Medium", "price": 450 },
+          { "name": "Large", "price": 600 }
+        ]
+      }
+    ]
+  },
+  "sides": [
+    {
+      "id": 28,
+      "name": "French Fries",
+      "description": "Crispy golden french fries",
+      "price": 100,
+      "image": "https://images.unsplash.com/photo-1576107232684-1279f390859f?w=500",
+      "category": "sides"
+    },
+    {
+      "id": 29,
+      "name": "Peri-Peri Fries",
+      "description": "Spicy peri-peri seasoned fries",
+      "price": 120,
+      "image": "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=500",
+      "category": "sides"
+    },
+    {
+      "id": 30,
+      "name": "Cheese Loaded Fries",
+      "description": "Fries loaded with melted cheese",
+      "price": 150,
+      "image": "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=500",
+      "category": "sides"
+    }
+  ],
+  "starters": [
+    {
+      "id": 31,
+      "name": "Cheesy Dip",
+      "description": "Creamy cheese dip",
+      "price": 20,
+      "image": "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=500",
+      "category": "starters"
+    },
+    {
+      "id": 32,
+      "name": "Cheese Slice",
+      "description": "Extra cheese slice",
+      "price": 30,
+      "image": "https://images.unsplash.com/photo-1624768938476-cc6565d4a4cb?w=500",
+      "category": "starters"
+    },
+    {
+      "id": 33,
+      "name": "Choco Lava",
+      "description": "Warm chocolate lava cake",
+      "price": 60,
+      "image": "https://images.unsplash.com/photo-1542124948-dc391252a940?w=500",
+      "category": "starters"
+    }
+  ],
+  "beverages": [
+    {
+      "id": 34,
+      "name": "Hot Coffee",
+      "description": "Freshly brewed hot coffee",
+      "price": 70,
+      "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500",
+      "category": "beverages"
+    },
+    {
+      "id": 35,
+      "name": "Cold Coffee",
+      "description": "Refreshing cold coffee",
+      "price": 70,
+      "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500",
+      "category": "beverages"
+    },
+    {
+      "id": 36,
+      "name": "Hot Chocolate",
+      "description": "Rich and creamy hot chocolate",
+      "price": 100,
+      "image": "https://images.unsplash.com/photo-1542990253-0b8894b9c6bf?w=500",
+      "category": "beverages"
+    },
+    {
+      "id": 37,
+      "name": "Zingy Paper Boat",
+      "description": "Refreshing paper boat drink",
+      "price": 70,
+      "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500",
+      "category": "beverages"
+    }
+  ],
+  "miniPizzas": [
+    {
+      "id": 38,
+      "name": "Mini Pizza Singles",
+      "description": "Choose from Onion, Golden Corn, Capsicum, or Tomato",
+      "price": 70,
+      "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=500",
+      "category": "mini-pizza",
+      "variants": ["Onion", "Golden Corn", "Capsicum", "Tomato"]
+    },
+    {
+      "id": 39,
+      "name": "Mini Pizza Doubles",
+      "description": "Choose from Onion & Capsicum, Tomato & Corn, Onion & Jalapeño, or Paneer & Onion",
+      "price": 80,
+      "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=500",
+      "category": "mini-pizza",
+      "variants": ["Onion & Capsicum", "Tomato & Corn", "Onion & Jalapeño", "Paneer & Onion"]
+    }
+  ],
+  "burgers": [
+    {
+      "id": 40,
+      "name": "Chilli Paneer Burger",
+      "description": "Spicy paneer patty burger",
+      "price": 80,
+      "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500",
+      "category": "burgers"
+    },
+    {
+      "id": 41,
+      "name": "Simply Veg. Burger",
+      "description": "Classic vegetable patty burger",
+      "price": 90,
+      "image": "https://images.unsplash.com/photo-1550317138-10000687a72b?w=500",
+      "category": "burgers"
+    },
+    {
+      "id": 42,
+      "name": "Classic Veg. Burger",
+      "description": "Premium vegetable burger",
+      "price": 110,
+      "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500",
+      "category": "burgers"
+    }
+  ],
+  "pasta": [
+    {
+      "id": 43,
+      "name": "Red Sauce Pasta",
+      "description": "Classic tomato sauce pasta",
+      "price": 120,
+      "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=500",
+      "category": "pasta"
+    },
+    {
+      "id": 44,
+      "name": "Mix Sauce Pasta",
+      "description": "Combination of sauces",
+      "price": 120,
+      "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=500",
+      "category": "pasta"
+    },
+    {
+      "id": 45,
+      "name": "White Sauce Pasta",
+      "description": "Creamy white sauce pasta",
+      "price": 120,
+      "image": "https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=500",
+      "category": "pasta"
+    },
+    {
+      "id": 46,
+      "name": "Makhani Pasta",
+      "description": "Rich makhani sauce pasta",
+      "price": 140,
+      "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=500",
+      "category": "pasta"
+    },
+    {
+      "id": 47,
+      "name": "Tandoori Sauce Pasta",
+      "description": "Spicy tandoori sauce pasta",
+      "price": 140,
+      "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=500",
+      "category": "pasta"
+    }
+  ],
+  "breads": [
+    {
+      "id": 48,
+      "name": "Cheesy Garlic Bread",
+      "description": "Garlic bread with cheese",
+      "price": 110,
+      "image": "https://images.unsplash.com/photo-1573140401552-3fab0b24427f?w=500",
+      "category": "breads"
+    },
+    {
+      "id": 49,
+      "name": "Potato Cheese Shots",
+      "description": "Cheesy potato bites (10 Pcs)",
+      "price": 110,
+      "image": "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=500",
+      "category": "breads"
+    },
+    {
+      "id": 50,
+      "name": "Spicy Stuffed Garlic Bread",
+      "description": "Spicy stuffed garlic bread",
+      "price": 130,
+      "image": "https://images.unsplash.com/photo-1573140401552-3fab0b24427f?w=500",
+      "category": "breads"
+    },
+    {
+      "id": 51,
+      "name": "Stuffed Garlic Bread",
+      "description": "Classic stuffed garlic bread",
+      "price": 130,
+      "image": "https://images.unsplash.com/photo-1573140401552-3fab0b24427f?w=500",
+      "category": "breads"
+    },
+    {
+      "id": 52,
+      "name": "Veg. Garlic Bread",
+      "description": "Vegetable garlic bread",
+      "price": 130,
+      "image": "https://images.unsplash.com/photo-1573140401552-3fab0b24427f?w=500",
+      "category": "breads"
+    }
+  ],
+  "combos": [
+    {
+      "id": 35,
+      "name": "Set Combination 4 Pizza - Veg Singles",
+      "description": "Onion + Golden Corn + Capsicum + Tomato",
+      "price": 270,
+      "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500",
+      "category": "combo",
+      "badge": "🎯 Combo Deal"
+    },
+    {
+      "id": 36,
+      "name": "Set Combination 4 Pizza - Veg Doubles",
+      "description": "Onion & Capsicum + Tomato & Golden Corn + Jalapeño + Paneer & Onion",
+      "price": 320,
+      "image": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=500",
+      "category": "combo",
+      "badge": "🎯 Combo Deal"
+    }
+  ],
+  "galleryItems": [
+    {
+      "id": 1,
+      "category": "restaurant",
+      "title": "Cozy Interior",
+      "image": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600"
+    },
+    {
+      "id": 2,
+      "category": "restaurant",
+      "title": "Modern Dining Area",
+      "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600"
+    },
+    {
+      "id": 3,
+      "category": "restaurant",
+      "title": "Pizza Oven",
+      "image": "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600"
+    },
+    {
+      "id": 4,
+      "category": "pizzas",
+      "title": "Margherita Classic",
+      "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600"
+    },
+    {
+      "id": 5,
+      "category": "pizzas",
+      "title": "Veggie Supreme",
+      "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=600"
+    },
+    {
+      "id": 6,
+      "category": "pizzas",
+      "title": "Cloud 7 Special",
+      "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600"
+    },
+    {
+      "id": 7,
+      "category": "pizzas",
+      "title": "Tandoori Paneer",
+      "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600"
+    },
+    {
+      "id": 8,
+      "category": "pizzas",
+      "title": "Extravaganza",
+      "image": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=600"
+    },
+    {
+      "id": 9,
+      "category": "pizzas",
+      "title": "Makhani Special",
+      "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=600"
+    },
+    {
+      "id": 10,
+      "category": "combos",
+      "title": "4 Pizza Combo Deal",
+      "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=600"
+    },
+    {
+      "id": 11,
+      "category": "combos",
+      "title": "Mini Pizza Set",
+      "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600"
+    },
+    {
+      "id": 12,
+      "category": "combos",
+      "title": "Family Feast",
+      "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600"
+    },
+    {
+      "id": 13,
+      "category": "offers",
+      "title": "Buy 2 Get 1 Free",
+      "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=600"
+    },
+    {
+      "id": 14,
+      "category": "offers",
+      "title": "Weekend Special 30% Off",
+      "image": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=600"
+    },
+    {
+      "id": 15,
+      "category": "offers",
+      "title": "Student Discount",
+      "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600"
+    },
+    {
+      "id": 16,
+      "category": "team",
+      "title": "Head Chef",
+      "image": "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600"
+    },
+    {
+      "id": 17,
+      "category": "team",
+      "title": "Pizza Specialist",
+      "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600"
+    },
+    {
+      "id": 18,
+      "category": "team",
+      "title": "Kitchen Team",
+      "image": "https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=600"
+    }
+  ],
+  "settings": {
+    "deliveryCharge": 30,
+    "baseDeliveryCharge": 30,
+    "baseDeliveryDistance": 2,
+    "deliveryFees": [
+      { "uptoKm": 2, "fee": 30 },
+      { "uptoKm": 5, "fee": 40 },
+      { "uptoKm": 7, "fee": 50 }
+    ],
+    "outlets": {
+      "babarpur": {
+        "name": "Babarpur Branch",
+        "phone": "+91-7840072457",
+        "address": "W-117, MAIN ROAD BABARPUR, SHAHDARA, DELHI-110032"
+      },
+      "yamunavihar": {
+        "name": "Yamuna Vihar Branch",
+        "phone": "+91-7840073401",
+        "address": "C-2/166, BLOCK C, YAMUNAVIHAR, SHAHDARA, DELHI-110053"
+      },
+      "brahmpuri": {
+        "name": "Brahmpuri Branch",
+        "phone": "+91-7840085713",
+        "address": "B-217, BRAHAMPURI RD, CHAUHAN BANGER, SHAHDARA, DELHI-110053"
+      },
+      "dayalpur": {
+        "name": "Dayalpur Branch",
+        "phone": "+91-7840076501",
+        "address": "F-11, KARAWAL NAGAR MAIN RD, BLOCK-D, DAYALPUR, KARAWAL NAGAR, DELHI-110094"
+      }
+    }
+  }
+}
