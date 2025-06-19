@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
 import { Plus, Star, Package, Gift, X } from 'lucide-react';
 
@@ -57,10 +57,19 @@ const OffersSection = ({ onAddToCart }) => {
 
   const BOGOModal = ({ offer, onClose }) => {
     const validPizzas = getValidPizzas(offer);
+    const [step, setStep] = useState(1); // 1: select first pizza, 2: select second pizza, 3: review
     const [pizza1, setPizza1] = useState(null);
     const [pizza2, setPizza2] = useState(null);
     const [size1, setSize1] = useState(null);
     const [size2, setSize2] = useState(null);
+
+    // Lock background scroll when modal is open
+    useEffect(() => {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = 'unset';
+      };
+    }, []);
 
     const calculateBOGOPrice = () => {
       if (!pizza1 || !pizza2 || !size1 || !size2) return 0;
@@ -113,6 +122,22 @@ const OffersSection = ({ onAddToCart }) => {
       };
     };
 
+    const handleNextStep = () => {
+      if (step === 1 && pizza1 && size1) {
+        setStep(2);
+      } else if (step === 2 && pizza2 && size2) {
+        setStep(3);
+      }
+    };
+
+    const handlePrevStep = () => {
+      if (step === 2) {
+        setStep(1);
+      } else if (step === 3) {
+        setStep(2);
+      }
+    };
+
     const handleAddToCart = () => {
       if (!pizza1 || !pizza2 || !size1 || !size2) {
         alert('Please select both pizzas and their sizes');
@@ -141,9 +166,9 @@ const OffersSection = ({ onAddToCart }) => {
     };
 
     return (
-      <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-          <div className="sticky top-0 bg-white dark:bg-gray-800 p-6 border-b flex justify-between items-center">
+      <div className="fixed inset-0 bg-black/50 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-full h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col">
+          <div className="sticky top-0 bg-white dark:bg-gray-800 p-4 sm:p-6 border-b flex justify-between items-center flex-shrink-0">
             <div>
               <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{offer.name}</h2>
               <p className="text-gray-600 dark:text-gray-300">{offer.description}</p>
@@ -153,59 +178,40 @@ const OffersSection = ({ onAddToCart }) => {
             </button>
           </div>
 
-          <div className="p-6">
-            {/* Pricing Guide */}
-            <div className="mb-8 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl">
-              <h3 className="text-lg font-bold mb-3 text-gray-800 dark:text-white text-center">
-                🎉 BOGO Combo Pricing
-              </h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h4 className="font-semibold text-center mb-2 text-gray-700 dark:text-gray-200">Medium Combos</h4>
-                  <div className="space-y-1 text-sm">
-                    <div className="flex justify-between">
-                      <span>Classic Medium:</span>
-                      <span className="font-bold text-green-600">₹400</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Deluxe Medium:</span>
-                      <span className="font-bold text-blue-600">₹450</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Supreme Medium:</span>
-                      <span className="font-bold text-purple-600">₹500</span>
-                    </div>
-                  </div>
+          <div className="p-4 sm:p-6 overflow-y-auto flex-1">
+            {/* Step Indicator */}
+            <div className="mb-6">
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <div className={`flex items-center gap-2 ${step >= 1 ? 'text-orange-500' : 'text-gray-400'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                    step >= 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-500'
+                  }`}>1</div>
+                  <span className="text-sm font-medium">First Pizza</span>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-center mb-2 text-gray-700 dark:text-gray-200">Large Combos</h4>
-                  <div className="space-y-1 text-sm">
-                    <div className="flex justify-between">
-                      <span>Classic Large:</span>
-                      <span className="font-bold text-green-600">₹550</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Deluxe Large:</span>
-                      <span className="font-bold text-blue-600">₹650</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Supreme Large:</span>
-                      <span className="font-bold text-purple-600">₹700</span>
-                    </div>
-                  </div>
+                <div className={`w-8 h-1 ${step >= 2 ? 'bg-orange-500' : 'bg-gray-200'}`}></div>
+                <div className={`flex items-center gap-2 ${step >= 2 ? 'text-orange-500' : 'text-gray-400'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                    step >= 2 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-500'
+                  }`}>2</div>
+                  <span className="text-sm font-medium">Second Pizza</span>
+                </div>
+                <div className={`w-8 h-1 ${step >= 3 ? 'bg-orange-500' : 'bg-gray-200'}`}></div>
+                <div className={`flex items-center gap-2 ${step >= 3 ? 'text-orange-500' : 'text-gray-400'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                    step >= 3 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-500'
+                  }`}>3</div>
+                  <span className="text-sm font-medium">Review</span>
                 </div>
               </div>
-              <p className="text-xs text-center mt-3 text-gray-600 dark:text-gray-400">
-                *Final price determined by highest category and largest size selected<br/>
-                *Available for Classic, Deluxe & Supreme pizzas only (Medium & Large sizes)
-              </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Pizza 1 Selection */}
+            {/* Step 1: Select First Pizza */}
+            {step === 1 && (
               <div>
-                <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Select First Pizza</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
+                <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-white text-center">
+                  Select Your First Pizza
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-96 overflow-y-auto pr-2">
                   {validPizzas.map(pizza => (
                     <div 
                       key={`pizza1-${pizza.id}`}
@@ -216,11 +222,11 @@ const OffersSection = ({ onAddToCart }) => {
                       }`}
                       onClick={() => setPizza1(pizza)}
                     >
-                      <div className="flex flex-col items-center text-center gap-3">
+                      <div className="flex items-center gap-3">
                         {pizza.image && (
-                          <img src={pizza.image} alt={pizza.name} className="w-16 h-16 rounded-lg object-cover" />
+                          <img src={pizza.image} alt={pizza.name} className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
                         )}
-                        <div>
+                        <div className="flex-1">
                           <h4 className="font-semibold text-gray-800 dark:text-white text-sm">{pizza.name}</h4>
                           <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">{pizza.description}</p>
                         </div>
@@ -250,12 +256,46 @@ const OffersSection = ({ onAddToCart }) => {
                     </div>
                   ))}
                 </div>
+                
+                {pizza1 && size1 && (
+                  <div className="mt-6 flex justify-center">
+                    <button
+                      onClick={handleNextStep}
+                      className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-3 rounded-xl font-bold text-base hover:scale-105 transition-all duration-300"
+                    >
+                      Continue to Second Pizza →
+                    </button>
+                  </div>
+                )}
               </div>
+            )}
 
-              {/* Pizza 2 Selection */}
+            {/* Step 2: Select Second Pizza */}
+            {step === 2 && (
               <div>
-                <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Select Second Pizza</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
+                <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-white text-center">
+                  Select Your Second Pizza
+                </h3>
+                
+                {/* Selected First Pizza Display */}
+                {pizza1 && size1 && (
+                  <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-700">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm">✓</div>
+                      <div className="flex items-center gap-3 flex-1">
+                        {pizza1.image && (
+                          <img src={pizza1.image} alt={pizza1.name} className="w-12 h-12 rounded-lg object-cover" />
+                        )}
+                        <div>
+                          <h4 className="font-semibold text-gray-800 dark:text-white text-sm">{pizza1.name}</h4>
+                          <p className="text-xs text-gray-600 dark:text-gray-300">{size1.name} - ₹{size1.price}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-96 overflow-y-auto pr-2">
                   {validPizzas.map(pizza => (
                     <div 
                       key={`pizza2-${pizza.id}`}
@@ -266,11 +306,11 @@ const OffersSection = ({ onAddToCart }) => {
                       }`}
                       onClick={() => setPizza2(pizza)}
                     >
-                      <div className="flex flex-col items-center text-center gap-3">
+                      <div className="flex items-center gap-3">
                         {pizza.image && (
-                          <img src={pizza.image} alt={pizza.name} className="w-16 h-16 rounded-lg object-cover" />
+                          <img src={pizza.image} alt={pizza.name} className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
                         )}
-                        <div>
+                        <div className="flex-1">
                           <h4 className="font-semibold text-gray-800 dark:text-white text-sm">{pizza.name}</h4>
                           <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">{pizza.description}</p>
                         </div>
@@ -300,19 +340,38 @@ const OffersSection = ({ onAddToCart }) => {
                     </div>
                   ))}
                 </div>
+                
+                <div className="mt-6 flex justify-between">
+                  <button
+                    onClick={handlePrevStep}
+                    className="bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-3 rounded-xl font-bold text-base hover:scale-105 transition-all duration-300"
+                  >
+                    ← Back
+                  </button>
+                  {pizza2 && size2 && (
+                    <button
+                      onClick={handleNextStep}
+                      className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-3 rounded-xl font-bold text-base hover:scale-105 transition-all duration-300"
+                    >
+                      Review Order →
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Price Summary */}
-            {pizza1 && pizza2 && size1 && size2 && (
-              <div className="mt-8 p-6 bg-gray-50 dark:bg-gray-700 rounded-xl">
-                <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">BOGO Combo Summary</h3>
+            {/* Step 3: Review & Add to Cart */}
+            {step === 3 && pizza1 && pizza2 && size1 && size2 && (
+              <div>
+                <h3 className="text-xl font-bold mb-6 text-gray-800 dark:text-white text-center">
+                  Review Your BOGO Deal
+                </h3>
                 
                 {/* Combo Type Display */}
                 {(() => {
                   const comboInfo = getComboInfo();
                   return comboInfo && (
-                    <div className="mb-4 p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <div className="mb-6 p-4 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
                       <div className="text-center">
                         <h4 className="text-lg font-bold text-orange-800 dark:text-orange-200">
                           {comboInfo.tier} {comboInfo.size} Combo
@@ -325,39 +384,75 @@ const OffersSection = ({ onAddToCart }) => {
                   );
                 })()}
 
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span>{pizza1.name} ({size1.name})</span>
-                    <span className="text-gray-500">Individual: ₹{size1.price}</span>
+                {/* Selected Pizzas */}
+                <div className="space-y-4 mb-6">
+                  <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">1</div>
+                      <div className="flex items-center gap-3 flex-1">
+                        {pizza1.image && (
+                          <img src={pizza1.image} alt={pizza1.name} className="w-16 h-16 rounded-lg object-cover" />
+                        )}
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-gray-800 dark:text-white">{pizza1.name}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-300">{size1.name} - ₹{size1.price}</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span>{pizza2.name} ({size2.name})</span>
-                    <span className="text-gray-500">Individual: ₹{size2.price}</span>
+                  
+                  <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">2</div>
+                      <div className="flex items-center gap-3 flex-1">
+                        {pizza2.image && (
+                          <img src={pizza2.image} alt={pizza2.name} className="w-16 h-16 rounded-lg object-cover" />
+                        )}
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-gray-800 dark:text-white">{pizza2.name}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-300">{size2.name} - ₹{size2.price}</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <hr className="my-3" />
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Total Individual Price:</span>
-                    <span className="line-through text-gray-500">₹{size1.price + size2.price}</span>
-                  </div>
-                  <div className="flex justify-between text-green-600 font-semibold">
-                    <span>You Save:</span>
-                    <span>₹{(size1.price + size2.price) - calculateBOGOPrice()}</span>
-                  </div>
-                  <div className="flex justify-between text-xl font-bold text-orange-600">
-                    <span>BOGO Combo Price:</span>
-                    <span>₹{calculateBOGOPrice()}</span>
+                </div>
+
+                {/* Price Summary */}
+                <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-xl mb-6">
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 dark:text-gray-300">Total Individual Price:</span>
+                      <span className="line-through text-gray-500">₹{size1.price + size2.price}</span>
+                    </div>
+                    <div className="flex justify-between text-green-600 font-semibold">
+                      <span>You Save:</span>
+                      <span>₹{(size1.price + size2.price) - calculateBOGOPrice()}</span>
+                    </div>
+                    <div className="flex justify-between text-xl font-bold text-orange-600">
+                      <span>BOGO Combo Price:</span>
+                      <span>₹{calculateBOGOPrice()}</span>
+                    </div>
                   </div>
                 </div>
                 
-                <button
-                  onClick={handleAddToCart}
-                  className="w-full mt-6 bg-gradient-to-r from-orange-500 to-red-500 text-white py-4 rounded-xl font-bold text-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3"
-                >
-                  <Gift size={20} />
-                  Add BOGO Deal to Cart
-                </button>
+                <div className="flex justify-between">
+                  <button
+                    onClick={handlePrevStep}
+                    className="bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-3 rounded-xl font-bold text-base hover:scale-105 transition-all duration-300"
+                  >
+                    ← Back
+                  </button>
+                  <button
+                    onClick={handleAddToCart}
+                    className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-3 rounded-xl font-bold text-base hover:scale-105 transition-all duration-300 flex items-center gap-3"
+                  >
+                    <Gift size={20} />
+                    Add to Cart
+                  </button>
+                </div>
               </div>
             )}
+
           </div>
         </div>
       </div>
@@ -367,6 +462,14 @@ const OffersSection = ({ onAddToCart }) => {
   const ComboModal = ({ combo, onClose }) => {
     const availablePizzas = getPizzasForCombo(combo);
     const [selectedPizzas, setSelectedPizzas] = useState([]);
+
+    // Lock background scroll when modal is open
+    useEffect(() => {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = 'unset';
+      };
+    }, []);
     
     // Get pizza items from combo
     const pizzaItems = combo.items.filter(item => item.type === 'pizza');
@@ -455,9 +558,9 @@ const OffersSection = ({ onAddToCart }) => {
     };
 
     return (
-      <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-          <div className="sticky top-0 bg-white dark:bg-gray-800 p-6 border-b flex justify-between items-center">
+      <div className="fixed inset-0 bg-black/50 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-full h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col">
+          <div className="sticky top-0 bg-white dark:bg-gray-800 p-4 sm:p-6 border-b flex justify-between items-center flex-shrink-0">
             <div>
               <h2 className="text-2xl font-bold text-gray-800 dark:text-white">{combo.name}</h2>
               <p className="text-gray-600 dark:text-gray-300">{combo.description}</p>
@@ -467,7 +570,7 @@ const OffersSection = ({ onAddToCart }) => {
             </button>
           </div>
 
-          <div className="p-6">
+          <div className="p-4 sm:p-6 overflow-y-auto flex-1">
             {requiredPizzaCount > 0 && (
               <div className="mb-8">
                 <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">

@@ -7,7 +7,7 @@ const outlets = [
     address: 'W-117, MAIN ROAD BABARPUR, SHAHDARA, DELHI-110032',
     mapLink: 'https://maps.app.goo.gl/sD9Bcx5uLD63HCnG6',
     phones: [
-      '+91-7840073405'
+      '+91-9318310517'
     ]
   },
   {
@@ -15,7 +15,7 @@ const outlets = [
     address: 'C-2/166, BLOCK C, YAMUNAVIHAR, SHAHDARA, DELHI-110053',
     mapLink: 'https://maps.app.goo.gl/DszHuHZSMcxSooTv6',
     phones: [
-      '+91-9318310517'
+      '+91-7840073405'
     ]
   },
   {
