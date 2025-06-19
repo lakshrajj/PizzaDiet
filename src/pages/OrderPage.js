@@ -2,8 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageCircle, Phone, ShoppingBag, ExternalLink, ArrowLeft } from 'lucide-react';
 import MenuSection from '../components/Menu/MenuSection';
-import BOGOSection from '../components/Offers/BOGOSection';
-import ComboSection from '../components/Offers/ComboSection';
+import OffersSection from '../components/Offers/OffersSection';
 
 const OrderPage = ({ onAddToCart }) => {
   const navigate = useNavigate();
@@ -55,16 +54,15 @@ const OrderPage = ({ onAddToCart }) => {
       {/* Back Button */}
       <button
         onClick={() => navigate('/')}
-        className="fixed top-20 left-4 sm:left-8 z-20 flex items-center gap-2 px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
+        className="fixed top-20 left-4 sm:left-8 z-20 flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full sm:rounded-lg shadow-lg hover:shadow-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all duration-300 hover:scale-105"
       >
-        <ArrowLeft size={20} />
-        <span>Back to Home</span>
+        <ArrowLeft size={18} className="sm:w-5 sm:h-5" />
+        <span className="text-sm sm:text-base font-medium">Back to Home</span>
       </button>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Offers Sections */}
-        <BOGOSection onAddToCart={onAddToCart} />
-        <ComboSection onAddToCart={onAddToCart} />
+        {/* Offers Section */}
+        <OffersSection onAddToCart={onAddToCart} />
         
         {/* Menu Section */}
         <MenuSection onAddToCart={onAddToCart} />

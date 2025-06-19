@@ -916,37 +916,6 @@
     ],
     "combos": [
       {
-        "id": "combo-1",
-        "name": "Value Combo",
-        "description": "A mouthwatering combo that's easy on the wallet: a small margherita pizza, a classic burger, and a chilled coke—perfect for satisfying your cravings without splurging!",
-        "type": "combo",
-        "image": "https://media.discordapp.net/attachments/1377671032449536011/1384996803664937063/Combo200.png?ex=68547649&is=685324c9&hm=cca03fc19cfde47fd2176a19840cb1e882a326201d8c5205233136f36c728fbf&=&format=webp&quality=lossless&width=625&height=625",
-        "badge": "💰 Value",
-        "active": true,
-        "price": 200,
-        "items": [
-          {
-            "type": "pizza",
-            "name": "Small Margherita Pizza",
-            "size": "Small",
-            "quantity": 1,
-            "selectable": false
-          },
-          {
-            "type": "burger",
-            "name": "Classic Burger",
-            "quantity": 1,
-            "selectable": false
-          },
-          {
-            "type": "beverage",
-            "name": "Chilled Coke",
-            "quantity": 1,
-            "selectable": false
-          }
-        ]
-      },
-      {
         "id": "combo-2",
         "name": "Classic Combo",
         "description": "A mouthwatering combo with any medium classic pizza, perfectly paired with cheesy garlic bread and a refreshing Coke — the ultimate trio for your cravings.",

@@ -178,7 +178,7 @@ const BOGOSection = ({ onAddToCart }) => {
               {/* Pizza 1 Selection */}
               <div>
                 <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Select First Pizza</h3>
-                <div className="space-y-4 max-h-96 overflow-y-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
                   {validPizzas.map(pizza => (
                     <div 
                       key={`pizza1-${pizza.id}`}
@@ -189,18 +189,18 @@ const BOGOSection = ({ onAddToCart }) => {
                       }`}
                       onClick={() => setPizza1(pizza)}
                     >
-                      <div className="flex items-center gap-4">
+                      <div className="flex flex-col items-center text-center gap-3">
                         {pizza.image && (
                           <img src={pizza.image} alt={pizza.name} className="w-16 h-16 rounded-lg object-cover" />
                         )}
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-gray-800 dark:text-white">{pizza.name}</h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-300">{pizza.description}</p>
+                        <div>
+                          <h4 className="font-semibold text-gray-800 dark:text-white text-sm">{pizza.name}</h4>
+                          <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">{pizza.description}</p>
                         </div>
                       </div>
                       
                       {pizza1?.id === pizza.id && (
-                        <div className="mt-4 grid grid-cols-3 gap-2">
+                        <div className="mt-4 grid grid-cols-2 gap-2">
                           {pizza.sizes.filter(size => size.name === 'Medium' || size.name === 'Large').map((size, index) => (
                             <button
                               key={index}
@@ -214,8 +214,8 @@ const BOGOSection = ({ onAddToCart }) => {
                                   : 'border-gray-200 dark:border-gray-700'
                               }`}
                             >
-                              <div className="font-semibold text-sm">{size.name}</div>
-                              <div className="text-orange-500 text-sm">₹{size.price}</div>
+                              <div className="font-semibold text-xs">{size.name}</div>
+                              <div className="text-orange-500 text-xs">₹{size.price}</div>
                             </button>
                           ))}
                         </div>
@@ -228,7 +228,7 @@ const BOGOSection = ({ onAddToCart }) => {
               {/* Pizza 2 Selection */}
               <div>
                 <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Select Second Pizza</h3>
-                <div className="space-y-4 max-h-96 overflow-y-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
                   {validPizzas.map(pizza => (
                     <div 
                       key={`pizza2-${pizza.id}`}
@@ -239,18 +239,18 @@ const BOGOSection = ({ onAddToCart }) => {
                       }`}
                       onClick={() => setPizza2(pizza)}
                     >
-                      <div className="flex items-center gap-4">
+                      <div className="flex flex-col items-center text-center gap-3">
                         {pizza.image && (
                           <img src={pizza.image} alt={pizza.name} className="w-16 h-16 rounded-lg object-cover" />
                         )}
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-gray-800 dark:text-white">{pizza.name}</h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-300">{pizza.description}</p>
+                        <div>
+                          <h4 className="font-semibold text-gray-800 dark:text-white text-sm">{pizza.name}</h4>
+                          <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">{pizza.description}</p>
                         </div>
                       </div>
                       
                       {pizza2?.id === pizza.id && (
-                        <div className="mt-4 grid grid-cols-3 gap-2">
+                        <div className="mt-4 grid grid-cols-2 gap-2">
                           {pizza.sizes.filter(size => size.name === 'Medium' || size.name === 'Large').map((size, index) => (
                             <button
                               key={index}
@@ -264,8 +264,8 @@ const BOGOSection = ({ onAddToCart }) => {
                                   : 'border-gray-200 dark:border-gray-700'
                               }`}
                             >
-                              <div className="font-semibold text-sm">{size.name}</div>
-                              <div className="text-orange-500 text-sm">₹{size.price}</div>
+                              <div className="font-semibold text-xs">{size.name}</div>
+                              <div className="text-orange-500 text-xs">₹{size.price}</div>
                             </button>
                           ))}
                         </div>
