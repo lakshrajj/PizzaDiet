@@ -55,6 +55,24 @@ const MenuSection = ({ onAddToCart }) => {
 
   const MenuItem = ({ item }) => {
     const [selectedSize, setSelectedSize] = useState(item.sizes?.[0]);
+    const [selectedAddOns, setSelectedAddOns] = useState([]);
+
+    const handleAddOnToggle = (addOn) => {
+      setSelectedAddOns(prev => {
+        const exists = prev.find(selected => selected.name === addOn.name);
+        if (exists) {
+          return prev.filter(selected => selected.name !== addOn.name);
+        } else {
+          return [...prev, addOn];
+        }
+      });
+    };
+
+    const calculateTotalPrice = () => {
+      const sizePrice = selectedSize?.price || 0;
+      const addOnsPrice = selectedAddOns.reduce((total, addOn) => total + addOn.price, 0);
+      return sizePrice + addOnsPrice;
+    };
 
     const handleAddToCart = () => {
       if (!selectedSize) {
@@ -68,7 +86,9 @@ const MenuSection = ({ onAddToCart }) => {
         description: item.description,
         size: selectedSize.name,
         sizeName: selectedSize.name,
-        price: selectedSize.price,
+        price: calculateTotalPrice(),
+        basePrice: selectedSize.price,
+        addOns: selectedAddOns,
         category: item.category
       });
     };
@@ -136,13 +156,50 @@ const MenuSection = ({ onAddToCart }) => {
           </div>
         )}
 
+        {/* Add-ons Selection */}
+        {item.addOns && item.addOns.length > 0 && (
+          <div className="mb-4 sm:mb-6">
+            <h4 className="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 sm:mb-4">Add-ons (Optional)</h4>
+            <div className="grid gap-2 sm:gap-3 grid-cols-1 sm:grid-cols-2">
+              {item.addOns.filter(addOn => addOn.isActive !== false).map((addOn, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleAddOnToggle(addOn)}
+                  className={`p-2 sm:p-3 rounded-lg text-left transition-all duration-300 border-2 ${
+                    selectedAddOns.find(selected => selected.name === addOn.name)
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-lg'
+                      : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50/50 dark:hover:bg-blue-900/10'
+                  }`}
+                >
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="text-xs sm:text-sm font-medium text-gray-800 dark:text-gray-200">{addOn.name}</div>
+                      {addOn.category && addOn.category !== 'Extra' && (
+                        <div className="text-xs text-gray-500 dark:text-gray-400">{addOn.category}</div>
+                      )}
+                    </div>
+                    <div className="text-blue-500 dark:text-blue-400 text-xs sm:text-sm font-bold">
+                      {addOn.price > 0 ? `+₹${addOn.price}` : 'Free'}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         <button
           onClick={handleAddToCart}
           disabled={!selectedSize}
           className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 sm:py-4 rounded-lg sm:rounded-xl font-bold text-sm sm:text-base md:text-lg hover:scale-105 disabled:scale-100 disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 shadow-lg hover:shadow-xl group"
         >
           <Plus size={16} className="sm:size-20 group-hover:rotate-90 transition-transform duration-300" />
-          Add to Cart {selectedSize && `• ₹${selectedSize.price}`}
+          Add to Cart {selectedSize && `• ₹${calculateTotalPrice()}`}
+          {selectedAddOns.length > 0 && (
+            <span className="text-xs opacity-75">
+              ({selectedAddOns.length} add-on{selectedAddOns.length > 1 ? 's' : ''})
+            </span>
+          )}
         </button>
       </div>
     );
