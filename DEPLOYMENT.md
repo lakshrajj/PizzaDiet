@@ -98,13 +98,18 @@ The application automatically detects the environment:
 
 ### Common Issues
 
-1. **CORS Errors**: Ensure your domain is added to the CORS whitelist in `api/_lib/utils.js`
+1. **Vercel Build Error "functions property cannot be used with builds"**: 
+   - Fixed in latest `vercel.json` - removed conflicting `builds` property
+   - Now uses only `functions` configuration
 
-2. **Database Connection**: Verify MongoDB URI in environment variables
+2. **CORS Errors**: CORS is configured to allow all origins in production
+   - Can be restricted later by updating `api/_lib/utils.js`
 
-3. **Function Timeout**: Vercel functions timeout after 10 seconds on Hobby plan
+3. **Database Connection**: Verify MongoDB URI in environment variables
 
-4. **Cold Starts**: First request might be slow due to serverless cold starts
+4. **Function Timeout**: Vercel functions timeout after 30 seconds (configured)
+
+5. **Cold Starts**: First request might be slow due to serverless cold starts
 
 ### Logs and Monitoring
 

@@ -3,7 +3,7 @@ const cors = require('cors');
 // CORS middleware for Vercel functions
 const corsMiddleware = cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-domain.vercel.app', 'https://your-custom-domain.com'] 
+    ? true // Allow all origins in production for now, can be restricted later
     : ['http://localhost:3000', 'http://localhost:3001'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
