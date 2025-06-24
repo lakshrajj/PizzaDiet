@@ -41,6 +41,29 @@ const MenuItem = mongoose.model('MenuItem', new mongoose.Schema({
   isActive: { type: Boolean, default: true }
 }, { timestamps: true }));
 
+const FranchiseApplication = mongoose.model('FranchiseApplication', new mongoose.Schema({
+  fullName: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: String, required: true },
+  address: { type: String, required: true },
+  businessName: String,
+  businessAddress: String,
+  ownsFranchise: String,
+  franchiseDetails: String,
+  locationInterest: { type: String, required: true },
+  whyFranchise: { type: String, required: true },
+  industryExperience: String,
+  industryDetails: String,
+  investmentAmount: { type: String, required: true },
+  canMeetInvestment: String,
+  businessExperience: String,
+  businessDetails: String,
+  consentInfo: { type: Boolean, required: true },
+  consentProcessing: { type: Boolean, required: true },
+  submittedAt: { type: Date, default: Date.now },
+  status: { type: String, default: 'pending' }
+}, { timestamps: true }));
+
 // Routes
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'Development server is running' });
@@ -97,6 +120,27 @@ app.get('/api/offers/all', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error fetching offers',
+      error: error.message
+    });
+  }
+});
+
+app.get('/api/franchise/applications', async (req, res) => {
+  try {
+    
+    const applications = await FranchiseApplication.find({})
+      .sort({ submittedAt: -1 })
+      .select('-__v');
+    
+    res.json({
+      success: true,
+      applications
+    });
+  } catch (error) {
+    console.error('Error fetching franchise applications:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching franchise applications',
       error: error.message
     });
   }
