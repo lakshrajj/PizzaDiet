@@ -4,6 +4,7 @@ import AddMenuItemForm from '../components/Admin/AddMenuItemForm';
 import EditMenuItemForm from '../components/Admin/EditMenuItemForm';
 import EditCategoryForm from '../components/Admin/EditCategoryForm';
 import EditOfferForm from '../components/Admin/EditOfferForm';
+import { apiRequest, API_ENDPOINTS, buildApiUrl } from '../config/api';
 
 const AdminPage = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -33,8 +34,7 @@ const AdminPage = () => {
   // Fetch franchise applications
   const fetchFranchiseApplications = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/franchise/applications');
-      const data = await response.json();
+      const data = await apiRequest(API_ENDPOINTS.FRANCHISE_APPLICATIONS);
       if (data.success) {
         setFranchiseApplications(data.applications);
         
@@ -57,8 +57,7 @@ const AdminPage = () => {
   // Fetch menu data
   const fetchMenuData = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/menu/items/grouped');
-      const data = await response.json();
+      const data = await apiRequest(API_ENDPOINTS.MENU_ITEMS_GROUPED);
       if (data.success) {
         setMenuItems(data.menuItems);
         setCategories(data.categories);
@@ -78,8 +77,7 @@ const AdminPage = () => {
   // Fetch offers data
   const fetchOffers = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/offers/all');
-      const data = await response.json();
+      const data = await apiRequest(API_ENDPOINTS.OFFERS_ALL);
       if (data.success) {
         setOffers(data.offers);
       }
@@ -107,7 +105,7 @@ const AdminPage = () => {
   // Update franchise application status
   const updateApplicationStatus = async (applicationId, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/franchise/applications/${applicationId}/status`, {
+      const response = await fetch(buildApiUrl(`/api/franchise/applications/${applicationId}/status`), {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +135,7 @@ const AdminPage = () => {
   const deleteMenuItem = async (itemId, itemName) => {
     if (window.confirm(`Are you sure you want to delete "${itemName}"?`)) {
       try {
-        const response = await fetch(`http://localhost:3001/api/menu/items/${itemId}`, {
+        const response = await fetch(buildApiUrl(API_ENDPOINTS.MENU_ITEM_BY_ID(itemId)), {
           method: 'DELETE',
         });
         
@@ -159,8 +157,8 @@ const AdminPage = () => {
   const handleMenuItemSave = async (formData) => {
     try {
       const url = editingMenuItem 
-        ? `http://localhost:3001/api/menu/items/${editingMenuItem._id}`
-        : 'http://localhost:3001/api/menu/items';
+        ? buildApiUrl(API_ENDPOINTS.MENU_ITEM_BY_ID(editingMenuItem._id))
+        : buildApiUrl(API_ENDPOINTS.MENU_ITEMS);
       
       const method = editingMenuItem ? 'PUT' : 'POST';
       
@@ -203,7 +201,7 @@ const AdminPage = () => {
   const clearAndSeedDatabase = async () => {
     if (window.confirm('This will clear ALL existing menu data and replace it with the new comprehensive menu. Are you sure?')) {
       try {
-        const response = await fetch('http://localhost:3001/api/menu/clear-and-seed', {
+        const response = await fetch(buildApiUrl(API_ENDPOINTS.MENU_CLEAR_AND_SEED), {
           method: 'POST',
         });
         
@@ -224,7 +222,7 @@ const AdminPage = () => {
   // Seed database (legacy function)
   const seedDatabase = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/menu/seed', {
+      const response = await fetch(buildApiUrl(API_ENDPOINTS.MENU_SEED), {
         method: 'POST',
       });
       
@@ -245,7 +243,7 @@ const AdminPage = () => {
   const deleteCategory = async (categoryId, categoryName) => {
     if (window.confirm(`Are you sure you want to delete "${categoryName}"? This will also deactivate all menu items in this category.`)) {
       try {
-        const response = await fetch(`http://localhost:3001/api/menu/categories/${categoryId}`, {
+        const response = await fetch(buildApiUrl(API_ENDPOINTS.MENU_CATEGORY_BY_ID(categoryId)), {
           method: 'DELETE',
         });
         
@@ -274,7 +272,7 @@ const AdminPage = () => {
   const deleteOffer = async (offerId, offerTitle) => {
     if (window.confirm(`Are you sure you want to delete "${offerTitle}"?`)) {
       try {
-        const response = await fetch(`http://localhost:3001/api/offers/${offerId}`, {
+        const response = await fetch(buildApiUrl(API_ENDPOINTS.OFFER_BY_ID(offerId)), {
           method: 'DELETE',
         });
         
@@ -301,7 +299,7 @@ const AdminPage = () => {
 
   const seedOffers = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/offers/seed', {
+      const response = await fetch(buildApiUrl(API_ENDPOINTS.OFFERS_SEED), {
         method: 'POST',
       });
       

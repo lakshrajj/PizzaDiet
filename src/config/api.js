@@ -32,7 +32,11 @@ export const API_ENDPOINTS = {
   OFFERS: '/api/offers',
   OFFERS_ALL: '/api/offers/all',
   OFFER_BY_ID: (id) => `/api/offers/${id}`,
-  OFFERS_SEED: '/api/offers/seed'
+  OFFERS_SEED: '/api/offers/seed',
+  
+  // Menu management endpoints
+  MENU_CLEAR_AND_SEED: '/api/menu/clear-and-seed',
+  MENU_SEED: '/api/menu/seed'
 };
 
 // Helper function to build full API URL
