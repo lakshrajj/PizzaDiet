@@ -42,9 +42,9 @@ const MenuSection = ({ onAddToCart }) => {
   }, [activeCategory]);
 
   // Load menu data when component mounts
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchMenuData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Set first available category as active if current doesn't exist
