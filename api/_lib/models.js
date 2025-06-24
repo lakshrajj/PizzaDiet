@@ -42,11 +42,17 @@ const menuItemSchema = new mongoose.Schema({
   description: { type: String, required: true },
   image: { type: String, required: true },
   badge: String,
-  rating: { type: Number, default: 4.5, min: 1, max: 5 },
+  rating: { type: Number, min: 1, max: 5 }, // Made optional by removing default and required
   category: { type: String, required: true },
   sizes: [{
     name: { type: String, required: true },
     price: { type: Number, required: true, min: 0 }
+  }],
+  addOns: [{
+    name: { type: String, required: true },
+    price: { type: Number, required: true, min: 0 },
+    category: { type: String, default: 'Extra' }, // e.g., 'Extra Cheese', 'Toppings', 'Sides'
+    isActive: { type: Boolean, default: true }
   }],
   isActive: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },

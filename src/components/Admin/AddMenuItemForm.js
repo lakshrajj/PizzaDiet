@@ -8,13 +8,14 @@ const AddMenuItemForm = ({ categories, onSave, onCancel }) => {
     description: '',
     image: '',
     badge: '',
-    rating: 4.5,
+    rating: '',
     category: categories.length > 0 ? categories[0].categoryId : 'featured',
     sizes: [
       { name: 'Small', price: 0 },
       { name: 'Medium', price: 0 },
       { name: 'Large', price: 0 }
-    ]
+    ],
+    addOns: []
   });
 
   const [loading, setLoading] = useState(false);

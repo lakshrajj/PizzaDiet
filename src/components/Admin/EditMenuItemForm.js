@@ -7,9 +7,10 @@ const EditMenuItemForm = ({ item, categories, onClose, onSave }) => {
     description: '',
     image: '',
     badge: '',
-    rating: 4.5,
+    rating: '',
     category: '',
     sizes: [{ name: 'Small', price: 0 }],
+    addOns: [],
     isActive: true
   });
 
@@ -25,9 +26,10 @@ const EditMenuItemForm = ({ item, categories, onClose, onSave }) => {
         description: item.description || '',
         image: item.image || '',
         badge: item.badge || '',
-        rating: item.rating || 4.5,
+        rating: item.rating || '',
         category: item.category || '',
         sizes: item.sizes && item.sizes.length > 0 ? item.sizes : [{ name: 'Small', price: 0 }],
+        addOns: item.addOns && item.addOns.length > 0 ? item.addOns : [],
         isActive: item.isActive !== undefined ? item.isActive : true
       });
       setImagePreview(item.image || '');
@@ -86,6 +88,25 @@ const EditMenuItemForm = ({ item, categories, onClose, onSave }) => {
     }
   };
 
+  // Add-ons management functions
+  const handleAddOnChange = (index, field, value) => {
+    const newAddOns = [...formData.addOns];
+    newAddOns[index] = { ...newAddOns[index], [field]: field === 'price' ? Number(value) : value };
+    setFormData(prev => ({ ...prev, addOns: newAddOns }));
+  };
+
+  const addAddOn = () => {
+    setFormData(prev => ({
+      ...prev,
+      addOns: [...prev.addOns, { name: '', price: 0, category: 'Extra', isActive: true }]
+    }));
+  };
+
+  const removeAddOn = (index) => {
+    const newAddOns = formData.addOns.filter((_, i) => i !== index);
+    setFormData(prev => ({ ...prev, addOns: newAddOns }));
+  };
+
   const validateForm = () => {
     const newErrors = {};
 
@@ -93,12 +114,18 @@ const EditMenuItemForm = ({ item, categories, onClose, onSave }) => {
     if (!formData.description.trim()) newErrors.description = 'Description is required';
     if (!formData.image.trim()) newErrors.image = 'Image URL is required';
     if (!formData.category) newErrors.category = 'Category is required';
-    if (formData.rating < 1 || formData.rating > 5) newErrors.rating = 'Rating must be between 1 and 5';
+    if (formData.rating && (formData.rating < 1 || formData.rating > 5)) newErrors.rating = 'Rating must be between 1 and 5';
 
     // Validate sizes
     formData.sizes.forEach((size, index) => {
       if (!size.name.trim()) newErrors[`size_${index}_name`] = 'Size name is required';
       if (size.price <= 0) newErrors[`size_${index}_price`] = 'Price must be greater than 0';
+    });
+
+    // Validate add-ons
+    formData.addOns.forEach((addOn, index) => {
+      if (!addOn.name.trim()) newErrors[`addOn_${index}_name`] = 'Add-on name is required';
+      if (addOn.price < 0) newErrors[`addOn_${index}_price`] = 'Add-on price cannot be negative';
     });
 
     setErrors(newErrors);
@@ -219,7 +246,7 @@ const EditMenuItemForm = ({ item, categories, onClose, onSave }) => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Rating
+                    Rating (Optional)
                   </label>
                   <input
                     type="number"
@@ -229,6 +256,7 @@ const EditMenuItemForm = ({ item, categories, onClose, onSave }) => {
                     min="1"
                     max="5"
                     step="0.1"
+                    placeholder="Leave empty if no rating"
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   />
                   {errors.rating && <p className="text-red-500 text-sm mt-1">{errors.rating}</p>}
@@ -364,6 +392,96 @@ const EditMenuItemForm = ({ item, categories, onClose, onSave }) => {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Add-ons */}
+          <div>
+            <div className="flex justify-between items-center mb-4">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Add-ons (Optional)
+              </label>
+              <button
+                type="button"
+                onClick={addAddOn}
+                className="flex items-center gap-2 px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+                Add Add-on
+              </button>
+            </div>
+
+            {formData.addOns.length > 0 && (
+              <div className="space-y-3">
+                {formData.addOns.map((addOn, index) => (
+                  <div key={index} className="flex gap-4 items-end">
+                    <div className="flex-1">
+                      <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                        Add-on Name
+                      </label>
+                      <input
+                        type="text"
+                        value={addOn.name}
+                        onChange={(e) => handleAddOnChange(index, 'name', e.target.value)}
+                        placeholder="e.g., Extra Cheese, Mushrooms"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      />
+                      {errors[`addOn_${index}_name`] && (
+                        <p className="text-red-500 text-xs mt-1">{errors[`addOn_${index}_name`]}</p>
+                      )}
+                    </div>
+
+                    <div className="flex-1">
+                      <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                        Category
+                      </label>
+                      <select
+                        value={addOn.category}
+                        onChange={(e) => handleAddOnChange(index, 'category', e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      >
+                        <option value="Extra">Extra</option>
+                        <option value="Toppings">Toppings</option>
+                        <option value="Sides">Sides</option>
+                        <option value="Beverages">Beverages</option>
+                        <option value="Desserts">Desserts</option>
+                      </select>
+                    </div>
+
+                    <div className="flex-1">
+                      <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                        Price (₹)
+                      </label>
+                      <input
+                        type="number"
+                        value={addOn.price}
+                        onChange={(e) => handleAddOnChange(index, 'price', e.target.value)}
+                        min="0"
+                        step="1"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        placeholder="0"
+                      />
+                      {errors[`addOn_${index}_price`] && (
+                        <p className="text-red-500 text-xs mt-1">{errors[`addOn_${index}_price`]}</p>
+                      )}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => removeAddOn(index)}
+                      className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {formData.addOns.length === 0 && (
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <p>No add-ons yet. Click "Add Add-on" to create customizable options for this menu item.</p>
+              </div>
+            )}
           </div>
 
           {/* Submit Buttons */}
