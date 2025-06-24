@@ -1,6 +1,6 @@
-const { connectToDatabase } = require('../_lib/db');
-const { MenuItem, MenuCategory } = require('../_lib/models');
-const { corsMiddleware, runMiddleware, errorResponse, successResponse, handleRequest } = require('../_lib/utils');
+const { connectToDatabase } = require('../../_lib/db');
+const { MenuItem, MenuCategory } = require('../../_lib/models');
+const { corsMiddleware, runMiddleware, errorResponse, successResponse, handleRequest } = require('../../_lib/utils');
 
 async function GET(req, res) {
   try {
