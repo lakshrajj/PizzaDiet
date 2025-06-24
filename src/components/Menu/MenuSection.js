@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Plus, Star, Filter, RefreshCw } from 'lucide-react';
 import { apiRequest, API_ENDPOINTS } from '../../config/api';
 
@@ -16,7 +16,7 @@ const MenuSection = ({ onAddToCart }) => {
   const categoryKeys = Object.keys(categories);
 
   // Fetch menu data from MongoDB
-  const fetchMenuData = async () => {
+  const fetchMenuData = useCallback(async () => {
     setLoadingMenuData(true);
     try {
       const data = await apiRequest(API_ENDPOINTS.MENU_ITEMS_GROUPED);
@@ -39,12 +39,12 @@ const MenuSection = ({ onAddToCart }) => {
     } finally {
       setLoadingMenuData(false);
     }
-  };
+  }, [activeCategory]);
 
   // Load menu data when component mounts
   useEffect(() => {
     fetchMenuData();
-  }, []);
+  }, [fetchMenuData]);
 
   // Set first available category as active if current doesn't exist
   useEffect(() => {

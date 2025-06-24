@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Settings, Users, Menu, FileText, RefreshCw, Plus, Trash2, Eye, CheckCircle, XCircle, Clock, Search, Upload, Edit, Tag, Gift } from 'lucide-react';
 import AddMenuItemForm from '../components/Admin/AddMenuItemForm';
 import EditMenuItemForm from '../components/Admin/EditMenuItemForm';
@@ -30,24 +30,8 @@ const AdminPage = () => {
     totalMenuItems: 0
   });
 
-  // Fetch all data
-  const fetchAllData = async () => {
-    setLoading(true);
-    try {
-      await Promise.all([
-        fetchFranchiseApplications(),
-        fetchMenuData(),
-        fetchOffers()
-      ]);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // Fetch franchise applications
-  const fetchFranchiseApplications = async () => {
+  const fetchFranchiseApplications = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:3001/api/franchise/applications');
       const data = await response.json();
@@ -68,10 +52,10 @@ const AdminPage = () => {
     } catch (error) {
       console.error('Error fetching applications:', error);
     }
-  };
+  }, []);
 
   // Fetch menu data
-  const fetchMenuData = async () => {
+  const fetchMenuData = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:3001/api/menu/items/grouped');
       const data = await response.json();
@@ -89,10 +73,10 @@ const AdminPage = () => {
     } catch (error) {
       console.error('Error fetching menu data:', error);
     }
-  };
+  }, []);
 
   // Fetch offers data
-  const fetchOffers = async () => {
+  const fetchOffers = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:3001/api/offers/all');
       const data = await response.json();
@@ -102,7 +86,23 @@ const AdminPage = () => {
     } catch (error) {
       console.error('Error fetching offers:', error);
     }
-  };
+  }, []);
+
+  // Fetch all data
+  const fetchAllData = useCallback(async () => {
+    setLoading(true);
+    try {
+      await Promise.all([
+        fetchFranchiseApplications(),
+        fetchMenuData(),
+        fetchOffers()
+      ]);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchFranchiseApplications, fetchMenuData, fetchOffers]);
 
   // Update franchise application status
   const updateApplicationStatus = async (applicationId, newStatus) => {
@@ -346,7 +346,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     fetchAllData();
-  }, []);
+  }, [fetchAllData]);
 
   return (
     <div className="min-h-screen bg-gray-50">

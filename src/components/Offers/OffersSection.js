@@ -117,7 +117,6 @@ const OffersSection = ({ onAddToCart }) => {
 
     const getCategoryForPizza = (pizza) => {
       // Find which category this pizza belongs to
-      const validPizzas = getValidPizzas(offer);
       for (const category of offer.validCategories) {
         if (data.menuItems[category]?.some(item => item.id === pizza.id)) {
           return category;
