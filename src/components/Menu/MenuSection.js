@@ -1,14 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { useData } from '../../context/DataContext';
-import { Plus, Star, Filter } from 'lucide-react';
+import { Plus, Star, Filter, RefreshCw } from 'lucide-react';
+import { apiRequest, API_ENDPOINTS } from '../../config/api';
 
 const MenuSection = ({ onAddToCart }) => {
-  const { data, getMenuCategories } = useData();
   const [activeCategory, setActiveCategory] = useState('featured');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  
+  // MongoDB state
+  const [mongoMenuItems, setMongoMenuItems] = useState({});
+  const [mongoCategories, setMongoCategories] = useState([]);
+  const [loadingMenuData, setLoadingMenuData] = useState(false);
 
-  const categories = getMenuCategories();
+  // Get current data source (always use MongoDB)
+  const categories = mongoCategories.reduce((acc, cat) => ({ ...acc, [cat.categoryId]: cat }), {});
   const categoryKeys = Object.keys(categories);
+
+  // Fetch menu data from MongoDB
+  const fetchMenuData = async () => {
+    setLoadingMenuData(true);
+    try {
+      const data = await apiRequest(API_ENDPOINTS.MENU_ITEMS_GROUPED);
+      if (data.success) {
+        setMongoMenuItems(data.menuItems);
+        setMongoCategories(data.categories);
+        
+        // Set first category as active if available
+        if (data.categories.length > 0) {
+          const firstCategoryId = data.categories[0].categoryId;
+          if (!Object.keys(data.menuItems).includes(activeCategory)) {
+            setActiveCategory(firstCategoryId);
+          }
+        }
+      } else {
+        console.error('Failed to fetch menu data:', data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching menu data:', error);
+    } finally {
+      setLoadingMenuData(false);
+    }
+  };
+
+  // Load menu data when component mounts
+  useEffect(() => {
+    fetchMenuData();
+  }, []);
 
   // Set first available category as active if current doesn't exist
   useEffect(() => {
@@ -27,7 +63,7 @@ const MenuSection = ({ onAddToCart }) => {
       }
 
       onAddToCart({
-        id: item.id,
+        id: item._id || item.id, // Handle both MongoDB (_id) and local (id) formats
         name: item.name,
         description: item.description,
         size: selectedSize.name,
@@ -120,6 +156,14 @@ const MenuSection = ({ onAddToCart }) => {
           <p className="section-subtitle dark:text-gray-300">
             Crafted with love, served with passion. Each pizza tells a story of flavor and tradition.
           </p>
+          {loadingMenuData && (
+            <div className="text-center py-4">
+              <div className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400">
+                <RefreshCw className="w-4 h-4 animate-spin" />
+                <span>Loading from database...</span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Mobile Filter Button */}
@@ -185,13 +229,13 @@ const MenuSection = ({ onAddToCart }) => {
 
         {/* Menu Items Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-          {data.menuItems?.[activeCategory]?.map(item => (
-            <MenuItem key={item.id} item={item} />
+          {mongoMenuItems?.[activeCategory]?.map(item => (
+            <MenuItem key={item.id || item._id} item={item} />
           ))}
         </div>
 
         {/* Empty State */}
-        {(!data.menuItems?.[activeCategory] || data.menuItems[activeCategory].length === 0) && (
+        {(!mongoMenuItems?.[activeCategory] || mongoMenuItems[activeCategory].length === 0) && (
           <div className="text-center py-12 sm:py-16">
             <div className="text-5xl sm:text-6xl mb-4 opacity-50">🍕</div>
             <h3 className="text-xl sm:text-2xl font-bold text-gray-600 dark:text-gray-300 mb-2">No items in this category</h3>

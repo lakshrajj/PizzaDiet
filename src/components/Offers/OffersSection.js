@@ -1,16 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
-import { Plus, Star, Package, Gift, X } from 'lucide-react';
+import { Package, Gift, X, RefreshCw } from 'lucide-react';
+import { apiRequest, API_ENDPOINTS } from '../../config/api';
 
 const OffersSection = ({ onAddToCart }) => {
   const { data } = useData();
   const [selectedOffer, setSelectedOffer] = useState(null);
   const [selectedCombo, setSelectedCombo] = useState(null);
+  const [offers, setOffers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Get all BOGO offers
+  // Fetch offers from MongoDB
+  useEffect(() => {
+    const fetchOffers = async () => {
+      try {
+        setLoading(true);
+        const data = await apiRequest(API_ENDPOINTS.OFFERS);
+        if (data.success) {
+          setOffers(data.offers);
+        }
+      } catch (error) {
+        console.error('Error fetching offers:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOffers();
+  }, []);
+
+  // Get all BOGO offers (legacy support)
   const bogoOffers = data.offers?.bogo?.filter(offer => offer.active) || [];
   
-  // Get all combo offers
+  // Get all combo offers (legacy support)
   const comboOffers = data.offers?.combos?.filter(offer => offer.active) || [];
 
   // Get all pizzas from valid categories (excluding pizzas with only small sizes) for BOGO
@@ -698,7 +720,12 @@ const OffersSection = ({ onAddToCart }) => {
           </p>
         </div>
 
-        {(bogoOffers.length === 0 && comboOffers.length === 0) ? (
+        {loading ? (
+          <div className="flex justify-center items-center py-12">
+            <RefreshCw className="w-8 h-8 animate-spin text-orange-500" />
+            <span className="ml-3 text-lg text-gray-600 dark:text-gray-300">Loading offers...</span>
+          </div>
+        ) : (offers.length === 0 && bogoOffers.length === 0 && comboOffers.length === 0) ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4 opacity-50">🎉</div>
             <h3 className="text-2xl font-bold text-gray-600 dark:text-gray-300 mb-2">No Active Offers</h3>
@@ -706,6 +733,95 @@ const OffersSection = ({ onAddToCart }) => {
           </div>
         ) : (
           <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {/* MongoDB Offers */}
+            {offers.map(offer => (
+              <div 
+                key={`mongodb-offer-${offer._id}`}
+                className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-gray-100 dark:border-gray-700"
+              >
+                {offer.image && (
+                  <div className="relative mb-6 overflow-hidden rounded-xl">
+                    <img 
+                      src={offer.image} 
+                      alt={offer.title} 
+                      className="w-full h-48 object-cover"
+                    />
+                    {offer.badge && (
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-gray-800">
+                          {offer.badge}
+                        </span>
+                      </div>
+                    )}
+                    <div className="absolute top-4 right-4">
+                      <span className="px-3 py-1 bg-red-500 text-white rounded-full text-sm font-semibold">
+                        {offer.discount}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="mb-6">
+                  <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-2">{offer.title}</h4>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">{offer.description}</p>
+                  
+                  {/* Terms and Conditions */}
+                  {offer.terms && offer.terms.length > 0 && (
+                    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 mb-4">
+                      <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Terms & Conditions:</h5>
+                      <ul className="text-xs text-gray-600 dark:text-gray-300 space-y-1">
+                        {offer.terms.slice(0, 3).map((term, index) => (
+                          <li key={index} className="flex items-start gap-1">
+                            <span className="text-orange-500 mt-1">•</span>
+                            <span>{term}</span>
+                          </li>
+                        ))}
+                        {offer.terms.length > 3 && (
+                          <li className="text-gray-500 italic">+{offer.terms.length - 3} more conditions</li>
+                        )}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Valid Until */}
+                  <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                    Valid until: {new Date(offer.validUntil).toLocaleDateString()}
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => {
+                    // Add offer as a promotional item to cart
+                    onAddToCart({
+                      id: `offer-${Date.now()}`,
+                      name: offer.title,
+                      description: offer.description,
+                      type: 'offer',
+                      offerId: offer._id,
+                      price: 0, // Offers are applied as discounts
+                      category: 'offers',
+                      badge: offer.badge,
+                      discount: offer.discount,
+                      terms: offer.terms
+                    });
+                  }}
+                  className="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white py-3 rounded-xl font-bold hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <Gift size={16} />
+                  Claim Offer
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Legacy BOGO and Combo Offers */}
+        {(bogoOffers.length > 0 || comboOffers.length > 0) && !loading && (
+          <div className="mt-8">
+            <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">
+              🍕 Pizza Combo Deals
+            </h3>
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* BOGO Offers */}
             {bogoOffers.map(offer => (
               <div 
@@ -861,6 +977,7 @@ const OffersSection = ({ onAddToCart }) => {
                 </button>
               </div>
             ))}
+            </div>
           </div>
         )}
 

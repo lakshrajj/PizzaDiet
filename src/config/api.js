@@ -1,0 +1,76 @@
+// API Configuration for different environments
+const getBaseURL = () => {
+  // In production (Vercel), use the same domain for API calls
+  if (process.env.NODE_ENV === 'production') {
+    return ''; // Relative URLs will use the same domain
+  }
+  
+  // In development, use localhost backend
+  return 'http://localhost:3001';
+};
+
+export const API_BASE_URL = getBaseURL();
+
+// API endpoints
+export const API_ENDPOINTS = {
+  // Health check
+  HEALTH: '/api/health',
+  
+  // Franchise endpoints
+  FRANCHISE_APPLY: '/api/franchise/apply',
+  FRANCHISE_APPLICATIONS: '/api/franchise/applications',
+  FRANCHISE_APPLICATION_BY_ID: (id) => `/api/franchise/${id}`,
+  
+  // Menu endpoints
+  MENU_CATEGORIES: '/api/menu/categories',
+  MENU_ITEMS: '/api/menu/items',
+  MENU_ITEMS_GROUPED: '/api/menu/items/grouped',
+  MENU_ITEM_BY_ID: (id) => `/api/menu/items/${id}`,
+  MENU_CATEGORY_BY_ID: (id) => `/api/menu/categories/${id}`,
+  
+  // Offers endpoints
+  OFFERS: '/api/offers',
+  OFFERS_ALL: '/api/offers/all',
+  OFFER_BY_ID: (id) => `/api/offers/${id}`,
+  OFFERS_SEED: '/api/offers/seed'
+};
+
+// Helper function to build full API URL
+export const buildApiUrl = (endpoint) => `${API_BASE_URL}${endpoint}`;
+
+// API utility functions
+export const apiRequest = async (endpoint, options = {}) => {
+  const url = buildApiUrl(endpoint);
+  
+  const defaultOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers
+    }
+  };
+  
+  const config = { ...defaultOptions, ...options };
+  
+  try {
+    const response = await fetch(url, config);
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || `HTTP error! status: ${response.status}`);
+    }
+    
+    return data;
+  } catch (error) {
+    console.error(`API request failed for ${endpoint}:`, error);
+    throw error;
+  }
+};
+
+const apiConfig = {
+  API_BASE_URL,
+  API_ENDPOINTS,
+  buildApiUrl,
+  apiRequest
+};
+
+export default apiConfig;

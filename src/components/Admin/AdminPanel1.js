@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
-import { Settings, X, Save, Upload, Trash2 } from 'lucide-react';
+import { Settings, X, Save, Upload, Trash2, Eye, CheckCircle, XCircle, Clock } from 'lucide-react';
 
 const AdminPanel = ({ isOpen, onClose }) => {
   const { data, addMenuItem, updateMenuItem, deleteMenuItem, addGalleryItem, deleteGalleryItem } = useData();
@@ -24,6 +24,14 @@ const AdminPanel = ({ isOpen, onClose }) => {
     image: '',
     category: 'pizzas'
   });
+
+  const [franchiseApplications, setFranchiseApplications] = useState([]);
+  const [loadingApplications, setLoadingApplications] = useState(false);
+  
+  // MongoDB state
+  const [mongoMenuItems, setMongoMenuItems] = useState({});
+  const [mongoCategories, setMongoCategories] = useState([]);
+  const [loadingMenuData, setLoadingMenuData] = useState(false);
 
   const handleAddMenuItem = () => {
     if (newItem.name && newItem.description && newItem.image) {
@@ -75,6 +83,175 @@ const AdminPanel = ({ isOpen, onClose }) => {
     }
   };
 
+  const fetchFranchiseApplications = async () => {
+    setLoadingApplications(true);
+    try {
+      const response = await fetch('http://localhost:3001/api/franchise/applications');
+      const data = await response.json();
+      if (data.success) {
+        setFranchiseApplications(data.applications);
+      } else {
+        console.error('Failed to fetch applications:', data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching applications:', error);
+    } finally {
+      setLoadingApplications(false);
+    }
+  };
+
+  const updateApplicationStatus = async (applicationId, newStatus) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/franchise/applications/${applicationId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        setFranchiseApplications(prev => 
+          prev.map(app => 
+            app._id === applicationId ? { ...app, status: newStatus } : app
+          )
+        );
+        alert(`Application status updated to ${newStatus}`);
+      } else {
+        alert('Failed to update status: ' + data.message);
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+      alert('Error updating application status');
+    }
+  };
+
+  // MongoDB menu functions
+  const fetchMenuData = async () => {
+    setLoadingMenuData(true);
+    try {
+      const response = await fetch('http://localhost:3001/api/menu/items/grouped');
+      const data = await response.json();
+      if (data.success) {
+        setMongoMenuItems(data.menuItems);
+        setMongoCategories(data.categories);
+      } else {
+        console.error('Failed to fetch menu data:', data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching menu data:', error);
+    } finally {
+      setLoadingMenuData(false);
+    }
+  };
+
+  const handleAddMenuItemMongo = async () => {
+    if (newItem.name && newItem.description && newItem.image) {
+      try {
+        const response = await fetch('http://localhost:3001/api/menu/items', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newItem),
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+          setNewItem({
+            name: '',
+            description: '',
+            image: '',
+            badge: '',
+            rating: 4.5,
+            category: 'featured',
+            sizes: [
+              { name: 'Small', price: 0 },
+              { name: 'Medium', price: 0 },
+              { name: 'Large', price: 0 }
+            ]
+          });
+          alert('Menu item added successfully!');
+          fetchMenuData();
+        } else {
+          alert('Failed to add menu item: ' + data.message);
+        }
+      } catch (error) {
+        console.error('Error adding menu item:', error);
+        alert('Error adding menu item');
+      }
+    } else {
+      alert('Please fill in all required fields (name, description, image)');
+    }
+  };
+
+  const handleDeleteMenuItemMongo = async (itemId, itemName) => {
+    if (window.confirm(`Are you sure you want to delete "${itemName}"?`)) {
+      try {
+        const response = await fetch(`http://localhost:3001/api/menu/items/${itemId}`, {
+          method: 'DELETE',
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+          alert('Menu item deleted successfully!');
+          fetchMenuData();
+        } else {
+          alert('Failed to delete menu item: ' + data.message);
+        }
+      } catch (error) {
+        console.error('Error deleting menu item:', error);
+        alert('Error deleting menu item');
+      }
+    }
+  };
+
+  const seedDatabase = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/api/menu/seed', {
+        method: 'POST',
+      });
+      
+      const data = await response.json();
+      if (data.success) {
+        alert('Database seeded successfully!');
+        fetchMenuData();
+      } else {
+        alert('Failed to seed database: ' + data.message);
+      }
+    } catch (error) {
+      console.error('Error seeding database:', error);
+      alert('Error seeding database');
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'franchise') {
+      fetchFranchiseApplications();
+    } else if (activeTab === 'menu') {
+      fetchMenuData();
+    }
+  }, [activeTab]);
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'approved': return <CheckCircle className="w-5 h-5 text-green-500" />;
+      case 'rejected': return <XCircle className="w-5 h-5 text-red-500" />;
+      case 'in-review': return <Clock className="w-5 h-5 text-yellow-500" />;
+      default: return <Clock className="w-5 h-5 text-gray-500" />;
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'approved': return 'bg-green-100 text-green-800';
+      case 'rejected': return 'bg-red-100 text-red-800';
+      case 'in-review': return 'bg-yellow-100 text-yellow-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -112,6 +289,16 @@ const AdminPanel = ({ isOpen, onClose }) => {
             }`}
           >
             Gallery Management
+          </button>
+          <button
+            onClick={() => setActiveTab('franchise')}
+            className={`px-8 py-4 font-semibold transition-colors ${
+              activeTab === 'franchise' 
+                ? 'bg-purple-50 text-purple-600 border-b-2 border-purple-600' 
+                : 'text-gray-600 hover:text-purple-600'
+            }`}
+          >
+            Franchise Applications
           </button>
         </div>
 
@@ -157,9 +344,18 @@ const AdminPanel = ({ isOpen, onClose }) => {
                       onChange={(e) => setNewItem({...newItem, category: e.target.value})}
                       className="input-field"
                     >
-                      <option value="featured">Featured</option>
-                      <option value="simply-veg">Simply Veg</option>
-                      <option value="deluxe">Deluxe</option>
+                      {mongoCategories.map(category => (
+                        <option key={category.categoryId} value={category.categoryId}>
+                          {category.name}
+                        </option>
+                      ))}
+                      {mongoCategories.length === 0 && (
+                        <>
+                          <option value="featured">Featured</option>
+                          <option value="simply-veg">Simply Veg</option>
+                          <option value="deluxe">Deluxe</option>
+                        </>
+                      )}
                     </select>
                     <input
                       type="number"
@@ -205,40 +401,111 @@ const AdminPanel = ({ isOpen, onClose }) => {
                     )}
                   </div>
                 </div>
-                <button
-                  onClick={handleAddMenuItem}
-                  className="mt-6 bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-8 py-3 rounded-xl font-semibold hover:scale-105 transition-transform flex items-center gap-2"
-                >
-                  <Save size={20} />
-                  Add Menu Item
-                </button>
+                <div className="mt-6 flex gap-4">
+                  <button
+                    onClick={handleAddMenuItemMongo}
+                    className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-8 py-3 rounded-xl font-semibold hover:scale-105 transition-transform flex items-center gap-2"
+                  >
+                    <Save size={20} />
+                    Add to Database
+                  </button>
+                  <button
+                    onClick={seedDatabase}
+                    className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl font-semibold hover:scale-105 transition-transform flex items-center gap-2"
+                  >
+                    🌱 Seed Database
+                  </button>
+                </div>
               </div>
 
-              {/* Existing Menu Items */}
+              {/* Existing Menu Items from MongoDB */}
               <div>
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">Existing Menu Items</h3>
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-2xl font-bold text-gray-800">Menu Items from Database</h3>
+                  <button
+                    onClick={fetchMenuData}
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                  >
+                    Refresh
+                  </button>
+                </div>
+                
+                {loadingMenuData ? (
+                  <div className="flex justify-center items-center py-12">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+                  </div>
+                ) : (
+                  <>
+                    {Object.keys(mongoMenuItems).length === 0 ? (
+                      <div className="text-center py-12 bg-gray-50 rounded-xl">
+                        <p className="text-gray-500 text-lg mb-4">No menu items found in database</p>
+                        <button
+                          onClick={seedDatabase}
+                          className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors"
+                        >
+                          🌱 Seed Database with Initial Data
+                        </button>
+                      </div>
+                    ) : (
+                      Object.entries(mongoMenuItems).map(([categoryId, items]) => {
+                        const category = mongoCategories.find(cat => cat.categoryId === categoryId);
+                        return (
+                          <div key={categoryId} className="mb-8">
+                            <h4 className="text-xl font-semibold mb-4 text-purple-600 flex items-center gap-2">
+                              <span>{category?.icon || '🍕'}</span>
+                              {category?.name || categoryId.replace('-', ' ')}
+                              <span className="text-sm text-gray-500">({items.length} items)</span>
+                            </h4>
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                              {items.map(item => (
+                                <div key={item._id} className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-shadow">
+                                  {item.image && (
+                                    <img src={item.image} alt={item.name} className="w-full h-24 object-cover rounded-lg mb-3" />
+                                  )}
+                                  <div className="flex justify-between items-start mb-2">
+                                    <h5 className="font-semibold text-gray-800 flex-1">{item.name}</h5>
+                                    <button
+                                      onClick={() => handleDeleteMenuItemMongo(item._id, item.name)}
+                                      className="text-red-500 hover:bg-red-50 p-1 rounded transition-colors ml-2"
+                                    >
+                                      <Trash2 size={16} />
+                                    </button>
+                                  </div>
+                                  <p className="text-gray-600 text-sm mb-2 line-clamp-2">{item.description}</p>
+                                  <div className="text-sm text-gray-500">
+                                    <p>Badge: {item.badge || 'None'}</p>
+                                    <p>Rating: {item.rating}/5</p>
+                                    <p>Prices: {item.sizes.map(size => `${size.name}: ₹${size.price}`).join(', ')}</p>
+                                    <p className="text-xs text-gray-400 mt-1">
+                                      Created: {new Date(item.createdAt).toLocaleDateString()}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })
+                    )}
+                  </>
+                )}
+              </div>
+              
+              {/* Legacy Local Data (Keep for backup) */}
+              <div className="mt-12 border-t pt-8">
+                <h3 className="text-2xl font-bold mb-6 text-gray-800">Legacy Local Data (Backup)</h3>
                 {Object.entries(data.menuItems).map(([category, items]) => (
                   <div key={category} className="mb-8">
-                    <h4 className="text-xl font-semibold mb-4 text-purple-600 capitalize">{category.replace('-', ' ')}</h4>
+                    <h4 className="text-xl font-semibold mb-4 text-gray-600 capitalize">{category.replace('-', ' ')}</h4>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {items.map(item => (
-                        <div key={item.id} className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-shadow">
+                        <div key={item.id} className="bg-gray-50 border border-gray-200 rounded-xl p-4 opacity-75">
                           {item.image && (
                             <img src={item.image} alt={item.name} className="w-full h-24 object-cover rounded-lg mb-3" />
                           )}
-                          <div className="flex justify-between items-start mb-2">
-                            <h5 className="font-semibold text-gray-800 flex-1">{item.name}</h5>
-                            <button
-                              onClick={() => handleDeleteMenuItem(category, item.id, item.name)}
-                              className="text-red-500 hover:bg-red-50 p-1 rounded transition-colors ml-2"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </div>
+                          <h5 className="font-semibold text-gray-700">{item.name}</h5>
                           <p className="text-gray-600 text-sm mb-2 line-clamp-2">{item.description}</p>
                           <div className="text-sm text-gray-500">
-                            <p>Badge: {item.badge || 'None'}</p>
-                            <p>Rating: {item.rating}/5</p>
                             <p>Prices: {item.sizes.map(size => `${size.name}: ₹${size.price}`).join(', ')}</p>
                           </div>
                         </div>
@@ -330,6 +597,119 @@ const AdminPanel = ({ isOpen, onClose }) => {
                   ))}
                 </div>
               </div>
+            </div>
+          )}
+
+          {activeTab === 'franchise' && (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h3 className="text-2xl font-bold text-gray-800">Franchise Applications</h3>
+                <button
+                  onClick={fetchFranchiseApplications}
+                  className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors"
+                >
+                  Refresh
+                </button>
+              </div>
+
+              {loadingApplications ? (
+                <div className="flex justify-center items-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {franchiseApplications.length === 0 ? (
+                    <div className="text-center py-12 bg-gray-50 rounded-xl">
+                      <p className="text-gray-500 text-lg">No franchise applications found</p>
+                    </div>
+                  ) : (
+                    franchiseApplications.map((application) => (
+                      <div key={application._id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h4 className="text-xl font-semibold text-gray-800">{application.fullName}</h4>
+                            <p className="text-gray-600">{application.email}</p>
+                            <p className="text-gray-600">{application.phone}</p>
+                          </div>
+                          <div className="text-right">
+                            <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(application.status)}`}>
+                              {getStatusIcon(application.status)}
+                              <span className="ml-2 capitalize">{application.status}</span>
+                            </div>
+                            <p className="text-sm text-gray-500 mt-1">
+                              {new Date(application.submittedAt).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-4 mb-4">
+                          <div>
+                            <h5 className="font-semibold text-gray-700 mb-2">Location Interest</h5>
+                            <p className="text-gray-600">{application.locationInterest}</p>
+                          </div>
+                          <div>
+                            <h5 className="font-semibold text-gray-700 mb-2">Investment Amount</h5>
+                            <p className="text-gray-600">{application.investmentAmount}</p>
+                          </div>
+                        </div>
+
+                        <div className="mb-4">
+                          <h5 className="font-semibold text-gray-700 mb-2">Why Franchise?</h5>
+                          <p className="text-gray-600 line-clamp-3">{application.whyFranchise}</p>
+                        </div>
+
+                        {application.businessName && (
+                          <div className="mb-4">
+                            <h5 className="font-semibold text-gray-700 mb-2">Current Business</h5>
+                            <p className="text-gray-600">{application.businessName}</p>
+                          </div>
+                        )}
+
+                        <div className="flex justify-between items-center pt-4 border-t">
+                          <div className="flex gap-2">
+                            {application.status !== 'approved' && (
+                              <button
+                                onClick={() => updateApplicationStatus(application._id, 'approved')}
+                                className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
+                              >
+                                <CheckCircle className="w-4 h-4" />
+                                Approve
+                              </button>
+                            )}
+                            {application.status !== 'rejected' && (
+                              <button
+                                onClick={() => updateApplicationStatus(application._id, 'rejected')}
+                                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
+                              >
+                                <XCircle className="w-4 h-4" />
+                                Reject
+                              </button>
+                            )}
+                            {application.status !== 'in-review' && (
+                              <button
+                                onClick={() => updateApplicationStatus(application._id, 'in-review')}
+                                className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors flex items-center gap-2"
+                              >
+                                <Clock className="w-4 h-4" />
+                                Review
+                              </button>
+                            )}
+                          </div>
+                          <button
+                            onClick={() => {
+                              alert(`Full Application Details:\n\nName: ${application.fullName}\nEmail: ${application.email}\nPhone: ${application.phone}\nAddress: ${application.address}\nLocation Interest: ${application.locationInterest}\nInvestment: ${application.investmentAmount}\nWhy Franchise: ${application.whyFranchise}\n\nBusiness Name: ${application.businessName || 'None'}\nBusiness Address: ${application.businessAddress || 'None'}\nOwns Franchise: ${application.ownsFranchise || 'Not specified'}\nIndustry Experience: ${application.industryExperience || 'Not specified'}\nBusiness Experience: ${application.businessExperience || 'Not specified'}\n\nSubmitted: ${new Date(application.submittedAt).toLocaleString()}`);
+                            }}
+                            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+                          >
+                            <Eye className="w-4 h-4" />
+                            View Details
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>

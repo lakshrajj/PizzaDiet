@@ -18,7 +18,9 @@ const Header = ({ cartItems, onCartToggle, isMenuOpen, setIsMenuOpen, showAdminB
     { href: '/', label: 'Home' },
     { href: '/order', label: 'Menu & Order' },
     { href: '/#gallery', label: 'Gallery' },
-    { href: '/#contact', label: 'Contact' }
+    { href: '/#contact', label: 'Contact' },
+    { href: '/franchise', label: 'Franchise' },
+    { href: '/admin', label: 'Admin', icon: Settings }
   ];
 
   const handleNavClick = (href) => {

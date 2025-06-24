@@ -15,7 +15,9 @@ import Toast from './components/Common/Toast';
 import FluidBackground from './components/Common/FluidBackground';
 import ScrollBackground from './components/Common/ScrollBackground';
 import OrderPage from './pages/OrderPage';
+import AdminPage from './pages/AdminPage';
 import RefundPolicy from './components/Common/RefundPolicy';
+import FranchiseApplication from './components/Franchise/FranchiseApplication';
 import { useCart } from './hooks/useCart';
 import './styles/globals.css';
 
@@ -93,6 +95,14 @@ const App = () => {
                 <Route 
                   path="/refund-policy" 
                   element={<RefundPolicy />} 
+                />
+                <Route 
+                  path="/franchise" 
+                  element={<FranchiseApplication />} 
+                />
+                <Route 
+                  path="/admin" 
+                  element={<AdminPage />} 
                 />
               </Routes>
             </main>
