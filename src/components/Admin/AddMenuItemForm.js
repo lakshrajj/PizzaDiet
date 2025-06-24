@@ -61,6 +61,25 @@ const AddMenuItemForm = ({ categories, onSave, onCancel }) => {
     }
   };
 
+  // Add-ons management functions
+  const handleAddOnChange = (index, field, value) => {
+    const newAddOns = [...formData.addOns];
+    newAddOns[index] = { ...newAddOns[index], [field]: field === 'price' ? Number(value) : value };
+    setFormData(prev => ({ ...prev, addOns: newAddOns }));
+  };
+
+  const addAddOn = () => {
+    setFormData(prev => ({
+      ...prev,
+      addOns: [...prev.addOns, { name: '', price: 0, category: 'Extra', isActive: true }]
+    }));
+  };
+
+  const removeAddOn = (index) => {
+    const newAddOns = formData.addOns.filter((_, i) => i !== index);
+    setFormData(prev => ({ ...prev, addOns: newAddOns }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -205,7 +224,7 @@ const AddMenuItemForm = ({ categories, onSave, onCancel }) => {
 
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Rating (1-5)
+                Rating (Optional)
               </label>
               <input
                 type="number"
@@ -215,6 +234,7 @@ const AddMenuItemForm = ({ categories, onSave, onCancel }) => {
                 min="1"
                 max="5"
                 step="0.1"
+                placeholder="Leave empty if no rating"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -263,6 +283,71 @@ const AddMenuItemForm = ({ categories, onSave, onCancel }) => {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Add-ons */}
+            <div>
+              <div className="flex justify-between items-center mb-3">
+                <label className="block text-sm font-semibold text-gray-700">
+                  Add-ons (Optional)
+                </label>
+                <button
+                  type="button"
+                  onClick={addAddOn}
+                  className="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 transition-colors flex items-center gap-1 text-sm"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Add-on
+                </button>
+              </div>
+              
+              {formData.addOns.length > 0 && (
+                <div className="space-y-2">
+                  {formData.addOns.map((addOn, index) => (
+                    <div key={index} className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Add-on name (e.g., Extra Cheese)"
+                        value={addOn.name}
+                        onChange={(e) => handleAddOnChange(index, 'name', e.target.value)}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                      <select
+                        value={addOn.category}
+                        onChange={(e) => handleAddOnChange(index, 'category', e.target.value)}
+                        className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      >
+                        <option value="Extra">Extra</option>
+                        <option value="Toppings">Toppings</option>
+                        <option value="Sides">Sides</option>
+                        <option value="Beverages">Beverages</option>
+                        <option value="Desserts">Desserts</option>
+                      </select>
+                      <input
+                        type="number"
+                        placeholder="Price"
+                        value={addOn.price}
+                        onChange={(e) => handleAddOnChange(index, 'price', e.target.value)}
+                        min="0"
+                        className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeAddOn(index)}
+                        className="text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              {formData.addOns.length === 0 && (
+                <div className="text-center py-6 text-gray-500 bg-gray-50 rounded-lg">
+                  <p>No add-ons yet. Click "Add Add-on" to create customizable options.</p>
+                </div>
+              )}
             </div>
 
             {/* Image Preview */}
