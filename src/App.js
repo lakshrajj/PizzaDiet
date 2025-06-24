@@ -15,7 +15,6 @@ import Toast from './components/Common/Toast';
 import FluidBackground from './components/Common/FluidBackground';
 import ScrollBackground from './components/Common/ScrollBackground';
 import OrderPage from './pages/OrderPage';
-import AdminPage from './pages/AdminPage';
 import RefundPolicy from './components/Common/RefundPolicy';
 import FranchiseApplication from './components/Franchise/FranchiseApplication';
 import { useCart } from './hooks/useCart';

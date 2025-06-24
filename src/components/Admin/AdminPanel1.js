@@ -11,7 +11,7 @@ const AdminPanel = ({ isOpen, onClose }) => {
     description: '',
     image: '',
     badge: '',
-    rating: 4.5,
+    rating: '',
     category: 'featured',
     sizes: [
       { name: 'Small', price: 0 },
@@ -42,7 +42,7 @@ const AdminPanel = ({ isOpen, onClose }) => {
         description: '',
         image: '',
         badge: '',
-        rating: 4.5,
+        rating: '',
         category: 'featured',
         sizes: [
           { name: 'Small', price: 0 },
@@ -165,7 +165,7 @@ const AdminPanel = ({ isOpen, onClose }) => {
             description: '',
             image: '',
             badge: '',
-            rating: 4.5,
+            rating: '',
             category: 'featured',
             sizes: [
               { name: 'Small', price: 0 },

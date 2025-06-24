@@ -27,9 +27,9 @@ export const useCart = () => {
     }
   };
 
-  const addOns = {
-    extraCheese: {
-      name: 'Extra Cheese',
+  // Legacy add-ons configuration for BOGO/Combo pricing (will be deprecated)
+  const legacyAddOnPricing = {
+    'Extra Cheese': {
       prices: {
         'Small': 40,
         'Medium': 60,
@@ -40,8 +40,7 @@ export const useCart = () => {
         'Large': 160    // For both pizzas in combo
       }
     },
-    cheeseBurst: {
-      name: 'Cheese Burst',
+    'Cheese Burst': {
       prices: {
         'Small': 50,
         'Medium': 80,
@@ -51,6 +50,18 @@ export const useCart = () => {
         'Medium': 160,  // For both pizzas in combo
         'Large': 240    // For both pizzas in combo
       }
+    }
+  };
+
+  // Helper function to get add-on price based on size and type
+  const getAddOnPrice = (addOnName, size, isCombo = false) => {
+    const pricing = legacyAddOnPricing[addOnName];
+    if (!pricing) return 0;
+    
+    if (isCombo) {
+      return pricing.comboPrices[size] || pricing.comboPrices['Medium'] || 0;
+    } else {
+      return pricing.prices[size] || 0;
     }
   };
 
@@ -89,15 +100,35 @@ export const useCart = () => {
     }
   };
 
-  const toggleAddOn = (id, type) => {
+  const toggleAddOn = (id, addOnName) => {
     setItems(items.map(item => {
       if (item.id === id) {
         const newItem = { ...item };
-        if (type === 'extraCheese') {
+        
+        // Handle legacy add-ons (for backward compatibility)
+        if (addOnName === 'Extra Cheese') {
           newItem.extraCheese = !item.extraCheese;
-        } else if (type === 'cheeseBurst') {
+        } else if (addOnName === 'Cheese Burst') {
           newItem.cheeseBurst = !item.cheeseBurst;
         }
+        
+        // Handle dynamic add-ons from the new system
+        if (!newItem.selectedAddOns) {
+          newItem.selectedAddOns = [];
+        }
+        
+        const existingIndex = newItem.selectedAddOns.findIndex(addon => addon.name === addOnName);
+        if (existingIndex >= 0) {
+          // Remove add-on
+          newItem.selectedAddOns = newItem.selectedAddOns.filter(addon => addon.name !== addOnName);
+        } else {
+          // Add add-on (find it in the item's available add-ons or use default pricing)
+          const availableAddOn = item.addOns?.find(addon => addon.name === addOnName);
+          if (availableAddOn) {
+            newItem.selectedAddOns.push(availableAddOn);
+          }
+        }
+        
         return newItem;
       }
       return item;
@@ -109,16 +140,23 @@ export const useCart = () => {
     
     // For BOGO offers, add combo pricing for add-ons
     if (item.type === 'bogo') {
+      const size = item.pizza1?.size?.name === 'Large' || item.pizza2?.size?.name === 'Large' ? 'Large' : 'Medium';
+      
+      // Legacy add-ons
       if (item.extraCheese) {
-        // Use combo pricing - determine size from BOGO deal
-        const size = item.pizza1?.size?.name === 'Large' || item.pizza2?.size?.name === 'Large' ? 'Large' : 'Medium';
-        total += addOns.extraCheese.comboPrices[size] || 0;
+        total += getAddOnPrice('Extra Cheese', size, true);
       }
       if (item.cheeseBurst) {
-        // Use combo pricing - determine size from BOGO deal
-        const size = item.pizza1?.size?.name === 'Large' || item.pizza2?.size?.name === 'Large' ? 'Large' : 'Medium';
-        total += addOns.cheeseBurst.comboPrices[size] || 0;
+        total += getAddOnPrice('Cheese Burst', size, true);
       }
+      
+      // Dynamic add-ons - use combo pricing if available
+      if (item.selectedAddOns) {
+        item.selectedAddOns.forEach(addOn => {
+          total += getAddOnPrice(addOn.name, size, true) || addOn.price;
+        });
+      }
+      
       return total * item.quantity;
     }
     
@@ -129,11 +167,21 @@ export const useCart = () => {
     
     // For regular pizzas, add standard add-ons pricing
     if (item.extraCheese && item.sizeName) {
-      total += addOns.extraCheese.prices[item.sizeName];
+      total += getAddOnPrice('Extra Cheese', item.sizeName);
     }
     if (item.cheeseBurst && item.sizeName) {
-      total += addOns.cheeseBurst.prices[item.sizeName];
+      total += getAddOnPrice('Cheese Burst', item.sizeName);
     }
+    
+    // Add dynamic add-ons pricing
+    if (item.selectedAddOns) {
+      item.selectedAddOns.forEach(addOn => {
+        // Use legacy pricing if available, otherwise use the add-on's base price
+        const legacyPrice = getAddOnPrice(addOn.name, item.sizeName);
+        total += legacyPrice || addOn.price;
+      });
+    }
+    
     return total * item.quantity;
   };
 
@@ -161,14 +209,22 @@ export const useCart = () => {
         itemDesc += `   Pizza 2: ${item.pizza2.name} (${item.pizza2.size.name})\n`;
         
         // Add combo add-ons for BOGO
-        if (item.extraCheese || item.cheeseBurst) {
-          const size = item.pizza1?.size?.name === 'Large' || item.pizza2?.size?.name === 'Large' ? 'Large' : 'Medium';
-          if (item.extraCheese) {
-            itemDesc += `   + Extra Cheese for both pizzas (₹${addOns.extraCheese.comboPrices[size]})\n`;
-          }
-          if (item.cheeseBurst) {
-            itemDesc += `   + Cheese Burst for both pizzas (₹${addOns.cheeseBurst.comboPrices[size]})\n`;
-          }
+        const size = item.pizza1?.size?.name === 'Large' || item.pizza2?.size?.name === 'Large' ? 'Large' : 'Medium';
+        
+        // Legacy add-ons
+        if (item.extraCheese) {
+          itemDesc += `   + Extra Cheese for both pizzas (₹${getAddOnPrice('Extra Cheese', size, true)})\n`;
+        }
+        if (item.cheeseBurst) {
+          itemDesc += `   + Cheese Burst for both pizzas (₹${getAddOnPrice('Cheese Burst', size, true)})\n`;
+        }
+        
+        // Dynamic add-ons
+        if (item.selectedAddOns) {
+          item.selectedAddOns.forEach(addOn => {
+            const price = getAddOnPrice(addOn.name, size, true) || addOn.price;
+            itemDesc += `   + ${addOn.name} for both pizzas (₹${price})\n`;
+          });
         }
         
         itemDesc += `   Original Price: Rs.${item.originalPrice}\n`;
@@ -180,11 +236,21 @@ export const useCart = () => {
         itemDesc += `   You Save: Rs.${item.savings}\n`;
       } else {
         itemDesc += `   Size: ${item.sizeName}\n`;
+        
+        // Legacy add-ons
         if (item.extraCheese) {
-          itemDesc += `   + Extra Cheese (₹${addOns.extraCheese.prices[item.sizeName]})\n`;
+          itemDesc += `   + Extra Cheese (₹${getAddOnPrice('Extra Cheese', item.sizeName)})\n`;
         }
         if (item.cheeseBurst) {
-          itemDesc += `   + Cheese Burst (₹${addOns.cheeseBurst.prices[item.sizeName]})\n`;
+          itemDesc += `   + Cheese Burst (₹${getAddOnPrice('Cheese Burst', item.sizeName)})\n`;
+        }
+        
+        // Dynamic add-ons
+        if (item.selectedAddOns) {
+          item.selectedAddOns.forEach(addOn => {
+            const price = getAddOnPrice(addOn.name, item.sizeName) || addOn.price;
+            itemDesc += `   + ${addOn.name} (₹${price})\n`;
+          });
         }
       }
       
@@ -205,7 +271,8 @@ export const useCart = () => {
     items,
     selectedOutlet,
     outlets,
-    addOns,
+    legacyAddOnPricing, // For backward compatibility  
+    getAddOnPrice,
     addItem,
     removeItem,
     updateQuantity,

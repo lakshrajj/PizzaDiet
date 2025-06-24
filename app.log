@@ -2296,3 +2296,185 @@ webpack compiled with 1 warning
 Compiling...
 Compiled successfully!
 webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/hooks/useCart.js
+  Line 126:18:  'addOns' is not defined  no-undef
+  Line 131:18:  'addOns' is not defined  no-undef
+  Line 143:16:  'addOns' is not defined  no-undef
+  Line 146:16:  'addOns' is not defined  no-undef
+  Line 178:64:  'addOns' is not defined  no-undef
+  Line 181:64:  'addOns' is not defined  no-undef
+  Line 195:46:  'addOns' is not defined  no-undef
+  Line 198:46:  'addOns' is not defined  no-undef
+  Line 219:5:   'addOns' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+WARNING in [eslint] 
+src/hooks/useCart.js
+  Line 57:9:  'getAddOnPrice' is assigned a value but never used  no-unused-vars
+
+ERROR in [eslint] 
+src/hooks/useCart.js
+  Line 126:18:  'addOns' is not defined  no-undef
+  Line 131:18:  'addOns' is not defined  no-undef
+  Line 143:16:  'addOns' is not defined  no-undef
+  Line 146:16:  'addOns' is not defined  no-undef
+  Line 178:64:  'addOns' is not defined  no-undef
+  Line 181:64:  'addOns' is not defined  no-undef
+  Line 195:46:  'addOns' is not defined  no-undef
+  Line 198:46:  'addOns' is not defined  no-undef
+  Line 219:5:   'addOns' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error and 1 warning
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/hooks/useCart.js
+  Line 146:18:  'addOns' is not defined  no-undef
+  Line 151:18:  'addOns' is not defined  no-undef
+  Line 163:16:  'addOns' is not defined  no-undef
+  Line 166:16:  'addOns' is not defined  no-undef
+  Line 198:64:  'addOns' is not defined  no-undef
+  Line 201:64:  'addOns' is not defined  no-undef
+  Line 215:46:  'addOns' is not defined  no-undef
+  Line 218:46:  'addOns' is not defined  no-undef
+  Line 239:5:   'addOns' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+WARNING in [eslint] 
+src/hooks/useCart.js
+  Line 57:9:  'getAddOnPrice' is assigned a value but never used  no-unused-vars
+
+ERROR in [eslint] 
+src/hooks/useCart.js
+  Line 146:18:  'addOns' is not defined  no-undef
+  Line 151:18:  'addOns' is not defined  no-undef
+  Line 163:16:  'addOns' is not defined  no-undef
+  Line 166:16:  'addOns' is not defined  no-undef
+  Line 198:64:  'addOns' is not defined  no-undef
+  Line 201:64:  'addOns' is not defined  no-undef
+  Line 215:46:  'addOns' is not defined  no-undef
+  Line 218:46:  'addOns' is not defined  no-undef
+  Line 239:5:   'addOns' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error and 1 warning
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/hooks/useCart.js
+  Line 215:64:  'addOns' is not defined  no-undef
+  Line 218:64:  'addOns' is not defined  no-undef
+  Line 232:46:  'addOns' is not defined  no-undef
+  Line 235:46:  'addOns' is not defined  no-undef
+  Line 256:5:   'addOns' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/hooks/useCart.js
+  Line 215:64:  'addOns' is not defined  no-undef
+  Line 218:64:  'addOns' is not defined  no-undef
+  Line 232:46:  'addOns' is not defined  no-undef
+  Line 235:46:  'addOns' is not defined  no-undef
+  Line 256:5:   'addOns' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/hooks/useCart.js
+  Line 240:46:  'addOns' is not defined  no-undef
+  Line 243:46:  'addOns' is not defined  no-undef
+  Line 264:5:   'addOns' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/hooks/useCart.js
+  Line 240:46:  'addOns' is not defined  no-undef
+  Line 243:46:  'addOns' is not defined  no-undef
+  Line 264:5:   'addOns' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/hooks/useCart.js
+  Line 274:5:  'addOns' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+ERROR in [eslint] 
+src/hooks/useCart.js
+  Line 274:5:  'addOns' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src/components/Menu/MenuSection.js
+  Line 48:6:  React Hook useEffect has a missing dependency: 'fetchMenuData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint] 
+src/components/Menu/MenuSection.js
+  Line 48:6:  React Hook useEffect has a missing dependency: 'fetchMenuData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+webpack compiled with 1 warning
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src/components/Menu/MenuSection.js
+  Line 48:6:  React Hook useEffect has a missing dependency: 'fetchMenuData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint] 
+src/components/Menu/MenuSection.js
+  Line 48:6:  React Hook useEffect has a missing dependency: 'fetchMenuData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+webpack compiled with 1 warning
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/App.js
+  Line 104:29:  'AdminPage' is not defined  react/jsx-no-undef
+
+Search for the keywords to learn more about each error.
+WARNING in [eslint] 
+src/components/Menu/MenuSection.js
+  Line 48:6:  React Hook useEffect has a missing dependency: 'fetchMenuData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+ERROR in [eslint] 
+src/App.js
+  Line 104:29:  'AdminPage' is not defined  react/jsx-no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error and 1 warning
