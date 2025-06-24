@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Save, Upload, X, Plus, Minus } from 'lucide-react';
+import { buildApiUrl, API_ENDPOINTS } from '../../config/api';
 
 const AddMenuItemForm = ({ categories, onSave, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -74,7 +75,7 @@ const AddMenuItemForm = ({ categories, onSave, onCancel }) => {
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:3001/api/menu/items', {
+      const response = await fetch(buildApiUrl(API_ENDPOINTS.MENU_ITEMS), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

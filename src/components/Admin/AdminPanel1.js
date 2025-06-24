@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
 import { Settings, X, Save, Upload, Trash2, Eye, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { apiRequest, API_ENDPOINTS, buildApiUrl } from '../../config/api';
 
 const AdminPanel = ({ isOpen, onClose }) => {
   const { data, addMenuItem, updateMenuItem, deleteMenuItem, addGalleryItem, deleteGalleryItem } = useData();
@@ -86,7 +87,7 @@ const AdminPanel = ({ isOpen, onClose }) => {
   const fetchFranchiseApplications = async () => {
     setLoadingApplications(true);
     try {
-      const response = await fetch('http://localhost:3001/api/franchise/applications');
+      const response = await fetch(buildApiUrl(API_ENDPOINTS.FRANCHISE_APPLICATIONS));
       const data = await response.json();
       if (data.success) {
         setFranchiseApplications(data.applications);
@@ -102,7 +103,7 @@ const AdminPanel = ({ isOpen, onClose }) => {
 
   const updateApplicationStatus = async (applicationId, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/franchise/applications/${applicationId}/status`, {
+      const response = await fetch(buildApiUrl(`/api/franchise/applications/${applicationId}/status`), {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -131,7 +132,7 @@ const AdminPanel = ({ isOpen, onClose }) => {
   const fetchMenuData = async () => {
     setLoadingMenuData(true);
     try {
-      const response = await fetch('http://localhost:3001/api/menu/items/grouped');
+      const response = await fetch(buildApiUrl(API_ENDPOINTS.MENU_ITEMS_GROUPED));
       const data = await response.json();
       if (data.success) {
         setMongoMenuItems(data.menuItems);
@@ -149,7 +150,7 @@ const AdminPanel = ({ isOpen, onClose }) => {
   const handleAddMenuItemMongo = async () => {
     if (newItem.name && newItem.description && newItem.image) {
       try {
-        const response = await fetch('http://localhost:3001/api/menu/items', {
+        const response = await fetch(buildApiUrl(API_ENDPOINTS.MENU_ITEMS), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -189,7 +190,7 @@ const AdminPanel = ({ isOpen, onClose }) => {
   const handleDeleteMenuItemMongo = async (itemId, itemName) => {
     if (window.confirm(`Are you sure you want to delete "${itemName}"?`)) {
       try {
-        const response = await fetch(`http://localhost:3001/api/menu/items/${itemId}`, {
+        const response = await fetch(buildApiUrl(API_ENDPOINTS.MENU_ITEM_BY_ID(itemId)), {
           method: 'DELETE',
         });
         
@@ -209,7 +210,7 @@ const AdminPanel = ({ isOpen, onClose }) => {
 
   const seedDatabase = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/menu/seed', {
+      const response = await fetch(buildApiUrl(API_ENDPOINTS.MENU_SEED), {
         method: 'POST',
       });
       

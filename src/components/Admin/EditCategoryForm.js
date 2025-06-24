@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Save, X, Palette, Tag, Hash, Eye } from 'lucide-react';
+import { buildApiUrl, API_ENDPOINTS } from '../../config/api';
 
 const EditCategoryForm = ({ category, onSave, onCancel, isEditing = false }) => {
   const [formData, setFormData] = useState({
@@ -71,8 +72,8 @@ const EditCategoryForm = ({ category, onSave, onCancel, isEditing = false }) => 
 
     try {
       const url = isEditing 
-        ? `http://localhost:3001/api/menu/categories/${category._id}`
-        : 'http://localhost:3001/api/menu/categories';
+        ? buildApiUrl(API_ENDPOINTS.MENU_CATEGORY_BY_ID(category._id))
+        : buildApiUrl(API_ENDPOINTS.MENU_CATEGORIES);
       
       const method = isEditing ? 'PUT' : 'POST';
       

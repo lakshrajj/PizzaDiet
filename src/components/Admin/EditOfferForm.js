@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Save, X, Tag, Calendar, Image, Plus, Trash2 } from 'lucide-react';
+import { buildApiUrl, API_ENDPOINTS } from '../../config/api';
 
 const EditOfferForm = ({ offer, onSave, onCancel, isEditing = false }) => {
   const [formData, setFormData] = useState({
@@ -66,8 +67,8 @@ const EditOfferForm = ({ offer, onSave, onCancel, isEditing = false }) => {
 
     try {
       const url = isEditing 
-        ? `http://localhost:3001/api/offers/${offer._id}`
-        : 'http://localhost:3001/api/offers';
+        ? buildApiUrl(API_ENDPOINTS.OFFER_BY_ID(offer._id))
+        : buildApiUrl(API_ENDPOINTS.OFFERS);
       
       const method = isEditing ? 'PUT' : 'POST';
       
