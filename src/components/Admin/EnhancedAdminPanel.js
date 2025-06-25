@@ -6,6 +6,7 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
   const [data, setData] = useState({ menuItems: {}, categories: [], offers: [], franchiseApplications: [], galleryItems: [] });
   const [isOnline, setIsOnline] = useState(true);
   const [lastSync, setLastSync] = useState(null);
+  const [hasLocalChanges] = useState(false); // Always false since we work directly with MongoDB
   const [loading, setLoading] = useState(false);
   
   const [activeTab, setActiveTab] = useState('menu');
