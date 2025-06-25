@@ -555,44 +555,7 @@
       "badge": "🎯 Combo Deal"
     }
   ],
-  "galleryItems": [
-    {
-      "id": 1,
-      "category": "pizzas",
-      "title": "Margherita Classic",
-      "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600"
-    },
-    {
-      "id": 2,
-      "category": "pizzas",
-      "title": "Veggie Supreme",
-      "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=600"
-    },
-    {
-      "id": 3,
-      "category": "specials",
-      "title": "Cloud 7 Special",
-      "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600"
-    },
-    {
-      "id": 5,
-      "category": "pizzas",
-      "title": "Tandoori Paneer",
-      "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600"
-    },
-    {
-      "id": 6,
-      "category": "specials",
-      "title": "Extravaganza",
-      "image": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=600"
-    },
-    {
-      "id": 8,
-      "category": "pizzas",
-      "title": "Makhani Special",
-      "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=600"
-    }
-  ],
+  "galleryItems": [],
   "settings": {
     "deliveryCharge": 30,
     "baseDeliveryCharge": 30,

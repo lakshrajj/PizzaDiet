@@ -9,7 +9,7 @@ import ContactSection from './components/Contact/ContactSection';
 import Footer from './components/Common/Footer';
 import CartSidebar from './components/Cart/CartSidebar';
 import FloatingCart from './components/Cart/FloatingCart';
-import SimpleAdminPanel from './components/Admin/SimpleAdminPanel';
+import EnhancedAdminPanel from './components/Admin/EnhancedAdminPanel';
 import AdminAccess from './components/Admin/AdminAccess';
 import Toast from './components/Common/Toast';
 import FluidBackground from './components/Common/FluidBackground';
@@ -101,7 +101,7 @@ const App = () => {
                 />
                 <Route 
                   path="/admin" 
-                  element={<AdminAccess />} 
+                  element={<AdminAccess onAdminLogin={handleAdminLogin} />} 
                 />
               </Routes>
             </main>
@@ -124,7 +124,7 @@ const App = () => {
             )}
 
             {isAdminLoggedIn && (
-              <SimpleAdminPanel 
+              <EnhancedAdminPanel 
                 isOpen={isAdminOpen} 
                 onClose={() => setIsAdminOpen(false)} 
               />

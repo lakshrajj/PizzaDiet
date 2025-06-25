@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -9,6 +10,9 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the React app build directory
+app.use(express.static(path.join(__dirname, 'build')));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -89,6 +93,20 @@ const offerSchema = new mongoose.Schema({
 });
 
 const Offer = mongoose.model('Offer', offerSchema);
+
+// Gallery Item Schema
+const galleryItemSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String, default: '' },
+  image: { type: String, required: true },
+  category: { type: String, required: true },
+  tags: [String],
+  isActive: { type: Boolean, default: true },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+});
+
+const GalleryItem = mongoose.model('GalleryItem', galleryItemSchema);
 
 // Routes
 app.get('/api/health', (req, res) => {
@@ -1059,6 +1077,217 @@ app.post('/api/menu/seed', async (req, res) => {
 });
 
 // ========================
+// GALLERY ROUTES
+// ========================
+
+// Get all gallery items
+app.get('/api/gallery', async (req, res) => {
+  try {
+    const { category } = req.query;
+    const filter = { isActive: true };
+    
+    if (category) {
+      filter.category = category;
+    }
+    
+    const items = await GalleryItem.find(filter)
+      .sort({ createdAt: -1 })
+      .select('-__v');
+    
+    res.json({
+      success: true,
+      count: items.length,
+      items
+    });
+  } catch (error) {
+    console.error('Error fetching gallery items:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching gallery items'
+    });
+  }
+});
+
+// Get all gallery items (admin)
+app.get('/api/gallery/all', async (req, res) => {
+  try {
+    const items = await GalleryItem.find()
+      .sort({ createdAt: -1 })
+      .select('-__v');
+    
+    res.json({
+      success: true,
+      count: items.length,
+      items
+    });
+  } catch (error) {
+    console.error('Error fetching gallery items:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching gallery items'
+    });
+  }
+});
+
+// Create gallery item
+app.post('/api/gallery', async (req, res) => {
+  try {
+    const item = new GalleryItem({
+      ...req.body,
+      updatedAt: new Date()
+    });
+    
+    const savedItem = await item.save();
+    
+    res.status(201).json({
+      success: true,
+      message: 'Gallery item created successfully',
+      item: savedItem
+    });
+  } catch (error) {
+    console.error('Error creating gallery item:', error);
+    
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation error',
+        errors: Object.keys(error.errors).reduce((acc, key) => {
+          acc[key] = error.errors[key].message;
+          return acc;
+        }, {})
+      });
+    }
+    
+    res.status(500).json({
+      success: false,
+      message: 'Error creating gallery item'
+    });
+  }
+});
+
+// Update gallery item
+app.put('/api/gallery/:id', async (req, res) => {
+  try {
+    const item = await GalleryItem.findByIdAndUpdate(
+      req.params.id,
+      { ...req.body, updatedAt: new Date() },
+      { new: true, runValidators: true }
+    );
+    
+    if (!item) {
+      return res.status(404).json({
+        success: false,
+        message: 'Gallery item not found'
+      });
+    }
+    
+    res.json({
+      success: true,
+      message: 'Gallery item updated successfully',
+      item
+    });
+  } catch (error) {
+    console.error('Error updating gallery item:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating gallery item'
+    });
+  }
+});
+
+// Delete gallery item
+app.delete('/api/gallery/:id', async (req, res) => {
+  try {
+    const item = await GalleryItem.findById(req.params.id);
+    
+    if (!item) {
+      return res.status(404).json({
+        success: false,
+        message: 'Gallery item not found'
+      });
+    }
+    
+    // Soft delete - mark as inactive
+    item.isActive = false;
+    item.updatedAt = new Date();
+    await item.save();
+    
+    res.json({
+      success: true,
+      message: 'Gallery item deleted successfully'
+    });
+  } catch (error) {
+    console.error('Error deleting gallery item:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting gallery item'
+    });
+  }
+});
+
+// Seed gallery with sample data
+app.post('/api/gallery/seed', async (req, res) => {
+  try {
+    const sampleGalleryItems = [
+      {
+        title: 'Cloud 7 Pizza Special',
+        description: 'Our signature pizza with perfect blend of flavors',
+        image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=500',
+        category: 'pizzas',
+        tags: ['signature', 'popular', 'featured']
+      },
+      {
+        title: 'Fresh Margherita',
+        description: 'Classic margherita with fresh basil and mozzarella',
+        image: 'https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=500',
+        category: 'pizzas',
+        tags: ['classic', 'vegetarian']
+      },
+      {
+        title: 'Restaurant Interior',
+        description: 'Modern and cozy dining area',
+        image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500',
+        category: 'restaurant',
+        tags: ['interior', 'ambiance']
+      },
+      {
+        title: 'Fresh Ingredients',
+        description: 'We use only the freshest ingredients',
+        image: 'https://images.unsplash.com/photo-1607013251379-e6eecfffe234?w=500',
+        category: 'ingredients',
+        tags: ['fresh', 'quality', 'organic']
+      },
+      {
+        title: 'Happy Customers',
+        description: 'Our customers enjoying their favorite pizzas',
+        image: 'https://images.unsplash.com/photo-1529903705029-d75b29b5cc60?w=500',
+        category: 'customers',
+        tags: ['happy', 'satisfaction', 'family']
+      }
+    ];
+
+    // Insert gallery items if they don't exist
+    for (const itemData of sampleGalleryItems) {
+      const existingItem = await GalleryItem.findOne({ title: itemData.title });
+      if (!existingItem) {
+        await GalleryItem.create(itemData);
+      }
+    }
+
+    res.json({
+      success: true,
+      message: 'Gallery seeded successfully'
+    });
+  } catch (error) {
+    console.error('Error seeding gallery:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error seeding gallery'
+    });
+  }
+});
+
+// ========================
 // OFFERS ROUTES
 // ========================
 
@@ -1276,12 +1505,17 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Handle 404
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Route not found'
-  });
+// The "catchall" handler: send back React's index.html file for non-API routes
+app.get('*', (req, res) => {
+  // Don't serve index.html for API routes
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({
+      success: false,
+      message: 'API route not found'
+    });
+  }
+  
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(PORT, () => {

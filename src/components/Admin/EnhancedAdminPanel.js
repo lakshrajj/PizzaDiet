@@ -1,33 +1,14 @@
-import React, { useState } from 'react';
-import { useData } from '../../context/DataContext';
-import { Settings, X, Save, Upload, Trash2, Download, RefreshCw, AlertTriangle, Wifi, WifiOff, Plus, Minus } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Settings, X, Save, Upload, Trash2, Download, RefreshCw, AlertTriangle, Wifi, WifiOff, Plus, Minus, Edit3 } from 'lucide-react';
+import api from '../../config/api';
 
 const EnhancedAdminPanel = ({ isOpen, onClose }) => {
-  const { 
-    data, 
-    hasLocalChanges, 
-    isOnline, 
-    lastSync,
-    addMenuItem, 
-    updateMenuItem, 
-    deleteMenuItem, 
-    addGalleryItem, 
-    deleteGalleryItem,
-    exportData,
-    resetToOriginal,
-    syncData,
-    addMenuCategory,
-    updateMenuCategory,
-    deleteMenuCategory,
-    getMenuCategories,
-    addGalleryCategory,
-    updateGalleryCategory,
-    deleteGalleryCategory,
-    getGalleryCategories
-  } = useData();
+  const [data, setData] = useState({ menuItems: {}, categories: [], offers: [], franchiseApplications: [], galleryItems: [] });
+  const [isOnline, setIsOnline] = useState(true);
+  const [lastSync, setLastSync] = useState(null);
+  const [loading, setLoading] = useState(false);
   
   const [activeTab, setActiveTab] = useState('menu');
-  const [showSyncDialog, setShowSyncDialog] = useState(false);
   const [newItem, setNewItem] = useState({
     name: '',
     description: '',
@@ -42,91 +23,277 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
 
   const [newSize, setNewSize] = useState({ name: '', price: 0 });
 
+  const [newOffer, setNewOffer] = useState({
+    title: '',
+    description: '',
+    image: '',
+    discount: '',
+    badge: '',
+    validUntil: '',
+    terms: ['']
+  });
+
   const [newGalleryItem, setNewGalleryItem] = useState({
     title: '',
+    description: '',
     image: '',
-    category: 'pizzas'
+    category: 'pizzas',
+    tags: []
   });
   
   const [newMenuCategory, setNewMenuCategory] = useState({
-    id: '',
+    categoryId: '',
     name: '',
     icon: '🍕',
-    color: 'from-orange-500 to-red-500'
-  });
-
-  const [newGalleryCategory, setNewGalleryCategory] = useState({
-    id: '',
-    name: '',
-    icon: '📸'
+    color: 'from-orange-500 to-red-500',
+    order: 0
   });
   
   const [showMenuCategoryForm, setShowMenuCategoryForm] = useState(false);
-  const [showGalleryCategoryForm, setShowGalleryCategoryForm] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
+  const [showOfferForm, setShowOfferForm] = useState(false);
+  const [showGalleryForm, setShowGalleryForm] = useState(false);
 
-  const handleAddMenuItem = () => {
-    if (newItem.name && newItem.description && newItem.image) {
-      addMenuItem(newItem.category, newItem);
-      setNewItem({
-        name: '',
-        description: '',
-        image: '',
-        badge: '',
-        rating: 4.5,
-        category: 'featured',
-        sizes: [
-          { name: 'Small', price: 0 }
-        ]
+  useEffect(() => {
+    if (isOpen) {
+      fetchData();
+    }
+  }, [isOpen]);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const [categoriesRes, itemsRes, offersRes, galleryRes] = await Promise.all([
+        api.get('/menu/categories'),
+        api.get('/menu/items/grouped'),
+        api.get('/offers/all'),
+        api.get('/gallery/all')
+      ]);
+      
+      setData({
+        categories: categoriesRes.categories || [],
+        menuItems: itemsRes.menuItems || {},
+        offers: offersRes.offers || [],
+        galleryItems: galleryRes.items || []
       });
-      alert('Menu item added successfully!');
+      setLastSync(new Date());
+      setIsOnline(true);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsOnline(false);
+    }
+    setLoading(false);
+  };
+
+  const handleAddMenuItem = async () => {
+    if (newItem.name && newItem.description && newItem.image) {
+      setLoading(true);
+      try {
+        await api.post('/menu/items', newItem);
+        await fetchData();
+        setNewItem({
+          name: '',
+          description: '',
+          image: '',
+          badge: '',
+          rating: 4.5,
+          category: 'featured',
+          sizes: [
+            { name: 'Small', price: 0 }
+          ]
+        });
+        alert('Menu item added successfully!');
+      } catch (error) {
+        console.error('Error adding menu item:', error);
+        alert('Failed to add menu item. Please try again.');
+      }
+      setLoading(false);
     } else {
       alert('Please fill in all required fields (name, description, image)');
     }
   };
 
-  const handleAddGalleryItem = () => {
-    if (newGalleryItem.title && newGalleryItem.image) {
-      addGalleryItem(newGalleryItem);
-      setNewGalleryItem({
-        title: '',
-        image: '',
-        category: 'pizzas'
-      });
-      alert('Gallery item added successfully!');
+  const handleUpdateMenuItem = async (itemId, updatedItem) => {
+    setLoading(true);
+    try {
+      await api.put(`/menu/items/${itemId}`, updatedItem);
+      await fetchData();
+      setEditingItem(null);
+      alert('Menu item updated successfully!');
+    } catch (error) {
+      console.error('Error updating menu item:', error);
+      alert('Failed to update menu item. Please try again.');
+    }
+    setLoading(false);
+  };
+
+  const handleDeleteMenuItem = async (itemId) => {
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      setLoading(true);
+      try {
+        await api.delete(`/menu/items/${itemId}`);
+        await fetchData();
+        alert('Menu item deleted successfully!');
+      } catch (error) {
+        console.error('Error deleting menu item:', error);
+        alert('Failed to delete menu item. Please try again.');
+      }
+      setLoading(false);
+    }
+  };
+
+  const handleAddOffer = async () => {
+    if (newOffer.title && newOffer.description && newOffer.validUntil) {
+      setLoading(true);
+      try {
+        await api.post('/offers', newOffer);
+        await fetchData();
+        setNewOffer({
+          title: '',
+          description: '',
+          image: '',
+          discount: '',
+          badge: '',
+          validUntil: '',
+          terms: ['']
+        });
+        setShowOfferForm(false);
+        alert('Offer added successfully!');
+      } catch (error) {
+        console.error('Error adding offer:', error);
+        alert('Failed to add offer. Please try again.');
+      }
+      setLoading(false);
     } else {
-      alert('Please fill in all fields');
+      alert('Please fill in all required fields');
+    }
+  };
+
+  const handleDeleteOffer = async (offerId) => {
+    if (window.confirm('Are you sure you want to delete this offer?')) {
+      setLoading(true);
+      try {
+        await api.delete(`/offers/${offerId}`);
+        await fetchData();
+        alert('Offer deleted successfully!');
+      } catch (error) {
+        console.error('Error deleting offer:', error);
+        alert('Failed to delete offer. Please try again.');
+      }
+      setLoading(false);
     }
   };
 
   const handleExport = () => {
     try {
-      const jsonString = exportData();
-      alert('Data exported successfully! Save the downloaded file and upload it to your server.');
+      const dataToExport = {
+        categories: data.categories,
+        menuItems: data.menuItems,
+        offers: data.offers,
+        exportDate: new Date().toISOString()
+      };
+      
+      const jsonString = JSON.stringify(dataToExport, null, 2);
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pizza-diet-data-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      alert('Data exported successfully!');
     } catch (error) {
       alert('Export failed: ' + error.message);
     }
   };
 
-  const handleReset = async () => {
-    if (window.confirm('This will reset all changes to the original data. Are you sure?')) {
-      const success = await resetToOriginal();
-      if (success) {
-        alert('Data reset to original successfully!');
-      } else {
-        alert('Reset failed. Please try again.');
+  const handleAddCategory = async () => {
+    if (newMenuCategory.categoryId && newMenuCategory.name) {
+      setLoading(true);
+      try {
+        await api.post('/menu/categories', newMenuCategory);
+        await fetchData();
+        setNewMenuCategory({
+          categoryId: '',
+          name: '',
+          icon: '🍕',
+          color: 'from-orange-500 to-red-500',
+          order: 0
+        });
+        setShowMenuCategoryForm(false);
+        alert('Category added successfully!');
+      } catch (error) {
+        console.error('Error adding category:', error);
+        alert('Failed to add category. Please try again.');
       }
+      setLoading(false);
+    } else {
+      alert('Please fill in Category ID and Name fields');
+    }
+  };
+
+  const handleDeleteCategory = async (categoryId) => {
+    if (window.confirm('Are you sure you want to delete this category? This will also remove all items in this category.')) {
+      setLoading(true);
+      try {
+        await api.delete(`/menu/categories/${categoryId}`);
+        await fetchData();
+        alert('Category deleted successfully!');
+      } catch (error) {
+        console.error('Error deleting category:', error);
+        alert('Failed to delete category. Please try again.');
+      }
+      setLoading(false);
+    }
+  };
+
+  const handleAddGalleryItem = async () => {
+    if (newGalleryItem.title && newGalleryItem.image) {
+      setLoading(true);
+      try {
+        await api.post('/gallery', newGalleryItem);
+        await fetchData();
+        setNewGalleryItem({
+          title: '',
+          description: '',
+          image: '',
+          category: 'pizzas',
+          tags: []
+        });
+        setShowGalleryForm(false);
+        alert('Gallery item added successfully!');
+      } catch (error) {
+        console.error('Error adding gallery item:', error);
+        alert('Failed to add gallery item. Please try again.');
+      }
+      setLoading(false);
+    } else {
+      alert('Please fill in title and image URL');
+    }
+  };
+
+
+  const handleDeleteGalleryItem = async (itemId) => {
+    if (window.confirm('Are you sure you want to delete this gallery item?')) {
+      setLoading(true);
+      try {
+        await api.delete(`/gallery/${itemId}`);
+        await fetchData();
+        alert('Gallery item deleted successfully!');
+      } catch (error) {
+        console.error('Error deleting gallery item:', error);
+        alert('Failed to delete gallery item. Please try again.');
+      }
+      setLoading(false);
     }
   };
 
   const handleSync = async () => {
-    const result = await syncData();
-    if (result.success) {
-      alert('Data synced successfully!');
-    } else if (result.conflicts) {
-      setShowSyncDialog(true);
-    } else {
-      alert('Sync failed. Please check your connection.');
-    }
+    await fetchData();
+    alert('Data synced successfully!');
   };
 
   const handleImportFile = (event) => {
@@ -135,15 +302,9 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
-          const importedData = JSON.parse(e.target.result);
+          JSON.parse(e.target.result); // Validate JSON format
           if (window.confirm('This will replace all current data. Are you sure?')) {
-            // Validate data structure
-            if (importedData.menuItems && importedData.galleryItems) {
-              localStorage.setItem('pizzaDietData', JSON.stringify(importedData));
-              window.location.reload(); // Reload to apply changes
-            } else {
-              alert('Invalid file format. Please check your JSON structure.');
-            }
+            alert('Import feature will be implemented for MongoDB');
           }
         } catch (error) {
           alert('Error reading file: ' + error.message);
@@ -153,7 +314,7 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
     } else {
       alert('Please select a valid JSON file.');
     }
-    event.target.value = ''; // Reset input
+    event.target.value = '';
   };
 
   const handleAddSize = () => {
@@ -173,6 +334,142 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
       ...newItem,
       sizes: newItem.sizes.filter((_, i) => i !== index)
     });
+  };
+
+  // Edit Item Modal
+  const EditItemModal = ({ item, onClose, onSave }) => {
+    const [editData, setEditData] = useState(item);
+
+    if (!item) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-bold">Edit Menu Item</h3>
+              <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full">
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <input
+                type="text"
+                placeholder="Name"
+                value={editData.name}
+                onChange={(e) => setEditData({...editData, name: e.target.value})}
+                className="input-field"
+              />
+              <textarea
+                placeholder="Description"
+                value={editData.description}
+                onChange={(e) => setEditData({...editData, description: e.target.value})}
+                className="input-field h-24 resize-none"
+              />
+              <input
+                type="url"
+                placeholder="Image URL"
+                value={editData.image}
+                onChange={(e) => setEditData({...editData, image: e.target.value})}
+                className="input-field"
+              />
+              <input
+                type="text"
+                placeholder="Badge"
+                value={editData.badge || ''}
+                onChange={(e) => setEditData({...editData, badge: e.target.value})}
+                className="input-field"
+              />
+              <input
+                type="number"
+                step="0.1"
+                min="1"
+                max="5"
+                placeholder="Rating"
+                value={editData.rating}
+                onChange={(e) => setEditData({...editData, rating: parseFloat(e.target.value)})}
+                className="input-field"
+              />
+              <select
+                value={editData.category}
+                onChange={(e) => setEditData({...editData, category: e.target.value})}
+                className="input-field"
+              >
+                {data.categories?.map((category) => (
+                  <option key={category.categoryId} value={category.categoryId}>{category.name}</option>
+                ))}
+              </select>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Sizes & Prices</label>
+                {editData.sizes?.map((size, index) => (
+                  <div key={index} className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Size name"
+                      value={size.name}
+                      onChange={(e) => {
+                        const newSizes = [...editData.sizes];
+                        newSizes[index].name = e.target.value;
+                        setEditData({...editData, sizes: newSizes});
+                      }}
+                      className="input-field flex-1"
+                    />
+                    <input
+                      type="number"
+                      placeholder="Price"
+                      value={size.price}
+                      onChange={(e) => {
+                        const newSizes = [...editData.sizes];
+                        newSizes[index].price = Number(e.target.value);
+                        setEditData({...editData, sizes: newSizes});
+                      }}
+                      className="input-field w-24"
+                    />
+                    <button
+                      onClick={() => {
+                        const newSizes = editData.sizes.filter((_, i) => i !== index);
+                        setEditData({...editData, sizes: newSizes});
+                      }}
+                      className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"
+                    >
+                      <Minus size={16} />
+                    </button>
+                  </div>
+                ))}
+                <button
+                  onClick={() => {
+                    setEditData({
+                      ...editData,
+                      sizes: [...(editData.sizes || []), { name: '', price: 0 }]
+                    });
+                  }}
+                  className="bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600 flex items-center gap-1"
+                >
+                  <Plus size={16} /> Add Size
+                </button>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={onClose}
+                className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => onSave(item._id, editData)}
+                className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   if (!isOpen) return null;
@@ -239,14 +536,6 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
             <RefreshCw size={16} />
             Sync Data
           </button>
-          
-          <button
-            onClick={handleReset}
-            className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-          >
-            <AlertTriangle size={16} />
-            Reset to Original
-          </button>
         </div>
 
         {/* Tabs */}
@@ -262,6 +551,16 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
             Menu Management
           </button>
           <button
+            onClick={() => setActiveTab('offers')}
+            className={`px-8 py-4 font-semibold transition-colors ${
+              activeTab === 'offers' 
+                ? 'bg-purple-50 text-purple-600 border-b-2 border-purple-600' 
+                : 'text-gray-600 hover:text-purple-600'
+            }`}
+          >
+            Offers Management
+          </button>
+          <button
             onClick={() => setActiveTab('gallery')}
             className={`px-8 py-4 font-semibold transition-colors ${
               activeTab === 'gallery' 
@@ -272,63 +571,103 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
             Gallery Management
           </button>
           <button
-            onClick={() => setActiveTab('instructions')}
+            onClick={() => setActiveTab('applications')}
             className={`px-8 py-4 font-semibold transition-colors ${
-              activeTab === 'instructions' 
+              activeTab === 'applications' 
                 ? 'bg-purple-50 text-purple-600 border-b-2 border-purple-600' 
                 : 'text-gray-600 hover:text-purple-600'
             }`}
           >
-            Instructions
+            Franchise Applications
           </button>
         </div>
 
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-250px)]">
-          {activeTab === 'instructions' && (
-            <div className="max-w-4xl mx-auto">
-              <h3 className="text-2xl font-bold mb-6 text-gray-800">How to Update Your Website</h3>
+          {loading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="loading-spinner w-8 h-8"></div>
+              <span className="ml-3">Loading...</span>
+            </div>
+          )}
+
+          {activeTab === 'applications' && (
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold mb-6 text-gray-800">Franchise Applications</h3>
               
-              <div className="space-y-6">
-                <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-                  <h4 className="text-lg font-semibold text-blue-800 mb-3">📋 Workflow</h4>
-                  <ol className="list-decimal list-inside space-y-2 text-blue-700">
-                    <li>Make changes to menu items or gallery images</li>
-                    <li>Click "Export Data" to download the updated JSON file</li>
-                    <li>Replace the file at <code className="bg-blue-100 px-2 py-1 rounded">public/data/menu.json</code></li>
-                    <li>Deploy your website (changes will be live for all users)</li>
-                  </ol>
-                </div>
-
-                <div className="bg-green-50 border border-green-200 rounded-xl p-6">
-                  <h4 className="text-lg font-semibold text-green-800 mb-3">✅ Benefits</h4>
-                  <ul className="list-disc list-inside space-y-2 text-green-700">
-                    <li>All users see the same updated content</li>
-                    <li>Changes persist across browser sessions</li>
-                    <li>Easy to backup and version control</li>
-                    <li>No database required</li>
-                    <li>Fast loading times</li>
-                  </ul>
-                </div>
-
-                <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
-                  <h4 className="text-lg font-semibold text-yellow-800 mb-3">⚠️ Important Notes</h4>
-                  <ul className="list-disc list-inside space-y-2 text-yellow-700">
-                    <li>Local changes are temporary until exported and deployed</li>
-                    <li>Use "Reset to Original" to discard all local changes</li>
-                    <li>Export data regularly to avoid losing changes</li>
-                    <li>Test image URLs before adding them</li>
-                  </ul>
-                </div>
-
-                <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
-                  <h4 className="text-lg font-semibold text-gray-800 mb-3">📁 File Structure</h4>
-                  <pre className="bg-gray-100 p-4 rounded text-sm overflow-x-auto">
-{`public/
-├── data/
-│   └── menu.json  ← Replace this file
-├── index.html
-└── ...`}
-                  </pre>
+              <div className="bg-white rounded-xl shadow">
+                <div className="p-6">
+                  <p className="text-gray-600 mb-4">Manage franchise applications submitted through the website.</p>
+                  
+                  <button
+                    onClick={async () => {
+                      try {
+                        const res = await api.get('/franchise/applications');
+                        setData(prev => ({ ...prev, franchiseApplications: res.applications || [] }));
+                      } catch (error) {
+                        console.error('Error fetching applications:', error);
+                      }
+                    }}
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors mb-4"
+                  >
+                    <RefreshCw size={16} className="inline mr-2" />
+                    Load Applications
+                  </button>
+                  
+                  <div className="space-y-4">
+                    {data.franchiseApplications?.map(app => (
+                      <div key={app._id} className="border border-gray-200 rounded-lg p-4">
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div>
+                            <h4 className="font-semibold text-lg">{app.fullName}</h4>
+                            <p className="text-gray-600">{app.email}</p>
+                            <p className="text-gray-600">{app.phone}</p>
+                            <p className="text-sm text-gray-500">Applied: {new Date(app.submittedAt).toLocaleDateString()}</p>
+                          </div>
+                          <div>
+                            <p><strong>Location Interest:</strong> {app.locationInterest}</p>
+                            <p><strong>Investment:</strong> {app.investmentAmount}</p>
+                            <p><strong>Status:</strong> 
+                              <span className={`ml-2 px-2 py-1 rounded text-sm ${
+                                app.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                app.status === 'approved' ? 'bg-green-100 text-green-800' :
+                                app.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                                'bg-gray-100 text-gray-800'
+                              }`}>
+                                {app.status}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                        <div className="mt-4 flex gap-2">
+                          {['pending', 'approved', 'rejected', 'in-review'].map(status => (
+                            <button
+                              key={status}
+                              onClick={async () => {
+                                try {
+                                  await api.patch(`/franchise/applications/${app._id}/status`, { status });
+                                  setData(prev => ({
+                                    ...prev,
+                                    franchiseApplications: prev.franchiseApplications.map(a => 
+                                      a._id === app._id ? { ...a, status } : a
+                                    )
+                                  }));
+                                } catch (error) {
+                                  console.error('Error updating status:', error);
+                                }
+                              }}
+                              className={`px-3 py-1 rounded text-sm ${
+                                app.status === status 
+                                  ? 'bg-blue-500 text-white' 
+                                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                              }`}
+                            >
+                              {status}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )) || []}
+                  </div>
                 </div>
               </div>
             </div>
@@ -355,8 +694,8 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
                       <input
                         type="text"
                         placeholder="Category ID (e.g., 'spicy-specials') *"
-                        value={newMenuCategory.id}
-                        onChange={(e) => setNewMenuCategory({...newMenuCategory, id: e.target.value.toLowerCase().replace(/\s+/g, '-')})}
+                        value={newMenuCategory.categoryId}
+                        onChange={(e) => setNewMenuCategory({...newMenuCategory, categoryId: e.target.value.toLowerCase().replace(/\s+/g, '-')})}
                         className="input-field"
                       />
                       <input
@@ -380,29 +719,17 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
                         onChange={(e) => setNewMenuCategory({...newMenuCategory, color: e.target.value})}
                         className="input-field"
                       />
+                      <input
+                        type="number"
+                        placeholder="Display Order"
+                        value={newMenuCategory.order}
+                        onChange={(e) => setNewMenuCategory({...newMenuCategory, order: parseInt(e.target.value) || 0})}
+                        className="input-field"
+                      />
                     </div>
                     <div className="mt-4 flex justify-end">
                       <button
-                        onClick={() => {
-                          if (newMenuCategory.id && newMenuCategory.name) {
-                            addMenuCategory(
-                              newMenuCategory.id,
-                              newMenuCategory.name,
-                              newMenuCategory.icon,
-                              newMenuCategory.color
-                            );
-                            setNewMenuCategory({
-                              id: '',
-                              name: '',
-                              icon: '🍕',
-                              color: 'from-orange-500 to-red-500'
-                            });
-                            setShowMenuCategoryForm(false);
-                            alert('Menu category added successfully!');
-                          } else {
-                            alert('Please fill in ID and Name fields');
-                          }
-                        }}
+                        onClick={handleAddCategory}
                         className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition-colors"
                       >
                         Add Category
@@ -412,28 +739,20 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
                 )}
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-                  {Object.entries(getMenuCategories()).map(([id, category]) => (
-                    <div key={id} className="bg-white rounded-xl p-4 shadow border border-gray-100 flex justify-between items-start">
+                  {data.categories?.map((category) => (
+                    <div key={category._id} className="bg-white rounded-xl p-4 shadow border border-gray-100 flex justify-between items-start">
                       <div>
                         <div className="flex items-center gap-2 mb-2">
                           <span className="text-2xl">{category.icon || '🍕'}</span>
                           <h5 className="font-semibold text-gray-800">{category.name}</h5>
                         </div>
-                        <p className="text-sm text-gray-500">ID: {id}</p>
-                        <div className="mt-2 px-3 py-1 text-xs inline-block rounded-full" 
-                          style={{background: `linear-gradient(to right, var(--tw-gradient-stops))`, 
-                            '--tw-gradient-from': (category.color?.split(' ')[0] || 'from-orange-500').replace('from-', ''),
-                            '--tw-gradient-to': (category.color?.split(' ')[1] || 'to-red-500').replace('to-', '')
-                          }}>
+                        <p className="text-sm text-gray-500">ID: {category.categoryId}</p>
+                        <div className={`mt-2 px-3 py-1 text-xs text-white inline-block rounded-full bg-gradient-to-r ${category.color}`}>
                           Color Preview
                         </div>
                       </div>
                       <button
-                        onClick={() => {
-                          if (window.confirm(`Delete "${category.name}" category? This will remove all items in this category!`)) {
-                            deleteMenuCategory(id);
-                          }
-                        }}
+                        onClick={() => handleDeleteCategory(category._id)}
                         className="text-red-500 hover:bg-red-50 p-2 rounded transition-colors"
                       >
                         <Trash2 size={16} />
@@ -442,6 +761,7 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
                   ))}
                 </div>
               </div>
+
               {/* Add New Menu Item */}
               <div className="bg-gray-50 rounded-2xl p-6">
                 <h3 className="text-2xl font-bold mb-6 text-gray-800">Add New Menu Item</h3>
@@ -478,8 +798,8 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
                     onChange={(e) => setNewItem({...newItem, category: e.target.value})}
                     className="input-field"
                   >
-                    {Object.entries(getMenuCategories()).map(([id, category]) => (
-                      <option key={id} value={id}>{category.name}</option>
+                    {data.categories?.map((category) => (
+                      <option key={category.categoryId} value={category.categoryId}>{category.name}</option>
                     ))}
                   </select>
                   <input
@@ -565,196 +885,273 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
               {/* Existing Menu Items */}
               <div>
                 <h3 className="text-2xl font-bold mb-6 text-gray-800">Existing Menu Items</h3>
-                {Object.entries(data.menuItems || {}).map(([category, items]) => (
-                  <div key={category} className="mb-8">
-                    <h4 className="text-xl font-semibold mb-4 text-purple-600 capitalize">
-                      {category.replace('-', ' ')} ({items?.length || 0} items)
-                    </h4>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {items?.map(item => (
-                        <div key={item.id} className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-shadow">
-                          {item.image && (
-                            <img src={item.image} alt={item.name} className="w-full h-24 object-cover rounded-lg mb-3" />
-                          )}
-                          <div className="flex justify-between items-start mb-2">
-                            <h5 className="font-semibold text-gray-800 flex-1">{item.name}</h5>
+                {Object.entries(data.menuItems || {}).map(([category, items]) => {
+                  const categoryInfo = data.categories?.find(cat => cat.categoryId === category);
+                  return (
+                    <div key={category} className="mb-8">
+                      <h4 className="text-xl font-semibold mb-4 text-purple-600 capitalize flex items-center gap-2">
+                        <span>{categoryInfo?.icon || '🍕'}</span>
+                        {categoryInfo?.name || category.replace('-', ' ')} ({items?.length || 0} items)
+                      </h4>
+                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {items?.map(item => (
+                          <div key={item._id} className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-shadow">
+                            {item.image && (
+                              <img src={item.image} alt={item.name} className="w-full h-24 object-cover rounded-lg mb-3" />
+                            )}
+                            <div className="flex justify-between items-start mb-2">
+                              <h5 className="font-semibold text-gray-800 flex-1">{item.name}</h5>
+                              <div className="flex gap-1">
+                                <button
+                                  onClick={() => setEditingItem(item)}
+                                  className="text-blue-500 hover:bg-blue-50 p-1 rounded transition-colors"
+                                >
+                                  <Edit3 size={16} />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteMenuItem(item._id)}
+                                  className="text-red-500 hover:bg-red-50 p-1 rounded transition-colors"
+                                >
+                                  <Trash2 size={16} />
+                                </button>
+                              </div>
+                            </div>
+                            <p className="text-gray-600 text-sm mb-2 line-clamp-2">{item.description}</p>
+                            <div className="text-sm text-gray-500">
+                              <p>Badge: {item.badge || 'None'}</p>
+                              <p>Rating: {item.rating}/5</p>
+                              <p>Prices: {item.sizes?.map(size => `${size.name}: ₹${size.price}`).join(', ')}</p>
+                            </div>
+                          </div>
+                        )) || []
+                      }
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'offers' && (
+            <div className="space-y-8">
+              {/* Offers Management */}
+              <div className="bg-gray-50 rounded-2xl p-6">
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-2xl font-bold text-gray-800">Offers & Deals</h3>
+                  <button
+                    onClick={() => setShowOfferForm(!showOfferForm)}
+                    className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2"
+                  >
+                    {showOfferForm ? 'Cancel' : 'Add New Offer'}
+                  </button>
+                </div>
+                
+                {showOfferForm && (
+                  <div className="bg-white rounded-xl p-6 shadow-lg mb-6">
+                    <h4 className="text-xl font-semibold mb-4 text-gray-700">Create New Offer</h4>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <input
+                        type="text"
+                        placeholder="Offer Title *"
+                        value={newOffer.title}
+                        onChange={(e) => setNewOffer({...newOffer, title: e.target.value})}
+                        className="input-field"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Discount (e.g., '50% OFF', '₹199 Only') *"
+                        value={newOffer.discount}
+                        onChange={(e) => setNewOffer({...newOffer, discount: e.target.value})}
+                        className="input-field"
+                      />
+                      <textarea
+                        placeholder="Description *"
+                        value={newOffer.description}
+                        onChange={(e) => setNewOffer({...newOffer, description: e.target.value})}
+                        className="input-field col-span-2 h-24 resize-none"
+                      />
+                      <input
+                        type="url"
+                        placeholder="Image URL"
+                        value={newOffer.image}
+                        onChange={(e) => setNewOffer({...newOffer, image: e.target.value})}
+                        className="input-field"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Badge (e.g., '🔥 Hot Deal')"
+                        value={newOffer.badge}
+                        onChange={(e) => setNewOffer({...newOffer, badge: e.target.value})}
+                        className="input-field"
+                      />
+                      <input
+                        type="datetime-local"
+                        placeholder="Valid Until *"
+                        value={newOffer.validUntil}
+                        onChange={(e) => setNewOffer({...newOffer, validUntil: e.target.value})}
+                        className="input-field col-span-2"
+                      />
+                      <div className="col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Terms & Conditions</label>
+                        {newOffer.terms.map((term, index) => (
+                          <div key={index} className="flex gap-2 mb-2">
+                            <input
+                              type="text"
+                              placeholder={`Term ${index + 1}`}
+                              value={term}
+                              onChange={(e) => {
+                                const newTerms = [...newOffer.terms];
+                                newTerms[index] = e.target.value;
+                                setNewOffer({...newOffer, terms: newTerms});
+                              }}
+                              className="input-field flex-1"
+                            />
                             <button
                               onClick={() => {
-                                if (window.confirm(`Delete "${item.name}"?`)) {
-                                  deleteMenuItem(category, item.id);
-                                }
+                                const newTerms = newOffer.terms.filter((_, i) => i !== index);
+                                setNewOffer({...newOffer, terms: newTerms});
                               }}
-                              className="text-red-500 hover:bg-red-50 p-1 rounded transition-colors ml-2"
+                              className="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600"
                             >
-                              <Trash2 size={16} />
+                              <Minus size={16} />
                             </button>
                           </div>
-                          <p className="text-gray-600 text-sm mb-2 line-clamp-2">{item.description}</p>
-                          <div className="text-sm text-gray-500">
-                            <p>Badge: {item.badge || 'None'}</p>
-                            <p>Rating: {item.rating}/5</p>
-                            <p>Prices: {item.sizes?.map(size => `${size.name}: ₹${size.price}`).join(', ')}</p>
-                          </div>
-                        </div>
-                      )) || []}
+                        ))}
+                        <button
+                          onClick={() => setNewOffer({...newOffer, terms: [...newOffer.terms, '']})}
+                          className="bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600 flex items-center gap-1"
+                        >
+                          <Plus size={16} /> Add Term
+                        </button>
+                      </div>
+                    </div>
+                    <div className="mt-4 flex justify-end">
+                      <button
+                        onClick={handleAddOffer}
+                        className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition-colors"
+                      >
+                        Add Offer
+                      </button>
                     </div>
                   </div>
-                ))}
+                )}
+                
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {data.offers?.map(offer => (
+                    <div key={offer._id} className="bg-white rounded-xl p-4 shadow border border-gray-100">
+                      {offer.image && (
+                        <img src={offer.image} alt={offer.title} className="w-full h-32 object-cover rounded-lg mb-3" />
+                      )}
+                      <div className="flex justify-between items-start mb-2">
+                        <h5 className="font-semibold text-gray-800 flex-1">{offer.title}</h5>
+                        <button
+                          onClick={() => handleDeleteOffer(offer._id)}
+                          className="text-red-500 hover:bg-red-50 p-1 rounded transition-colors"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                      <p className="text-gray-600 text-sm mb-2">{offer.description}</p>
+                      <div className="text-sm text-gray-500">
+                        <p>Discount: {offer.discount}</p>
+                        <p>Valid Until: {new Date(offer.validUntil).toLocaleDateString()}</p>
+                        <p>Terms: {offer.terms?.length || 0} conditions</p>
+                      </div>
+                    </div>
+                  )) || []}
+                </div>
               </div>
             </div>
           )}
 
           {activeTab === 'gallery' && (
             <div className="space-y-8">
-              {/* Add New Gallery Category */}
+              {/* Add New Gallery Item */}
               <div className="bg-gray-50 rounded-2xl p-6">
                 <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-2xl font-bold text-gray-800">Gallery Categories</h3>
+                  <h3 className="text-2xl font-bold text-gray-800">Gallery Management</h3>
                   <button
-                    onClick={() => setShowGalleryCategoryForm(!showGalleryCategoryForm)}
+                    onClick={() => setShowGalleryForm(!showGalleryForm)}
                     className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2"
                   >
-                    {showGalleryCategoryForm ? 'Cancel' : 'Add New Category'}
+                    {showGalleryForm ? 'Cancel' : 'Add New Gallery Item'}
                   </button>
                 </div>
                 
-                {showGalleryCategoryForm && (
+                {showGalleryForm && (
                   <div className="bg-white rounded-xl p-6 shadow-lg mb-6">
-                    <h4 className="text-xl font-semibold mb-4 text-gray-700">Create New Gallery Category</h4>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <input
-                        type="text"
-                        placeholder="Category ID (e.g., 'events') *"
-                        value={newGalleryCategory.id}
-                        onChange={(e) => setNewGalleryCategory({...newGalleryCategory, id: e.target.value.toLowerCase().replace(/\s+/g, '-')})}
-                        className="input-field"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Display Name (e.g., 'Events') *"
-                        value={newGalleryCategory.name}
-                        onChange={(e) => setNewGalleryCategory({...newGalleryCategory, name: e.target.value})}
-                        className="input-field"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Icon (emoji) *"
-                        value={newGalleryCategory.icon}
-                        onChange={(e) => setNewGalleryCategory({...newGalleryCategory, icon: e.target.value})}
-                        className="input-field"
-                      />
+                    <h4 className="text-xl font-semibold mb-4 text-gray-700">Add New Gallery Item</h4>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <input
+                          type="text"
+                          placeholder="Image Title *"
+                          value={newGalleryItem.title}
+                          onChange={(e) => setNewGalleryItem({...newGalleryItem, title: e.target.value})}
+                          className="input-field"
+                        />
+                        <textarea
+                          placeholder="Description"
+                          value={newGalleryItem.description}
+                          onChange={(e) => setNewGalleryItem({...newGalleryItem, description: e.target.value})}
+                          className="input-field h-24 resize-none"
+                        />
+                        <input
+                          type="url"
+                          placeholder="Image URL * (e.g., https://images.unsplash.com/...)"
+                          value={newGalleryItem.image}
+                          onChange={(e) => setNewGalleryItem({...newGalleryItem, image: e.target.value})}
+                          className="input-field"
+                        />
+                        <select
+                          value={newGalleryItem.category}
+                          onChange={(e) => setNewGalleryItem({...newGalleryItem, category: e.target.value})}
+                          className="input-field"
+                        >
+                          <option value="pizzas">Pizzas</option>
+                          <option value="restaurant">Restaurant</option>
+                          <option value="events">Events</option>
+                          <option value="team">Team</option>
+                        </select>
+                        <input
+                          type="text"
+                          placeholder="Tags (comma separated)"
+                          value={newGalleryItem.tags?.join(', ') || ''}
+                          onChange={(e) => setNewGalleryItem({
+                            ...newGalleryItem, 
+                            tags: e.target.value.split(',').map(tag => tag.trim()).filter(tag => tag)
+                          })}
+                          className="input-field"
+                        />
+                      </div>
+                      <div className="flex items-center justify-center">
+                        {newGalleryItem.image && (
+                          <img
+                            src={newGalleryItem.image}
+                            alt="Preview"
+                            className="w-48 h-48 object-cover rounded-xl shadow-lg"
+                            onError={(e) => {
+                              e.target.src = 'https://via.placeholder.com/200x200?text=Invalid+URL';
+                            }}
+                          />
+                        )}
+                      </div>
                     </div>
                     <div className="mt-4 flex justify-end">
                       <button
-                        onClick={() => {
-                          if (newGalleryCategory.id && newGalleryCategory.name) {
-                            addGalleryCategory(
-                              newGalleryCategory.id,
-                              newGalleryCategory.name,
-                              newGalleryCategory.icon
-                            );
-                            setNewGalleryCategory({
-                              id: '',
-                              name: '',
-                              icon: '📸'
-                            });
-                            setShowGalleryCategoryForm(false);
-                            alert('Gallery category added successfully!');
-                          } else {
-                            alert('Please fill in ID and Name fields');
-                          }
-                        }}
+                        onClick={handleAddGalleryItem}
                         className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition-colors"
                       >
-                        Add Category
+                        Add Gallery Item
                       </button>
                     </div>
                   </div>
                 )}
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-                  {Object.entries(getGalleryCategories()).map(([id, category]) => (
-                    <div key={id} className="bg-white rounded-xl p-4 shadow border border-gray-100 flex justify-between items-start">
-                      <div>
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="text-2xl">{category.icon || '📸'}</span>
-                          <h5 className="font-semibold text-gray-800">{category.name}</h5>
-                        </div>
-                        <p className="text-sm text-gray-500">ID: {id}</p>
-                      </div>
-                      <button
-                        onClick={() => {
-                          if (window.confirm(`Delete "${category.name}" category? This will remove all gallery items with this category!`)) {
-                            deleteGalleryCategory(id);
-                          }
-                        }}
-                        className="text-red-500 hover:bg-red-50 p-2 rounded transition-colors"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {/* Add New Gallery Item */}
-              <div className="bg-gray-50 rounded-2xl p-6">
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">Add New Gallery Item</h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <input
-                      type="text"
-                      placeholder="Image Title *"
-                      value={newGalleryItem.title}
-                      onChange={(e) => setNewGalleryItem({...newGalleryItem, title: e.target.value})}
-                      className="input-field"
-                    />
-                    <input
-                      type="url"
-                      placeholder="Image URL * (e.g., https://images.unsplash.com/...)"
-                      value={newGalleryItem.image}
-                      onChange={(e) => setNewGalleryItem({...newGalleryItem, image: e.target.value})}
-                      className="input-field"
-                    />
-                    <select
-                      value={newGalleryItem.category}
-                      onChange={(e) => setNewGalleryItem({...newGalleryItem, category: e.target.value})}
-                      className="input-field"
-                    >
-                      {Object.entries(getGalleryCategories()).map(([id, category]) => (
-                        <option key={id} value={id}>{category.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    {newGalleryItem.image && (
-                      <img
-                        src={newGalleryItem.image}
-                        alt="Preview"
-                        className="w-48 h-48 object-cover rounded-xl shadow-lg"
-                        onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/200x200?text=Invalid+URL';
-                        }}
-                      />
-                    )}
-                  </div>
-                </div>
-                <button
-                  onClick={handleAddGalleryItem}
-                  className="mt-6 bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-8 py-3 rounded-xl font-semibold hover:scale-105 transition-transform flex items-center gap-2"
-                >
-                  <Upload size={20} />
-                  Add Gallery Item
-                </button>
-              </div>
-
-              {/* Existing Gallery Items */}
-              <div>
-                <h3 className="text-2xl font-bold mb-6 text-gray-800">
-                  Existing Gallery Items ({data.galleryItems?.length || 0})
-                </h3>
                 <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
                   {data.galleryItems?.map(item => (
-                    <div key={item.id} className="relative group">
+                    <div key={item._id} className="relative group">
                       <img
                         src={item.image}
                         alt={item.title}
@@ -762,11 +1159,7 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
                       />
                       <div className="absolute top-2 right-2">
                         <button
-                          onClick={() => {
-                            if (window.confirm(`Delete "${item.title}"?`)) {
-                              deleteGalleryItem(item.id);
-                            }
-                          }}
+                          onClick={() => handleDeleteGalleryItem(item._id)}
                           className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors shadow-lg"
                         >
                           <Trash2 size={16} />
@@ -775,15 +1168,76 @@ const EnhancedAdminPanel = ({ isOpen, onClose }) => {
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 rounded-b-xl">
                         <h4 className="text-white font-semibold">{item.title}</h4>
                         <p className="text-white/80 text-sm capitalize">{item.category}</p>
+                        {item.description && (
+                          <p className="text-white/70 text-xs mt-1 line-clamp-2">{item.description}</p>
+                        )}
+                        {item.tags && item.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {item.tags.map((tag, index) => (
+                              <span key={index} className="bg-white/20 text-white text-xs px-2 py-1 rounded">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
                   )) || []}
                 </div>
+                
+                {(!data.galleryItems || data.galleryItems.length === 0) && (
+                  <div className="text-center py-8 text-gray-500">
+                    <p>No gallery items found. Add your first gallery item above!</p>
+                  </div>
+                )}
               </div>
             </div>
           )}
         </div>
       </div>
+      
+      {/* Edit Item Modal */}
+      <EditItemModal 
+        item={editingItem} 
+        onClose={() => setEditingItem(null)} 
+        onSave={handleUpdateMenuItem} 
+      />
+      
+      <style>{`
+        .input-field {
+          width: 100%;
+          padding: 12px 16px;
+          border: 2px solid #e5e7eb;
+          border-radius: 12px;
+          font-size: 14px;
+          transition: all 0.3s ease;
+          outline: none;
+        }
+        
+        .input-field:focus {
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        
+        .loading-spinner {
+          border: 2px solid #f3f4f6;
+          border-top: 2px solid #ffffff;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 };

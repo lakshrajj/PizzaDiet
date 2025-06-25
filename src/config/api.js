@@ -1,12 +1,12 @@
 // API Configuration for different environments
 const getBaseURL = () => {
-  // In production (Vercel), use the same domain for API calls
+  // In production, use the same domain for API calls (VPS server)
   if (process.env.NODE_ENV === 'production') {
     return ''; // Relative URLs will use the same domain
   }
   
   // In development, use localhost backend
-  return 'http://localhost:3001';
+  return 'http://localhost:5003';
 };
 
 export const API_BASE_URL = getBaseURL();
@@ -70,11 +70,54 @@ export const apiRequest = async (endpoint, options = {}) => {
   }
 };
 
-const apiConfig = {
-  API_BASE_URL,
-  API_ENDPOINTS,
-  buildApiUrl,
-  apiRequest
+// Enhanced API helper with convenient methods
+const api = {
+  get: async (endpoint) => {
+    const response = await fetch(`${API_BASE_URL}/api${endpoint}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  },
+  
+  post: async (endpoint, data) => {
+    const response = await fetch(`${API_BASE_URL}/api${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  },
+  
+  put: async (endpoint, data) => {
+    const response = await fetch(`${API_BASE_URL}/api${endpoint}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  },
+  
+  delete: async (endpoint) => {
+    const response = await fetch(`${API_BASE_URL}/api${endpoint}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  }
 };
 
-export default apiConfig;
+export { api };
+export default api;

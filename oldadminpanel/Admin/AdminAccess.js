@@ -95,7 +95,7 @@ const AdminAccess = ({ onAdminLogin }) => {
         </div>
       </div>
       
-      <style>{`
+      <style jsx>{`
         @keyframes shake {
           0%, 100% { transform: translateX(0); }
           25% { transform: translateX(-5px); }

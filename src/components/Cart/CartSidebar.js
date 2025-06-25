@@ -104,10 +104,10 @@ const CartSidebar = ({ isOpen, onClose, cart }) => {
                         />
                         Extra Cheese (+₹{
                           item.type === 'bogo' 
-                            ? cart.addOns.extraCheese.comboPrices[
+                            ? cart.legacyAddOnPricing?.['Extra Cheese']?.comboPrices[
                                 item.pizza1?.size?.name === 'Large' || item.pizza2?.size?.name === 'Large' ? 'Large' : 'Medium'
                               ] || 0
-                            : cart.addOns.extraCheese.prices[item.sizeName]
+                            : cart.legacyAddOnPricing?.['Extra Cheese']?.prices[item.sizeName] || 0
                         }){item.type === 'bogo' ? ' for both pizzas' : ''}
                       </label>
                     </div>
@@ -121,10 +121,10 @@ const CartSidebar = ({ isOpen, onClose, cart }) => {
                         />
                         Cheese Burst (+₹{
                           item.type === 'bogo' 
-                            ? cart.addOns.cheeseBurst.comboPrices[
+                            ? cart.legacyAddOnPricing?.['Cheese Burst']?.comboPrices[
                                 item.pizza1?.size?.name === 'Large' || item.pizza2?.size?.name === 'Large' ? 'Large' : 'Medium'
                               ] || 0
-                            : cart.addOns.cheeseBurst.prices[item.sizeName]
+                            : cart.legacyAddOnPricing?.['Cheese Burst']?.prices[item.sizeName] || 0
                         }){item.type === 'bogo' ? ' for both pizzas' : ''}
                       </label>
                     </div>

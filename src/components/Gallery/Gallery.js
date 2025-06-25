@@ -1,14 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { useData } from '../../context/DataContext';
 import { Star, Eye, X, Filter } from 'lucide-react';
+import api from '../../config/api';
 
 const Gallery = () => {
-  const { data, getGalleryCategories } = useData();
+  const [galleryItems, setGalleryItems] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedImage, setSelectedImage] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const categories = getGalleryCategories();
+  // Fetch gallery data from MongoDB
+  useEffect(() => {
+    const fetchGalleryData = async () => {
+      try {
+        setLoading(true);
+        const response = await api.get('/gallery/all');
+        setGalleryItems(response.items || []);
+      } catch (error) {
+        console.error('Error fetching gallery data:', error);
+        setGalleryItems([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGalleryData();
+  }, []);
+
+  // Get unique categories from gallery items
+  const categories = galleryItems.reduce((acc, item) => {
+    if (!acc[item.category]) {
+      acc[item.category] = {
+        name: item.category.charAt(0).toUpperCase() + item.category.slice(1),
+        icon: getCategoryIcon(item.category)
+      };
+    }
+    return acc;
+  }, {});
+
   const categoryKeys = Object.keys(categories);
   
   // Set first category as active if current doesn't exist
@@ -18,19 +47,32 @@ const Gallery = () => {
     }
   }, [categoryKeys, activeFilter]);
 
+  // Helper function to get category icons
+  function getCategoryIcon(category) {
+    const iconMap = {
+      pizzas: '🍕',
+      restaurant: '🏪',
+      events: '🎉',
+      team: '👥',
+      specials: '⭐',
+      ingredients: '🧄'
+    };
+    return iconMap[category] || '📸';
+  }
+
   // Create filters array with 'all' option plus dynamic categories
   const filters = [
     { id: 'all', label: 'All', icon: '🍽️' },
     ...categoryKeys.map(key => ({
       id: key,
       label: categories[key].name,
-      icon: categories[key].icon || '📸'
+      icon: categories[key].icon
     }))
   ];
 
   const filteredItems = activeFilter === 'all' 
-    ? (data.galleryItems || [])
-    : (data.galleryItems || []).filter(item => item.category === activeFilter);
+    ? galleryItems
+    : galleryItems.filter(item => item.category === activeFilter);
 
   return (
     <section id="gallery" className="py-24 bg-gradient-to-b from-white to-gray-50 dark:from-dark-primary dark:to-dark-secondary scroll-mt-24">
@@ -97,12 +139,19 @@ const Gallery = () => {
           </div>
         )}
 
-        {/* Gallery Grid */}
-        {filteredItems.length > 0 ? (
+        {/* Loading State */}
+        {loading ? (
+          <div className="text-center py-16">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mb-4"></div>
+            <h3 className="text-xl font-semibold text-gray-600 dark:text-dark-text">Loading gallery...</h3>
+            <p className="text-gray-500 dark:text-gray-400">Please wait while we fetch the latest images</p>
+          </div>
+        ) : /* Gallery Grid */
+        filteredItems.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {filteredItems.map(item => (
               <div 
-                key={item.id} 
+                key={item._id || item.id} 
                 className="group relative overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105 cursor-pointer bg-white dark:bg-dark-secondary aspect-square"
                 onClick={() => setSelectedImage(item)}
               >
